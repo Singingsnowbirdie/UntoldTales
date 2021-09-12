@@ -5,7 +5,7 @@
 public abstract class Interactor : MonoBehaviour
 {
     /// <summary>
-    /// Срабатывает при создании
+    /// Срабатывает после созданиия всех интеракторов и репозиториев
     /// </summary>
     public virtual void OnCreate() { }
 

@@ -28,4 +28,14 @@ public class WalletRepository : Repository
     {
         PlayerPrefs.SetInt(KEY, Coins);
     }
+
+    internal override void OnCreate()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    internal override void OnStart()
+    {
+        throw new System.NotImplementedException();
+    }
 }

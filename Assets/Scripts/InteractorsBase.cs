@@ -14,11 +14,16 @@ public class InteractorsBase : MonoBehaviour
     Dictionary<Type, Interactor> interactorsMap;
 
     /// <summary>
+    /// Сцена, для которой создана эта база
+    /// </summary>
+    SceneConfig sceneConfig;
+
+    /// <summary>
     /// Конструктор
     /// </summary>
-    public InteractorsBase()
+    public InteractorsBase(SceneConfig sceneConfig)
     {
-        interactorsMap = new Dictionary<Type,Interactor>();
+        this.sceneConfig = sceneConfig;
     }
 
     /// <summary>
@@ -26,17 +31,53 @@ public class InteractorsBase : MonoBehaviour
     /// </summary>
     public void CreateAllInteractors()
     {
-        CreateInteractor<WalletInteractor>();
+        interactorsMap =  sceneConfig.CreateAllInteractors();
     }
 
     /// <summary>
-    /// Создаем один интерактор
+    /// Вызываем OnCreate на всех интеракторах
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    void CreateInteractor<T>() where T:Interactor, new()
+    public void SendOnCreateToAllInteractors()
     {
-        var interactor = new T();
+        var allInteractors = this.interactorsMap.Values;
+        foreach (var interactor in allInteractors)
+        {
+            interactor.OnCreate();
+        }
+    }
+
+    /// <summary>
+    /// Вызываем Initialize на всех интеракторах
+    /// </summary>
+    public void InitializeAllInteractors()
+    {
+        var allInteractors = this.interactorsMap.Values;
+        foreach (var interactor in allInteractors)
+        {
+            interactor.Initialize();
+        }
+    }
+
+    /// <summary>
+    /// Вызываем OnStart на всех интеракторах
+    /// </summary>
+    public void SendOnStartToAllInteractors()
+    {
+        var allInteractors = this.interactorsMap.Values;
+        foreach (var interactor in allInteractors)
+        {
+            interactor.OnStart();
+        }
+    }
+
+    /// <summary>
+    /// Возвращает нужный интерактор
+    /// </summary>
+    /// <typeparam name="T">Тип</typeparam>
+    /// <returns>Интерактор</returns>
+    public T GetInteractor<T>() where T : Interactor
+    {
         var type = typeof(T);
-        interactorsMap[type] = interactor;
+        return (T)interactorsMap[type];
     }
 }
