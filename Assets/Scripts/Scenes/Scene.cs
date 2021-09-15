@@ -48,6 +48,15 @@ public class Scene
     }
 
     /// <summary>
+    /// Запускаем корутину через костыль ))
+    /// </summary>
+    /// <returns></returns>
+    public Coroutine InitializeAsync()
+    {
+        return Coroutines.StartRoutine(InitializeRoutine());
+    }
+
+    /// <summary>
     /// Инициализатор
     /// </summary>
     /// <returns></returns>

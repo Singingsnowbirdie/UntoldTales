@@ -1,10 +1,17 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class SceneConfigExample : SceneConfig
 {
+    /// <summary>
+    /// Название сцены (константа)
+    /// </summary>
+    public const string SCENENAME = "Example Scene";
+
+    /// <summary>
+    /// Название сцены (свойство)
+    /// </summary>
+    public override string SceneName => SCENENAME;
 
     /// <summary>
     /// Создаем карту репозиториев
@@ -24,7 +31,10 @@ public class SceneConfigExample : SceneConfig
     public override Dictionary<Type, Interactor> CreateAllInteractors()
     {
         var interactorsMap = new Dictionary<Type, Interactor>();
+
         CreateInteractor<WalletInteractor>(interactorsMap);
+        CreateInteractor<PlayerInteractor>(interactorsMap);
+
         return interactorsMap;
     }
 }

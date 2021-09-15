@@ -18,6 +18,11 @@ public abstract class SceneConfig
     public abstract Dictionary<Type, Interactor> CreateAllInteractors();
 
     /// <summary>
+    /// Название сцены
+    /// </summary>
+    public abstract string SceneName { get; }
+
+    /// <summary>
     /// Создание одного интерактора
     /// </summary>
     public void CreateInteractor<T>(Dictionary<Type, Interactor> interactorsMap) where T : Interactor, new()

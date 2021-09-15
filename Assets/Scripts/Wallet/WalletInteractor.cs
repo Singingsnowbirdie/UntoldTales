@@ -12,7 +12,7 @@
     public override void OnCreate()
     {
         base.OnCreate();
-        repository = Tester.scene.GetRepository<WalletRepository>();
+        //repository = Tester.scene.GetRepository<WalletRepository>();
     }
 
     /// <summary>
