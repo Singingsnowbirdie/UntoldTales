@@ -3,19 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Конфиг конкретной сцены
+
 public abstract class SceneConfig
 {
     /// <summary>
-    /// Создаем словарь репозиториев
+    /// Словарь репозиториев
     /// </summary>
     /// <returns></returns>
     public abstract Dictionary<Type, Repository> CreateAllRepositories();
 
     /// <summary>
-    /// Создаем словарь итераторов
+    /// Словарь контроллеров
     /// </summary>
     /// <returns></returns>
-    public abstract Dictionary<Type, Interactor> CreateAllInteractors();
+    public abstract Dictionary<Type, Controller> CreateAllControllers();
 
     /// <summary>
     /// Название сцены
@@ -23,14 +25,14 @@ public abstract class SceneConfig
     public abstract string SceneName { get; }
 
     /// <summary>
-    /// Создание одного интерактора
+    /// Создание одного контроллера
     /// </summary>
-    public void CreateInteractor<T>(Dictionary<Type, Interactor> interactorsMap) where T : Interactor, new()
+    public void CreateController<T>(Dictionary<Type, Controller> controllersMap) where T : Controller, new()
     {
-        var interactor = new T();
+        var controller = new T();
         var type = typeof(T);
 
-        interactorsMap[type] = interactor;
+        controllersMap[type] = controller;
     }
 
     /// <summary>

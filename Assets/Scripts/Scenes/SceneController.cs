@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-//обертка над менеджером сцен от юнити
+//Контроллер сцены
 
-public class SceneManagerExtension : MonoBehaviour
+public class SceneController : MonoBehaviour
 {
     /// <summary>
     /// Событие: сцена загружена
@@ -31,7 +31,7 @@ public class SceneManagerExtension : MonoBehaviour
     /// <summary>
     /// Конструктор
     /// </summary>
-    public SceneManagerExtension()
+    public SceneController()
     {
         sceneConfigMap = new Dictionary<string, SceneConfig>();
         InitScenesMap();
@@ -44,6 +44,7 @@ public class SceneManagerExtension : MonoBehaviour
     {
         sceneConfigMap[SceneConfigExample.SCENENAME] = new SceneConfigExample();
     }
+
     /// <summary>
     /// Метод доступа (загрузка текущей сцены)
     /// </summary>
@@ -145,12 +146,12 @@ public class SceneManagerExtension : MonoBehaviour
     }
 
     /// <summary>
-    /// Возвращает интерактор
+    /// Возвращает контроллер
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public T GetInteractor<T>() where T : Interactor
+    public T GetController<T>() where T : Controller
     {
-        return Scene.GetInteractor<T>();
+        return Scene.GetController<T>();
     }
 }

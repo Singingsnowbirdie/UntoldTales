@@ -1,4 +1,4 @@
-﻿public class WalletInteractor : Interactor
+﻿public class WalletController : Controller
 {
     /// <summary>
     /// Репозиторий кошелька
@@ -12,7 +12,6 @@
     public override void OnCreate()
     {
         base.OnCreate();
-        //repository = Tester.scene.GetRepository<WalletRepository>();
     }
 
     /// <summary>

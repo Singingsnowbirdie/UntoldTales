@@ -10,7 +10,7 @@ public abstract class Repository
     public abstract void Save();
 
     /// <summary>
-    /// Срабатывает после создания всех интеракторов и репозиториев
+    /// Срабатывает после создания всех контроллеров и репозиториев
     /// </summary>
     internal abstract void OnCreate();
 

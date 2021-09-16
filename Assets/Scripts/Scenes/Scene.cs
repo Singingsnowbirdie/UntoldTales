@@ -6,9 +6,9 @@ using UnityEngine;
 public class Scene
 {
     /// <summary>
-    /// База интеракторов
+    /// База контроллеров
     /// </summary>
-    InteractorsBase interactorsBase;
+    ControllersBase controllersBase;
 
     /// <summary>
     /// База репозиториев
@@ -24,11 +24,11 @@ public class Scene
     }
     
     /// <summary>
-    /// Возвращает интерактор
+    /// Возвращает контроллер
     /// </summary>
-    internal T GetInteractor<T>() where T : Interactor
+    internal T GetController<T>() where T : Controller
     {
-        return interactorsBase.GetInteractor<T>();
+        return controllersBase.GetController<T>();
     }
 
     /// <summary>
@@ -43,12 +43,12 @@ public class Scene
     public Scene(SceneConfig config)
     {
         sceneConfig = config;
-        interactorsBase = new InteractorsBase(config);
+        controllersBase = new ControllersBase(config);
         repositoriesBase = new RepositoriesBase(config);
     }
 
     /// <summary>
-    /// Запускаем корутину через костыль ))
+    /// Запускаем корутину через костыль
     /// </summary>
     /// <returns></returns>
     public Coroutine InitializeAsync()
@@ -63,18 +63,18 @@ public class Scene
     public IEnumerator InitializeRoutine()
     {
         repositoriesBase.CreateAllRepositories();
-        interactorsBase.CreateAllInteractors();
+        controllersBase.CreateAllControllers();
         yield return null;
 
         repositoriesBase.SendOnCreateToAllRepositories();
-        interactorsBase.SendOnCreateToAllInteractors();
+        controllersBase.SendOnCreateToAllControllers();
         yield return null;
 
         repositoriesBase.InitializeAllRepositories();
-        interactorsBase.InitializeAllInteractors();
+        controllersBase.InitializeAllControllers();
         yield return null;
 
         repositoriesBase.SendOnStartToAllRepositories();
-        interactorsBase.SendOnStartToAllInteractors();
+        controllersBase.SendOnStartToAllControllers();
     }
 }

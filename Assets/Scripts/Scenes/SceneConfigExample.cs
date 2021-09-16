@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+//Пример реализации конфига сцены
+
 public class SceneConfigExample : SceneConfig
 {
     /// <summary>
@@ -25,16 +27,16 @@ public class SceneConfigExample : SceneConfig
     }
 
     /// <summary>
-    /// Создаем карту интеракторов
+    /// Создаем карту контроллеров
     /// </summary>
     /// <returns></returns>
-    public override Dictionary<Type, Interactor> CreateAllInteractors()
+    public override Dictionary<Type, Controller> CreateAllControllers()
     {
-        var interactorsMap = new Dictionary<Type, Interactor>();
+        var controllersMap = new Dictionary<Type, Controller>();
 
-        CreateInteractor<WalletInteractor>(interactorsMap);
-        CreateInteractor<PlayerInteractor>(interactorsMap);
+        CreateController<WalletController>(controllersMap);
+        CreateController<PlayerController>(controllersMap);
 
-        return interactorsMap;
+        return controllersMap;
     }
 }

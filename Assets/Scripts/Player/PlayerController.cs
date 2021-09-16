@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInteractor : Interactor
+//Контроллер игрока
+
+public class PlayerController : Controller
 {
     /// <summary>
     /// Игрок

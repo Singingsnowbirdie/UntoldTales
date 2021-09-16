@@ -13,14 +13,14 @@ public class Game : MonoBehaviour
     /// <summary>
     /// Менеджер сцен
     /// </summary>
-    public static SceneManagerExtension sceneManager { get; private set; }
+    public static SceneController sceneManager { get; private set; }
 
     /// <summary>
     /// Запускаем игру
     /// </summary>
     public static void Run()
     {
-        sceneManager = new SceneManagerExtension();
+        sceneManager = new SceneController();
         Coroutines.StartRoutine(InitializeGameRoutine());
     }
 
@@ -36,13 +36,13 @@ public class Game : MonoBehaviour
     }
 
     /// <summary>
-    /// Возвращает интерактор
+    /// Возвращает контроллер
     /// </summary>
-    public static T GetInteractor<T>() where T : Interactor
+    public static T GetController<T>() where T : Controller
     {
-        return sceneManager.GetInteractor<T>();
-    } 
-    
+        return sceneManager.GetController<T>();
+    }
+
     /// <summary>
     /// Возвращает репозиторий
     /// </summary>
