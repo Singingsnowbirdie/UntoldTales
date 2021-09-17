@@ -9,9 +9,10 @@ public class InputManager : MonoBehaviour
 {
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
+        //Жмем пробел = переходим на сцену раунда
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("InputManagerTest");
+            Game.sceneLoader.LoadNewSceneAsync("RoundScene");
         }
     }
 }

@@ -72,9 +72,18 @@ public class Scene
 
         repositoriesBase.InitializeAllRepositories();
         controllersBase.InitializeAllControllers();
+        sceneConfig.Initialize();
         yield return null;
 
         repositoriesBase.SendOnStartToAllRepositories();
         controllersBase.SendOnStartToAllControllers();
+    }
+
+    /// <summary>
+    /// Старт
+    /// </summary>
+    internal void OnStart()
+    {
+        sceneConfig.OnStart();
     }
 }

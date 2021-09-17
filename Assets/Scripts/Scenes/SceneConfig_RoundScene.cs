@@ -16,24 +16,14 @@ public class SceneConfig_RoundScene : SceneConfig
     public override string SceneName => SCENENAME;
 
     /// <summary>
-    /// Создаем все игровые объекты сцены
-    /// </summary>
-    public override List<GameObject> CreateAllGameObjects()
-    {
-        throw new NotImplementedException();
-    }
-
-    /// <summary>
-    /// Создаем все репозиитории
+    /// Создаем все репозитории
     /// </summary>
     /// <returns></returns>
     public override Dictionary<Type, Repository> CreateAllRepositories()
     {
         var repositoriesMap = new Dictionary<Type, Repository>();
-        //кошелек
-        CreateRepository<WalletRepository>(repositoriesMap);
-        //инвентарь
-        CreateRepository<InventoryRepository>(repositoriesMap);
+        //пример
+        //CreateRepository<WalletRepository>(repositoriesMap);
         return repositoriesMap;
     }
 
@@ -44,10 +34,24 @@ public class SceneConfig_RoundScene : SceneConfig
     public override Dictionary<Type, Controller> CreateAllControllers()
     {
         var controllersMap = new Dictionary<Type, Controller>();
-        //кошелек
-        CreateController<WalletController>(controllersMap);
-        //инвентарь
-        CreateController<InventoryController>(controllersMap);
+        //CreateController<RoundController>(controllersMap);
         return controllersMap;
     }
+
+    /// <summary>
+    /// Инициализатор
+    /// </summary>
+    public override void Initialize()
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// Старт
+    /// </summary>
+    public override void OnStart()
+    {
+        throw new NotImplementedException();
+    }
+
 }

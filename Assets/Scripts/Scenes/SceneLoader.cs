@@ -140,6 +140,7 @@ public class SceneLoader
     {
         CurrentScene = new Scene(sceneConfig);
         yield return CurrentScene.InitializeAsync();
+        CurrentScene.OnStart();
     }
 
     /// <summary>

@@ -55,4 +55,5 @@ public class Game : MonoBehaviour
     {
         return sceneLoader.GetRepository<T>();
     }
+
 }
