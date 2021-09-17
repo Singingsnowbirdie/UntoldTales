@@ -2,20 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Это синглтон
 //Этот класс нужен для того, чтобы вызывать корутины НЕ из монобихевиоров
+//Для этого монобеха НЕ НУЖНО создавать объект в сцене и навешивать его вручную (он все это делает сам)
 //Ключевое слово sealed запрещает наследоваться от этого класса (на всякий случай)
 
-public sealed class Coroutines : MonoBehaviour
+public sealed class CoroutinesManager : MonoBehaviour
 {
     /// <summary>
     /// Вспомогательная переменная 
     /// </summary>
-    static Coroutines m_instance;
+    static CoroutinesManager m_instance;
 
     /// <summary>
     /// Экземпляр
     /// </summary>
-    static Coroutines instance
+    static CoroutinesManager instance
     {
         get
         {
@@ -23,10 +25,10 @@ public sealed class Coroutines : MonoBehaviour
             if (m_instance == null)
             {
                 //создаем go
-                var go = new GameObject("[COROUTINE MANAGER]");
+                var go = new GameObject("CoroutinesManager");
                 //и вешаем на него этот скрипт
-                m_instance = go.AddComponent<Coroutines>();
-                //не уничтожаем этот объект, при смене сцены (да, это синглтон)
+                m_instance = go.AddComponent<CoroutinesManager>();
+                //не уничтожаем этот объект, при смене сцены
                 DontDestroyOnLoad(go);
             }
             return m_instance;

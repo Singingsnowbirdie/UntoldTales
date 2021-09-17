@@ -1,12 +1,12 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-//Контроллер сцены
+//Загрузчик сцен
 
-public class SceneController : MonoBehaviour
+public class SceneLoader
 {
     /// <summary>
     /// Событие: сцена загружена
@@ -16,7 +16,7 @@ public class SceneController : MonoBehaviour
     /// <summary>
     /// Текущая сцена
     /// </summary>
-    public Scene Scene { get; private set; }
+    public Scene CurrentScene { get; private set; }
 
     /// <summary>
     /// Происходит загрузка
@@ -24,16 +24,20 @@ public class SceneController : MonoBehaviour
     public bool IsLoading { get; private set; }
 
     /// <summary>
-    /// Карта конфигов сцен
+    /// Конфиги всех сцен
     /// </summary>
-    Dictionary<string, SceneConfig> sceneConfigMap;
+    Dictionary<string, SceneConfig> ScenesConfigsMap;
 
     /// <summary>
     /// Конструктор
     /// </summary>
-    public SceneController()
+    public SceneLoader()
     {
-        sceneConfigMap = new Dictionary<string, SceneConfig>();
+        //инициализируем менеджер ввода
+
+        //создаем карту сцен
+        ScenesConfigsMap = new Dictionary<string, SceneConfig>();
+        //инициалиируем ее
         InitScenesMap();
     }
 
@@ -42,7 +46,10 @@ public class SceneController : MonoBehaviour
     /// </summary>
     public void InitScenesMap()
     {
-        sceneConfigMap[SceneConfigExample.SCENENAME] = new SceneConfigExample();
+        //интро
+        ScenesConfigsMap[SceneConfig_IntroScene.SCENENAME] = new SceneConfig_IntroScene();
+        //сцена раунда
+        ScenesConfigsMap[SceneConfig_RoundScene.SCENENAME] = new SceneConfig_RoundScene();
     }
 
     /// <summary>
@@ -58,8 +65,8 @@ public class SceneController : MonoBehaviour
 
         //спрашиваем имя текущей сцены у юнити
         var sceneName = SceneManager.GetActiveScene().name;
-        var config = sceneConfigMap[sceneName];
-        return Coroutines.StartRoutine(LoadCurrentSceneRoutine(config));
+        var config = ScenesConfigsMap[sceneName];
+        return CoroutinesManager.StartRoutine(LoadCurrentSceneRoutine(config));
     }
 
     /// <summary>
@@ -71,9 +78,9 @@ public class SceneController : MonoBehaviour
     {
         IsLoading = true;
         //уже загружена, поэтому только инициализируем
-        yield return Coroutines.StartRoutine(InitializeSceneRoutine(sceneConfig));
+        yield return CoroutinesManager.StartRoutine(InitializeSceneRoutine(sceneConfig));
         IsLoading = false;
-        OnSceneLoadedEvent?.Invoke(Scene);
+        OnSceneLoadedEvent?.Invoke(CurrentScene);
     }
 
     /// <summary>
@@ -84,10 +91,10 @@ public class SceneController : MonoBehaviour
     IEnumerator LoadNewSceneRoutine(SceneConfig sceneConfig)
     {
         IsLoading = true;
-        yield return Coroutines.StartRoutine(LoadSceneRoutine(sceneConfig));
-        yield return Coroutines.StartRoutine(InitializeSceneRoutine(sceneConfig));
+        yield return CoroutinesManager.StartRoutine(LoadSceneRoutine(sceneConfig));
+        yield return CoroutinesManager.StartRoutine(InitializeSceneRoutine(sceneConfig));
         IsLoading = false;
-        OnSceneLoadedEvent?.Invoke(Scene);
+        OnSceneLoadedEvent?.Invoke(CurrentScene);
     }
 
     /// <summary>
@@ -103,8 +110,8 @@ public class SceneController : MonoBehaviour
             throw new Exception("Scene is loading now");
         }
 
-        var config = sceneConfigMap[sceneName];
-        return Coroutines.StartRoutine(LoadNewSceneRoutine(config));
+        var config = ScenesConfigsMap[sceneName];
+        return CoroutinesManager.StartRoutine(LoadNewSceneRoutine(config));
     }
 
     /// <summary>
@@ -131,8 +138,8 @@ public class SceneController : MonoBehaviour
     /// <returns></returns>
     IEnumerator InitializeSceneRoutine(SceneConfig sceneConfig)
     {
-        Scene = new Scene(sceneConfig);
-        yield return Scene.InitializeAsync();
+        CurrentScene = new Scene(sceneConfig);
+        yield return CurrentScene.InitializeAsync();
     }
 
     /// <summary>
@@ -142,7 +149,7 @@ public class SceneController : MonoBehaviour
     /// <returns></returns>
     public T GetRepository<T>() where T : Repository
     {
-        return Scene.GetRepository<T>();
+        return CurrentScene.GetRepository<T>();
     }
 
     /// <summary>
@@ -152,6 +159,6 @@ public class SceneController : MonoBehaviour
     /// <returns></returns>
     public T GetController<T>() where T : Controller
     {
-        return Scene.GetController<T>();
+        return CurrentScene.GetController<T>();
     }
 }

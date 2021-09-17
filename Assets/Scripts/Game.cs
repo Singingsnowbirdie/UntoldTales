@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Управляет игрой
+
 public class Game : MonoBehaviour
 {
     /// <summary>
@@ -11,17 +13,17 @@ public class Game : MonoBehaviour
     public static event Action OnGameInitializedEvent;
 
     /// <summary>
-    /// Менеджер сцен
+    /// Загрузчик сцены
     /// </summary>
-    public static SceneController sceneManager { get; private set; }
+    public static SceneLoader sceneLoader { get; private set; }
 
     /// <summary>
     /// Запускаем игру
     /// </summary>
     public static void Run()
     {
-        sceneManager = new SceneController();
-        Coroutines.StartRoutine(InitializeGameRoutine());
+        //запускаем инициализатор игры
+        CoroutinesManager.StartRoutine(InitializeGameRoutine());
     }
 
     /// <summary>
@@ -30,8 +32,11 @@ public class Game : MonoBehaviour
     /// <returns></returns>
     static IEnumerator InitializeGameRoutine()
     {
-        sceneManager.InitScenesMap();
-        yield return sceneManager.LoadCurrentSceneAsync();
+        //инициализируем контроллер сцен
+        sceneLoader = new SceneLoader();
+        //ждем, пока загрузится текущая сцена
+        yield return sceneLoader.LoadCurrentSceneAsync();
+        //вызываем событие "игра инициализирована"
         OnGameInitializedEvent?.Invoke();
     }
 
@@ -40,7 +45,7 @@ public class Game : MonoBehaviour
     /// </summary>
     public static T GetController<T>() where T : Controller
     {
-        return sceneManager.GetController<T>();
+        return sceneLoader.GetController<T>();
     }
 
     /// <summary>
@@ -48,6 +53,6 @@ public class Game : MonoBehaviour
     /// </summary>
     public static T GetRepository<T>() where T : Repository
     {
-        return sceneManager.GetRepository<T>();
+        return sceneLoader.GetRepository<T>();
     }
 }

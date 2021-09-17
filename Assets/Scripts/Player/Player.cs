@@ -6,5 +6,18 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    /// <summary>
+    /// При создании
+    /// </summary>
+    public void OnCreate() { }
 
+    /// <summary>
+    /// Инициализация
+    /// </summary>
+    public void Initialize() { }
+
+    /// <summary>
+    /// Старт
+    /// </summary>
+    public void OnStart() { }
 }

@@ -20,6 +20,23 @@ public abstract class SceneConfig
     public abstract Dictionary<Type, Controller> CreateAllControllers();
 
     /// <summary>
+    /// Коллекция игровых объектов сцены
+    /// </summary>
+    public List<GameObject> GameObjects
+    {
+        get
+        {
+            return CreateAllGameObjects();
+        }
+    }
+
+    /// <summary>
+    /// Создает все объекты сцены
+    /// </summary>
+    /// <returns></returns>
+    public abstract List<GameObject> CreateAllGameObjects();
+
+    /// <summary>
     /// Название сцены
     /// </summary>
     public abstract string SceneName { get; }

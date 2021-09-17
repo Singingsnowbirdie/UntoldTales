@@ -17,6 +17,8 @@ public class WalletRepository : Repository
     /// </summary>
     public override void Initialize()
     {
+        //если нет ключа - создаем
+        if (!PlayerPrefs.HasKey(KEY)) PlayerPrefs.SetInt(KEY, 0);
         //получаем данные
         Coins = PlayerPrefs.GetInt(KEY, 0);
     }

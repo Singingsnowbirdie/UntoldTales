@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
-//Пример реализации конфига сцены
+//Нулевая сцена
 
-public class SceneConfigExample : SceneConfig
+internal class SceneConfig_IntroScene : SceneConfig
 {
     /// <summary>
     /// Название сцены (константа)
     /// </summary>
-    public const string SCENENAME = "Example Scene";
+    public const string SCENENAME = "IntroScene";
 
     /// <summary>
     /// Название сцены (свойство)
@@ -16,27 +17,39 @@ public class SceneConfigExample : SceneConfig
     public override string SceneName => SCENENAME;
 
     /// <summary>
-    /// Создаем карту репозиториев
+    /// Создаем все игровые объекты сцены
+    /// </summary>
+    public override List<GameObject> CreateAllGameObjects()
+    {
+        throw new NotImplementedException();
+    }
+
+
+    /// <summary>
+    /// Создаем все репозиитории
     /// </summary>
     /// <returns></returns>
     public override Dictionary<Type, Repository> CreateAllRepositories()
     {
         var repositoriesMap = new Dictionary<Type, Repository>();
+        //кошелек
         CreateRepository<WalletRepository>(repositoriesMap);
+        //инвентарь
+        CreateRepository<InventoryRepository>(repositoriesMap);
         return repositoriesMap;
     }
 
     /// <summary>
-    /// Создаем карту контроллеров
+    /// Создаем все контроллеры
     /// </summary>
     /// <returns></returns>
     public override Dictionary<Type, Controller> CreateAllControllers()
     {
         var controllersMap = new Dictionary<Type, Controller>();
-
+        //кошелек
         CreateController<WalletController>(controllersMap);
-        CreateController<PlayerController>(controllersMap);
-
+        //инвентарь
+        CreateController<InventoryController>(controllersMap);
         return controllersMap;
     }
 }

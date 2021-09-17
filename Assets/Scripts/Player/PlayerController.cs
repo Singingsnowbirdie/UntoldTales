@@ -16,8 +16,11 @@ public class PlayerController : Controller
     /// </summary>
     public override void Initialize()
     {
+        //базовая инициализация
         base.Initialize();
+        //создаем объект "игрок"
         var goPlayer = new GameObject("Player");
+        //навешиваем на него скрипт "игрок"
         Player = goPlayer.AddComponent<Player>();
     }
 }
