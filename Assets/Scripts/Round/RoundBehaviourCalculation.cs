@@ -1,17 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class RoundBehaviourCalculation : IRoundBehaviour
+﻿public class RoundBehaviourCalculation : IRoundBehaviour
 {
     public void Enter()
     {
-        throw new System.NotImplementedException();
+        EventManager.RoundCalculationStateEnterEventInvoke();
     }
 
     public void Exit()
     {
-        throw new System.NotImplementedException();
+        EventManager.RoundCalculationStateExitEventInvoke();
     }
 
     public void Update()
