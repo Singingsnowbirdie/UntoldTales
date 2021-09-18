@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//класс игравой доски 
+//создает доску
 public class Board : MonoBehaviour
 {
     //префаб маршрутной точки
@@ -12,11 +14,11 @@ public class Board : MonoBehaviour
     public float cellSize;
 
     //массив ячеек
-    private int[,] gridArray;
-    //массив маршрутных точек
-    private GameObject[,] gameObjectsCell;
+    public int[,] gridArray;
+    //массив маршрутных точек    
+    public GameObject[,] gameObjectsCell;
 
-    private void Start()
+    private void Awake()
     {
         gridArray = new int[widthAndHeight.x, widthAndHeight.y];
         gameObjectsCell = new GameObject[widthAndHeight.x, widthAndHeight.y];
@@ -24,16 +26,16 @@ public class Board : MonoBehaviour
     }
 
     //метод создает сетку и маршрутные точки
-    private void CreateGrid()
+    public void CreateGrid()
     {
         for (int x = 0; x < gridArray.GetLength(0); x++)
         {
             for (int z = 0; z < gridArray.GetLength(1); z++)
             {
-                gameObjectsCell[x, z] = Instantiate(waypointPrefab, GetWorldPos(x + transform.position.x, z + transform.position.z)
-                 + new Vector3(cellSize, 0, cellSize) * .5f, Quaternion.identity);
+              //  gameObjectsCell[x, z] = Instantiate(waypointPrefab, GetWorldPos(x + transform.position.x, z + transform.position.z)
+                // + new Vector3(cellSize, 0, cellSize) * .5f, Quaternion.identity);
 
-                 DrawGrid(x,z);
+                DrawGrid(x,z);
             }
         }
     }
@@ -58,9 +60,9 @@ public class Board : MonoBehaviour
     private void DrawGrid(int x, int z)
     {
         Debug.DrawLine(GetWorldPos(x + transform.position.x, z + transform.position.z),
-         GetWorldPos(x + transform.position.x, z + transform.position.z + 1), Color.black, 100f);
+         GetWorldPos(x + transform.position.x, z + transform.position.z + 1), Color.white, 200f);
 
         Debug.DrawLine(GetWorldPos(x + transform.position.x, z + transform.position.z),
-         GetWorldPos(x + transform.position.x + 1, z + transform.position.z), Color.black, 100f);
+         GetWorldPos(x + transform.position.x + 1, z + transform.position.z), Color.white, 200f);
     }    
 }
