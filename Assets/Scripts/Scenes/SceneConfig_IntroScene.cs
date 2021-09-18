@@ -45,11 +45,11 @@ internal class SceneConfig_IntroScene : SceneConfig
     /// </summary>
     public override void OnStart()
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public override void Initialize()
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 }

@@ -43,7 +43,7 @@ public class SceneConfig_RoundScene : SceneConfig
     /// </summary>
     public override void Initialize()
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     /// <summary>
@@ -51,7 +51,7 @@ public class SceneConfig_RoundScene : SceneConfig
     /// </summary>
     public override void OnStart()
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
 }
