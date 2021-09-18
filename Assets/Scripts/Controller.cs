@@ -1,16 +1,14 @@
 ﻿using UnityEngine;
 
-//Этот класс работает с данными
-
-public abstract class Interactor : MonoBehaviour
+public abstract class Controller : MonoBehaviour
 {
     /// <summary>
-    /// Срабатывает при создании
+    /// Срабатывает после созданиия всех контроллеров и репозиториев
     /// </summary>
     public virtual void OnCreate() { }
 
     /// <summary>
-    /// Этот метод будет инициализировать все интеракторы
+    /// Этот метод будет инициализировать все контроллеры
     /// </summary>
     public virtual void Initialize() { }
 

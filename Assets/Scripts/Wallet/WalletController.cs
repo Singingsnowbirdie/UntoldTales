@@ -1,17 +1,17 @@
-﻿public class WalletInteractor : Interactor
+﻿public class WalletController : Controller
 {
     /// <summary>
     /// Репозиторий кошелька
+    /// Здесь будут храниться все валюты игры
     /// </summary>
     WalletRepository repository;
 
     /// <summary>
-    /// Конструктор
+    /// При создании
     /// </summary>
-    /// <param name="repository">репозиторий</param>
-    public WalletInteractor()
+    public override void OnCreate()
     {
-        this.repository = repository;
+        base.OnCreate();
     }
 
     /// <summary>
