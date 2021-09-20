@@ -4,7 +4,7 @@
 
 public static class EventManager
 {
-    #region СОБЫТИЯ РАУНДА (фазы)
+    #region СОБЫТИЯ: вход в фазу раунда / выход из фазы раунда
     //Вход в фазу планирования
     public static event Action OnRoundPlanningStageEnter;
     //Выход из фазы планирования
@@ -23,7 +23,12 @@ public static class EventManager
     public static event Action OnRoundOpponentSelectionStageExit;
     #endregion
 
-    #region МЕТОДЫ ВЫЗОВА СОБЫТИЙ
+    #region События UI 
+    //Нажата кнопка "сменить фазу раунда"
+    public static event Action OnChangeRoundStageBttnPressed;
+    #endregion
+
+    #region МЕТОДЫ: вход в фазу раунда / выход из фазы раунда
     /// <summary>
     /// Вход в фазу планирования
     /// </summary>
@@ -57,4 +62,12 @@ public static class EventManager
     /// </summary>
     public static void RoundOpponentSelectionStageExitEventInvoke() { OnRoundOpponentSelectionStageExit?.Invoke(); }
     #endregion
+
+    #region Методы UI
+    /// <summary>
+    /// Сменить фазу раунда
+    /// </summary>
+    public static void ChangeRoundStage() { OnChangeRoundStageBttnPressed?.Invoke(); }
+    #endregion
+
 }

@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // Временный менеджер UI
+// В текущей реализации есть баг: OnEnable() вызывается позже инициализации раунда,
+// и первый вызов события OnRoundPlanningStageEnter не отлавливается
+// Решение: инициализировать UI менеджер раньше
 
 public class RoundSceneUIManager : MonoBehaviour
 {
@@ -14,19 +17,20 @@ public class RoundSceneUIManager : MonoBehaviour
     [SerializeField] Text roundStateText;
 
     /// <summary>
-    /// Кнопка "завершить фазу"
-    /// </summary>
-    [SerializeField] Button endRoundStateButton;
-
-    /// <summary>
     /// Кнопка "купить опыт"
     /// </summary>
     [SerializeField] Button buyingExperienceButton;
 
-    private void Start()
+    private void OnEnable()
     {
         //подписываемся на вхождение в фазу планирования
         EventManager.OnRoundPlanningStageEnter += ShowPlanningStateMess;
+        //подписываемся на вхождение в фазу боя
+        EventManager.OnRoundBattleStageEnter += ShowBattleStateMess;
+        //подписываемся на вхождение в фазу расчетов
+        EventManager.OnRoundCalculationStageEnter += ShowCalculationStateMess;
+        //подписываемся на вхождение в фазу подбора соперника
+        EventManager.OnRoundOpponentSelectionStageEnter += ShowOpponentSelectionStateMess;
     }
 
     /// <summary>
@@ -38,5 +42,47 @@ public class RoundSceneUIManager : MonoBehaviour
         buyingExperienceButton.enabled = true;
     }
 
+    /// <summary>
+    /// Входим в стадию боя
+    /// </summary>
+    private void ShowBattleStateMess()
+    {
+        roundStateText.text = "Фаза боя";
+    }
+    /// <summary>
+    /// Входим в стадию расчетов
+    /// </summary>
+    private void ShowCalculationStateMess()
+    {
+        roundStateText.text = "Фаза расчетов";
+        buyingExperienceButton.enabled = false;
+    }
 
+    /// <summary>
+    /// Входим в стадию подбора соперника
+    /// </summary>
+    private void ShowOpponentSelectionStateMess()
+    {
+        roundStateText.text = "Фаза подбора соперников";
+    }
+
+    /// <summary>
+    /// Кнопка "сменить фазу раунда"
+    /// </summary>
+    public void ChangeRoundStage()
+    {
+        EventManager.ChangeRoundStage();
+    }
+
+    /// <summary>
+    /// При уничтожении монобеха
+    /// </summary>
+    private void OnDestroy()
+    {
+        //отписываемся от всего
+        EventManager.OnRoundPlanningStageEnter -= ShowPlanningStateMess;
+        EventManager.OnRoundBattleStageEnter -= ShowBattleStateMess;
+        EventManager.OnRoundCalculationStageEnter -= ShowCalculationStateMess;
+        EventManager.OnRoundOpponentSelectionStageEnter -= ShowOpponentSelectionStateMess;
+    }
 }

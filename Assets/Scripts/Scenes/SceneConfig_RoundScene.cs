@@ -34,7 +34,7 @@ public class SceneConfig_RoundScene : SceneConfig
     public override Dictionary<Type, Controller> CreateAllControllers()
     {
         var controllersMap = new Dictionary<Type, Controller>();
-        //CreateController<RoundController>(controllersMap);
+        CreateController<RoundController>(controllersMap);
         return controllersMap;
     }
 
