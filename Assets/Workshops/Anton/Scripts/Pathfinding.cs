@@ -12,10 +12,10 @@ public class Pathfinding : MonoBehaviour
     public List<Vector3> pathToTarget;
 
     //список провереных узлов
-    public List<Node> checkedNodes;  
+    public List<Noddde> checkedNodes;  
     
     //список узлов которые ждут проверку
-    public List<Node> waitingNodes;   
+    public List<Noddde> waitingNodes;   
 
     //цель    
     public GameObject target;
@@ -36,8 +36,8 @@ public class Pathfinding : MonoBehaviour
     public List<Vector3> GetPath(Vector3 myTarget)
     {
         pathToTarget = new List<Vector3>();
-        checkedNodes = new List<Node>();
-        waitingNodes = new List<Node>();
+        checkedNodes = new List<Noddde>();
+        waitingNodes = new List<Noddde>();
 
         //точка, стартовая позиция откуда начинаем искать путь 
         Vector3 startPosition = new Vector3(Mathf.Round(transform.position.x - offset),0, Mathf.Round(transform.position.z - offset));
@@ -48,7 +48,7 @@ public class Pathfinding : MonoBehaviour
         if(startPosition == targetPosition)return pathToTarget;
         
         //определяем самый первый узел
-        Node startNode = new Node(0, startPosition, targetPosition, null);
+        Noddde startNode = new Noddde(0, startPosition, targetPosition, null);
 
         //и сразу устанавливаем его в список "проверенные" 
         checkedNodes.Add(startNode);
@@ -60,7 +60,7 @@ public class Pathfinding : MonoBehaviour
         while(waitingNodes.Count > 0)
         {
             //выбираем из списка ожидающий проверки узел с минимальным значением f
-            Node nodeToCheck = waitingNodes.Where(x => x.f == waitingNodes.Min(y => y.f)).FirstOrDefault();
+            Noddde nodeToCheck = waitingNodes.Where(x => x.f == waitingNodes.Min(y => y.f)).FirstOrDefault();
 
             //если позиция узла с минимальным f равна позиции таргета 
             if(nodeToCheck.myPosition == targetPosition)
@@ -93,10 +93,10 @@ public class Pathfinding : MonoBehaviour
     }
 
     //метод формирует список точек по которым пойдет персонаж
-    public List<Vector3> CalculatePathFromNode(Node node)
+    public List<Vector3> CalculatePathFromNode(Noddde node)
     {
         var path = new List<Vector3>();
-        Node currendNode = node;
+        Noddde currendNode = node;
         
         //цикл работает пока узел имеет вложеный узел 
         while (currendNode.pelviosNode !=null)
@@ -111,25 +111,25 @@ public class Pathfinding : MonoBehaviour
     }
 
     //метод определяет соседние клетки 
-    private List<Node> GetNeighbourNodes(Node node)
+    private List<Noddde> GetNeighbourNodes(Noddde node)
     {
-        List<Node> neighbours = new List<Node>();
+        List<Noddde> neighbours = new List<Noddde>();
 
-        neighbours.Add(new Node(node.g + 1, new Vector3(node.myPosition.x - 1, 0, node.myPosition.z), node.targetPosition, node));
+        neighbours.Add(new Noddde(node.g + 1, new Vector3(node.myPosition.x - 1, 0, node.myPosition.z), node.targetPosition, node));
 
-        neighbours.Add(new Node(node.g + 1, new Vector3(node.myPosition.x + 1, 0, node.myPosition.z), node.targetPosition, node));
+        neighbours.Add(new Noddde(node.g + 1, new Vector3(node.myPosition.x + 1, 0, node.myPosition.z), node.targetPosition, node));
 
-        neighbours.Add(new Node(node.g + 1, new Vector3(node.myPosition.x, 0, node.myPosition.z - 1),node.targetPosition, node));
+        neighbours.Add(new Noddde(node.g + 1, new Vector3(node.myPosition.x, 0, node.myPosition.z - 1),node.targetPosition, node));
 
-        neighbours.Add(new Node(node.g + 1, new Vector3(node.myPosition.x, 0, node.myPosition.z + 1),node.targetPosition, node));
+        neighbours.Add(new Noddde(node.g + 1, new Vector3(node.myPosition.x, 0, node.myPosition.z + 1),node.targetPosition, node));
 
-        neighbours.Add(new Node(node.g + 1, new Vector3(node.myPosition.x + 1, 0, node.myPosition.z + 1),node.targetPosition, node));
+        neighbours.Add(new Noddde(node.g + 1, new Vector3(node.myPosition.x + 1, 0, node.myPosition.z + 1),node.targetPosition, node));
 
-        neighbours.Add(new Node(node.g + 1, new Vector3(node.myPosition.x - 1, 0, node.myPosition.z - 1),node.targetPosition, node));
+        neighbours.Add(new Noddde(node.g + 1, new Vector3(node.myPosition.x - 1, 0, node.myPosition.z - 1),node.targetPosition, node));
 
-        neighbours.Add(new Node(node.g + 1, new Vector3(node.myPosition.x - 1, 0, node.myPosition.z + 1),node.targetPosition, node));
+        neighbours.Add(new Noddde(node.g + 1, new Vector3(node.myPosition.x - 1, 0, node.myPosition.z + 1),node.targetPosition, node));
 
-        neighbours.Add(new Node(node.g + 1, new Vector3(node.myPosition.x + 1, 0, node.myPosition.z - 1),node.targetPosition, node));
+        neighbours.Add(new Noddde(node.g + 1, new Vector3(node.myPosition.x + 1, 0, node.myPosition.z - 1),node.targetPosition, node));
 
         return neighbours;
     }

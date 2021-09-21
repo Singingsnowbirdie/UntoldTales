@@ -3,11 +3,11 @@
 //узел в котором хранится позиция на поле, 
 //так же тут хранится стоимость хода
 //и хранится ссылка на предыдущую ноду
-public class Node 
+public class Noddde 
 {
     public Vector3 myPosition;
     public Vector3 targetPosition;
-    public Node pelviosNode;
+    public Noddde pelviosNode;
 
     //f = g + h
     public int f;
@@ -18,7 +18,7 @@ public class Node
     //растояние по X от себя к цели + растояние от себя к цели по Y
     public int h;
 
-    public Node(int g, Vector3 myPosition, Vector3 targetPosition, Node pelviosNode)
+    public Noddde(int g, Vector3 myPosition, Vector3 targetPosition, Noddde pelviosNode)
     {
         this.myPosition = myPosition;
         this.targetPosition = targetPosition;
