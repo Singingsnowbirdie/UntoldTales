@@ -15,5 +15,6 @@ public class Keeper
     public Keeper()
     {
         Leadership = 1;
+        //рапрпарп
     }
 }
