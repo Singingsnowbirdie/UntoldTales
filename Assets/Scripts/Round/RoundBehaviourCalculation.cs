@@ -1,13 +1,17 @@
-﻿public class RoundBehaviourCalculation : IRoundBehaviour
+﻿using UnityEngine;
+
+public class RoundBehaviourCalculation : IRoundBehaviour
 {
     public void Enter()
     {
-        EventManager.RoundCalculationStateEnterEventInvoke();
+        EventManager.RoundCalculationStageEnterEventInvoke();
+        Debug.Log("Calculation stage enter");
     }
 
     public void Exit()
     {
-        EventManager.RoundCalculationStateExitEventInvoke();
+        EventManager.RoundCalculationStageExitEventInvoke();
+        Debug.Log("Calculation stage exit");
     }
 
     public void Update()

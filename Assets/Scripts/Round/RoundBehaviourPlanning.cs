@@ -1,13 +1,18 @@
-﻿public class RoundBehaviourPlanning : IRoundBehaviour
+﻿using UnityEngine;
+
+public class RoundBehaviourPlanning : IRoundBehaviour
 {
     public void Enter()
     {
-        EventManager.RoundPlanningStateEnterEventInvoke();
+        EventManager.RoundPlanningStageEnterEventInvoke();
+        Debug.Log("Planning stage enter");
+
     }
 
     public void Exit()
     {
-        EventManager.RoundPlanningStateExitEventInvoke();
+        EventManager.RoundPlanningStageExitEventInvoke();
+        Debug.Log("Planning stage exit");
     }
 
     public void Update()

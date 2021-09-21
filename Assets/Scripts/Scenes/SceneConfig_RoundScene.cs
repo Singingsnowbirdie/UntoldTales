@@ -34,7 +34,8 @@ public class SceneConfig_RoundScene : SceneConfig
     public override Dictionary<Type, Controller> CreateAllControllers()
     {
         var controllersMap = new Dictionary<Type, Controller>();
-        //CreateController<RoundController>(controllersMap);
+        CreateController<RoundController>(controllersMap);
+        CreateController<KeeperController>(controllersMap);
         return controllersMap;
     }
 
@@ -43,7 +44,7 @@ public class SceneConfig_RoundScene : SceneConfig
     /// </summary>
     public override void Initialize()
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     /// <summary>
@@ -51,7 +52,7 @@ public class SceneConfig_RoundScene : SceneConfig
     /// </summary>
     public override void OnStart()
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
 }

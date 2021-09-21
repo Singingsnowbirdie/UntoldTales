@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 //раунд
 
-public class NewBehaviourScript : MonoBehaviour
+public class Round
 {
     /// <summary>
     /// Все фазы раунда
@@ -17,7 +16,7 @@ public class NewBehaviourScript : MonoBehaviour
     /// </summary>
     IRoundBehaviour currentBehaviour;
 
-    private void Start()
+    public Round()
     {
         InitBehaviours();
         SetBehaviourByDefault();
@@ -32,7 +31,35 @@ public class NewBehaviourScript : MonoBehaviour
         behavioursMap[typeof(RoundBehaviourPlanning)] = new RoundBehaviourPlanning();
         behavioursMap[typeof(RoundBehaviourBattle)] = new RoundBehaviourBattle();
         behavioursMap[typeof(RoundBehaviourCalculation)] = new RoundBehaviourCalculation();
-        behavioursMap[typeof(RoundBehaviourOpponentsSelection)] = new RoundBehaviourOpponentsSelection();
+        behavioursMap[typeof(RoundBehaviourOpponentSelection)] = new RoundBehaviourOpponentSelection();
+    }
+
+    /// <summary>
+    /// Устанавливает следующую фазу (тест)
+    /// </summary>
+    internal void SetNextBehaviour()
+    {
+        switch (currentBehaviour.ToString())
+        {
+            case "RoundBehaviourPlanning":
+                SetBehaviourBattle();
+                break;
+
+            case "RoundBehaviourBattle":
+                SetBehaviourCalculation();
+                break;
+
+            case "RoundBehaviourCalculation":
+                SetBehaviourOpponentSelection();
+                break;
+
+            case "RoundBehaviourOpponentSelection":
+                SetBehaviourPlanning();
+                break;
+
+            default:
+                break;
+        }
     }
 
     /// <summary>
@@ -56,7 +83,7 @@ public class NewBehaviourScript : MonoBehaviour
     /// <summary>
     /// Достаем нужную фазу из словаря
     /// </summary>
-    IRoundBehaviour GetBehaviour<T>() where T:IRoundBehaviour
+    IRoundBehaviour GetBehaviour<T>() where T : IRoundBehaviour
     {
         var type = typeof(T);
         return behavioursMap[type];
@@ -67,7 +94,44 @@ public class NewBehaviourScript : MonoBehaviour
     /// </summary>
     void SetBehaviourByDefault()
     {
-        var behaviourByDefault = GetBehaviour<RoundBehaviourPlanning>();
-        SetBehaviour(behaviourByDefault);
+        SetBehaviourPlanning();
+    }
+
+    private void Update()
+    {
+        //потому что Update не работает в классах, не унаследованных от MonoBehaviour
+        if (currentBehaviour != null) currentBehaviour.Update();
+    }
+
+    /// <summary>
+    /// Устанавливает фазу планирования
+    /// </summary>
+    public void SetBehaviourPlanning()
+    {
+        SetBehaviour(GetBehaviour<RoundBehaviourPlanning>());
+    }
+
+    /// <summary>
+    /// Устанавливает фазу боя
+    /// </summary>
+    public void SetBehaviourBattle()
+    {
+        SetBehaviour(GetBehaviour<RoundBehaviourBattle>());
+    }
+
+    /// <summary>
+    /// Устанавливает фазу расчетов
+    /// </summary>
+    public void SetBehaviourCalculation()
+    {
+        SetBehaviour(GetBehaviour<RoundBehaviourCalculation>());
+    }
+
+    /// <summary>
+    /// Устанавливает фазу выбора противника
+    /// </summary>
+    public void SetBehaviourOpponentSelection()
+    {
+        SetBehaviour(GetBehaviour<RoundBehaviourOpponentSelection>());
     }
 }

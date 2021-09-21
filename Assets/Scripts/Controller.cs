@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+//оставить монобех, чтобы работали методы OnDestroy()
+
 public abstract class Controller : MonoBehaviour
 {
     /// <summary>
