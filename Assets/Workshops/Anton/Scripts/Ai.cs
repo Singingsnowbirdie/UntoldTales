@@ -26,6 +26,11 @@ public class Ai : MonoBehaviour
     {
         GoToTarget();
     }   
+
+    public void Enabled()
+    {
+        transform.GetComponent<Pathfinding>().enabled = true;
+    }
     
     private void GoToTarget()
     {

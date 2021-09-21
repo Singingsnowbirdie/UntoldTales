@@ -5,30 +5,18 @@ using UnityEngine;
 
 public class MyTest : MonoBehaviour
 {
-    [System.Serializable]
-    public class Person
-    {
-        public Transform Myransform;
-        public float xBoard;
-        public float zBoard;
-    }
-    public Transform prefab;
-
+    public Transform target;
     public Board board;
+    public LayerMask solidLayer;
+
     //список точек к цели найденый путь
     public List<Vector3> pathToTarget;
 
     //список провереных узлов
-    public List<Node> checkedNodes;
-
-    public LayerMask solidLayer;
+    private List<Noddde> checkedNodes;
 
     //список узлов которые ждут проверку
-    [SerializeField]
-    public List<Node> waitingNodes;
-
-    [SerializeField]
-    public List<Person> currentNodes;
+    public List<Noddde> waitingNodes;
     
 
     private void Awake() 
@@ -46,54 +34,50 @@ public class MyTest : MonoBehaviour
     {
         board.CreateGrid();
         pathToTarget = new List<Vector3>();
-        checkedNodes = new List<Node>();
-        waitingNodes = new List<Node>();
+        checkedNodes = new List<Noddde>();
+        waitingNodes = new List<Noddde>();
 
     }
 
     //метод проверяет не вышел ли кто за границы поля
-    /*private bool Сhecking_Borders(Vector2 bodyPos, Vector2 boardPos)
+    private bool Сhecking_Borders(Vector3 bodyPos, Vector2 boardPos)
     {
-        if(bodyPos.x - (boardPos.x + 0.5f) > boardPos.x + 0.5f
-        ||) 
+        if(bodyPos.x - board.transform.position.x > board.widthAndHeight.x
+        || bodyPos.z - board.transform.position.z > board.widthAndHeight.y
+        || bodyPos.x - board.transform.localPosition.x < board.transform.localPosition.x
+        || bodyPos.z - board.transform.localPosition.z < board.transform.localPosition.z) 
+        {
+            Debug.Log("выход за рамки");
+            return false;
+        }
         return true;
-    }*/
+    }
 
+    private Vector3 Get_Position(Transform person)
+    {
+        return new Vector3(Mathf.Round(person.transform.position.x - 0.5f) + board.transform.position.x, 0
+        , Mathf.Round(person.transform.position.z - 0.5f) + board.transform.position.z);
+    }
 
     private List<Vector3> GetPath()
     {
         pathToTarget = new List<Vector3>();
-        checkedNodes = new List<Node>();
-        waitingNodes = new List<Node>();
+        checkedNodes = new List<Noddde>();
+        waitingNodes = new List<Noddde>();        
+        
+        if(!Сhecking_Borders(transform.position, board.transform.position)) return null;
 
-        //точка, стартовая позиция откуда начинаем искать путь 
-        if(currentNodes[0].Myransform.position.x - (board.transform.position.x + 0.5f) > board.widthAndHeight.x
-        || currentNodes[0].Myransform.position.z - (board.transform.position.z + 0.5f) > board.widthAndHeight.y
-        || currentNodes[0].Myransform.position.x - (board.transform.position.x + 0.5f) < 0
-        || currentNodes[0].Myransform.position.x - (board.transform.position.z + 0.5f) < 0)
-        {
-            Debug.Log("выход за рамки");
-            return null;
-        }
-
-        if (currentNodes[1].Myransform.position.x - (board.transform.position.x + 0.5f) > board.widthAndHeight.x
-        || currentNodes[1].Myransform.position.z - (board.transform.position.z + 0.5f) > board.widthAndHeight.y
-        || currentNodes[1].Myransform.position.x - (board.transform.position.x + 0.5f) < 0
-        || currentNodes[1].Myransform.position.x - (board.transform.position.z + 0.5f) < 0)
-        {
-            Debug.Log("выход за рамки");
-            return null;
-        }
-
-        Vector3 startPosition = new Vector3(Mathf.Round(currentNodes[0].Myransform.position.x - 0.5f) , 0, Mathf.Round(currentNodes[0].Myransform.position.z - 0.5f));
-
-        // //точка, конечная позиция 
-        Vector3 targetPosition = new Vector3(Mathf.Round(currentNodes[1].Myransform.position.x - 0.5f) , 0, Mathf.Round(currentNodes[1].Myransform.position.z - 0.5f));
+        // Vector3 startPosition = new Vector3(Mathf.Round(transform.position.x - 0.5f) + board.transform.position.x, 0, Mathf.Round(transform.position.z - 0.5f) + board.transform.position.z);
+        // // //точка, конечная позиция 
+        // Vector3 targetPosition = new Vector3(Mathf.Round(target.transform.position.x - 0.5f) + board.transform.position.x, 0, Mathf.Round(target.transform.position.z - 0.5f) + board.transform.position.z);
+        Vector3 startPosition = Get_Position(transform);
+        Vector3 targetPosition = Get_Position(target);
+        // Debug.Log(Mathf.Round(transform.position.x - 0.5f) + board.transform.position.x + " " + board.transform.localPosition.x);
 
         if (startPosition == targetPosition) return pathToTarget;
-
+        
         //определяем самый первый узел
-        Node startNode = new Node(0, startPosition, targetPosition, null);
+        Noddde startNode = new Noddde(0, startPosition, targetPosition, null);
 
         //и сразу устанавливаем его в список "проверенные" 
         checkedNodes.Add(startNode);
@@ -104,7 +88,7 @@ public class MyTest : MonoBehaviour
         while(waitingNodes.Count > 0)
         {
             //выбираем из списка ожидающий проверки узел с минимальным значением f
-            Node nodeToCheck = waitingNodes.Where(x => x.f == waitingNodes.Min(y => y.f)).FirstOrDefault();
+            Noddde nodeToCheck = waitingNodes.Where(x => x.f == waitingNodes.Min(y => y.f)).FirstOrDefault();
 
             //если позиция узла с минимальным f равна позиции таргета 
             if (nodeToCheck.myPosition == targetPosition)
@@ -131,16 +115,15 @@ public class MyTest : MonoBehaviour
                     waitingNodes.AddRange(GetNeighbourNodes(nodeToCheck));
                 }
             }
-        }
-        
+        }        
         return pathToTarget;
     }
 
     //метод формирует список точек по которым пойдет персонаж
-    public List<Vector3> CalculatePathFromNode(Node node)
+    public List<Vector3> CalculatePathFromNode(Noddde node)
     {
         var path = new List<Vector3>();
-        Node currendNode = node;
+        Noddde currendNode = node;
 
         //цикл работает пока узел имеет вложеный узел 
         while (currendNode.pelviosNode != null)
@@ -150,64 +133,61 @@ public class MyTest : MonoBehaviour
 
             //убераем узел
             currendNode = currendNode.pelviosNode;
-        }
-       
+        }       
         return path;
     }
     
-    private List<Node> GetNeighbourNodes(Node node)
+    private List<Noddde> GetNeighbourNodes(Noddde node)
     {
-        List<Node> neighbours = new List<Node>();
-
+        List<Noddde> neighbours = new List<Noddde>();
         //влево
         if((node.myPosition.x - (board.transform.position.x)) > 0)
         {
             //влево
-            neighbours.Add(new Node(node.g + 1, new Vector3(node.myPosition.x - 1, 0, node.myPosition.z), node.targetPosition, node));
-
+            neighbours.Add(new Noddde(node.g + 1, new Vector3(node.myPosition.x - 1, 0, node.myPosition.z), node.targetPosition, node));
+            
             if ((node.myPosition.z - (board.transform.position.z)) > 0)
             {
                 //лево низ
-                neighbours.Add(new Node(node.g + 1, new Vector3(node.myPosition.x - 1, 0, node.myPosition.z - 1), node.targetPosition, node));
+                neighbours.Add(new Noddde(node.g + 1, new Vector3(node.myPosition.x - 1, 0, node.myPosition.z - 1), node.targetPosition, node));
             }
         }
         //право
         if ((node.myPosition.x - (board.transform.position.x)) < board.widthAndHeight.x - 1)
         {
             //право
-            neighbours.Add(new Node(node.g + 1, new Vector3(node.myPosition.x + 1, 0, node.myPosition.z), node.targetPosition, node));
+            neighbours.Add(new Noddde(node.g + 1, new Vector3(node.myPosition.x + 1, 0, node.myPosition.z), node.targetPosition, node));
 
             if ((node.myPosition.z - (board.transform.position.z)) > 0)
             {
                 //право низ
-                neighbours.Add(new Node(node.g + 1, new Vector3(node.myPosition.x + 1, 0, node.myPosition.z - 1), node.targetPosition, node));
+                neighbours.Add(new Noddde(node.g + 1, new Vector3(node.myPosition.x + 1, 0, node.myPosition.z - 1), node.targetPosition, node));
             }
         }
         
         if ((node.myPosition.z - (board.transform.position.z)) > 0)
         {
             //центр вниз    
-            neighbours.Add(new Node(node.g + 1, new Vector3(node.myPosition.x, 0, node.myPosition.z - 1), node.targetPosition, node));
+            neighbours.Add(new Noddde(node.g + 1, new Vector3(node.myPosition.x, 0, node.myPosition.z - 1), node.targetPosition, node));
         }
         
         if ((node.myPosition.z - (board.transform.position.x)) < board.widthAndHeight.y - 1)
         {
             //центр вверх
-            neighbours.Add(new Node(node.g + 1, new Vector3(node.myPosition.x, 0, node.myPosition.z + 1), node.targetPosition, node));
+            neighbours.Add(new Noddde(node.g + 1, new Vector3(node.myPosition.x, 0, node.myPosition.z + 1), node.targetPosition, node));
         
             //право вверх
             if ((node.myPosition.x - (board.transform.position.x)) < board.widthAndHeight.x - 1)
             {
-                neighbours.Add(new Node(node.g + 1, new Vector3(node.myPosition.x + 1, 0, node.myPosition.z + 1), node.targetPosition, node));
+                neighbours.Add(new Noddde(node.g + 1, new Vector3(node.myPosition.x + 1, 0, node.myPosition.z + 1), node.targetPosition, node));
             }
 
             if ((node.myPosition.x - (board.transform.position.x)) > 0)
             {
                 //лево вверх
-                neighbours.Add(new Node(node.g + 1, new Vector3(node.myPosition.x - 1, 0, node.myPosition.z + 1), node.targetPosition, node));
+                neighbours.Add(new Noddde(node.g + 1, new Vector3(node.myPosition.x - 1, 0, node.myPosition.z + 1), node.targetPosition, node));
             }
-        }
-
+        }        
         return neighbours;
     }
 
@@ -230,13 +210,14 @@ public class MyTest : MonoBehaviour
         //     }
 
         if (pathToTarget != null)
+        {
             foreach (var item in pathToTarget)
             {
                 Gizmos.color = Color.green;
-                Gizmos.DrawSphere(new Vector3(item.x + 0.5f , 0, item.z + 0.5f), 0.1f);
-                
-            }
-    }
+                Gizmos.DrawSphere(new Vector3(item.x + 0.5f, 0, item.z + 0.5f ), 0.1f);
 
+            }
+        }
+    }
 }
 
