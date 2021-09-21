@@ -23,10 +23,31 @@ public static class EventManager
     public static event Action OnRoundOpponentSelectionStageExit;
     #endregion
 
-    #region События UI 
+    #region СОБЫТИЯ: Хранитель
+    //Хранитель инициализирован
+    public static event Action OnKeeperInitialized;
+    // Изменилось количество очков лидерства
+    public static event Action<int> OnLeadershipChanged;
+    #endregion
+
+    #region СОБЫТИЯ: UI 
     //Нажата кнопка "сменить фазу раунда"
     public static event Action OnChangeRoundStageBttnPressed;
+    //Нажата кнопка "купить очки лидерства"
+    public static event Action OnBuyLeadershipBttnPressed;
     #endregion
+
+    #region МЕТОДЫ: Хранитель
+    /// <summary>
+    /// Хранитель инициализирован
+    /// </summary>
+    internal static void KeeperInitialized() { OnKeeperInitialized?.Invoke(); }
+    /// <summary>
+    /// Изменилось количество очков лидерства
+    /// </summary>
+    internal static void LeadershipChanged(int leadership) { OnLeadershipChanged?.Invoke(leadership); }
+    #endregion
+
 
     #region МЕТОДЫ: вход в фазу раунда / выход из фазы раунда
     /// <summary>
@@ -68,6 +89,10 @@ public static class EventManager
     /// Сменить фазу раунда
     /// </summary>
     public static void ChangeRoundStage() { OnChangeRoundStageBttnPressed?.Invoke(); }
+    /// <summary>
+    /// Купить очки лидерства
+    /// </summary>
+    public static void BuyLeadership() { OnBuyLeadershipBttnPressed?.Invoke(); }
     #endregion
 
 }

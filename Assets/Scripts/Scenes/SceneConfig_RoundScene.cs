@@ -35,6 +35,7 @@ public class SceneConfig_RoundScene : SceneConfig
     {
         var controllersMap = new Dictionary<Type, Controller>();
         CreateController<RoundController>(controllersMap);
+        CreateController<KeeperController>(controllersMap);
         return controllersMap;
     }
 

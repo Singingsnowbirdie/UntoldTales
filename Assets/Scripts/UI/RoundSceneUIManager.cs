@@ -17,6 +17,11 @@ public class RoundSceneUIManager : MonoBehaviour
     [SerializeField] Text roundStateText;
 
     /// <summary>
+    /// Текст: количество очков лидерства
+    /// </summary>
+    [SerializeField] Text leadershipCounter;
+
+    /// <summary>
     /// Кнопка "купить опыт"
     /// </summary>
     [SerializeField] Button buyingExperienceButton;
@@ -31,6 +36,16 @@ public class RoundSceneUIManager : MonoBehaviour
         EventManager.OnRoundCalculationStageEnter += ShowCalculationStateMess;
         //подписываемся на вхождение в фазу подбора соперника
         EventManager.OnRoundOpponentSelectionStageEnter += ShowOpponentSelectionStateMess;
+        //подписываемся на изменение количества очков лидерства
+        EventManager.OnLeadershipChanged += ShowLeadership;
+    }
+
+    /// <summary>
+    /// Показывает новое значение очков лидерства
+    /// </summary>
+    private void ShowLeadership(int amount)
+    {
+        leadershipCounter.text = $"Уровень лидерства: {amount}";
     }
 
     /// <summary>
@@ -41,7 +56,7 @@ public class RoundSceneUIManager : MonoBehaviour
         roundStateText.text = "Фаза планирования";
         buyingExperienceButton.enabled = true;
     }
-
+    
     /// <summary>
     /// Входим в стадию боя
     /// </summary>
@@ -49,6 +64,7 @@ public class RoundSceneUIManager : MonoBehaviour
     {
         roundStateText.text = "Фаза боя";
     }
+
     /// <summary>
     /// Входим в стадию расчетов
     /// </summary>
@@ -73,6 +89,14 @@ public class RoundSceneUIManager : MonoBehaviour
     {
         EventManager.ChangeRoundStage();
     }
+
+    /// <summary>
+    /// Кнопка "купить очки лидерства"
+    /// </summary>
+    public void BuyLeadership()
+    {
+        EventManager.BuyLeadership();
+    }    
 
     /// <summary>
     /// При уничтожении монобеха

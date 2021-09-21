@@ -12,7 +12,7 @@ class RoundController : Controller
     Round round;
 
     /// <summary>
-    /// Контроллер
+    /// Конструктор
     /// </summary>
     public RoundController()
     {
@@ -26,5 +26,10 @@ class RoundController : Controller
     private void ChangeRoundStage()
     {
         round.SetNextBehaviour();
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.OnChangeRoundStageBttnPressed -= ChangeRoundStage;
     }
 }
