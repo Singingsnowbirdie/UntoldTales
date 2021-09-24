@@ -37,6 +37,7 @@ public class SceneConfig_RoundScene : SceneConfig
         CreateController<RoundController>(controllersMap);
         CreateController<KeeperController>(controllersMap);
         CreateController<SquadController>(controllersMap);
+        CreateController<InventoryController>(controllersMap);
         return controllersMap;
     }
 

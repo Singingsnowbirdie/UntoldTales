@@ -20,16 +20,22 @@ public class Squad : MonoBehaviour
     public int LastID { get; set; }
 
     /// <summary>
-    /// Все герои отряда
+    /// Здесь лежат все герои, которых можно улучшать
     /// </summary>
-    public List<Hero> heroes;
+    public List<Hero> heroesInPlanning;
+
+    /// <summary>
+    /// Здесь лежат все герои, которых нельзя улучшать
+    /// Когда начинается фаза боя, сюда переносятся все герои, которые находятся на поле (не в резерве)
+    /// </summary>
+    public List<Hero> heroesInBattle;
 
     /// <summary>
     /// Конструктор
     /// </summary>
     public Squad()
     {
-        heroes = new List<Hero>();
+        heroesInPlanning = new List<Hero>();
         MaxHeroesAmount = startHeroesAmount;
     }
 }

@@ -14,18 +14,18 @@ public class Round
     /// <summary>
     /// Текущее состояние раунда
     /// </summary>
-    IRoundStage currentBehaviour;
+    IRoundStage currentStage;
 
     public Round()
     {
-        InitBehaviours();
-        SetBehaviourByDefault();
+        InitStages();
+        SetStageByDefault();
     }
 
     /// <summary>
     /// Инициализатор фаз раунда
     /// </summary>
-    void InitBehaviours()
+    void InitStages()
     {
         roundStagesMap = new Dictionary<Type, IRoundStage>();
         roundStagesMap[typeof(RoundStage_Planning)] = new RoundStage_Planning();
@@ -37,24 +37,24 @@ public class Round
     /// <summary>
     /// Устанавливает следующую фазу (тест)
     /// </summary>
-    internal void SetNextBehaviour()
+    internal void SetNextStage()
     {
-        switch (currentBehaviour.ToString())
+        switch (currentStage.ToString())
         {
-            case "RoundBehaviourPlanning":
-                SetBehaviourBattle();
+            case "RoundStage_Planning":
+                SetStage_Battle();
                 break;
 
-            case "RoundBehaviourBattle":
-                SetBehaviourCalculation();
+            case "RoundStage_Battle":
+                SetStage_Calculation();
                 break;
 
-            case "RoundBehaviourCalculation":
-                SetBehaviourOpponentSelection();
+            case "RoundStage_Calculation":
+                SetStage_OpponentSelection();
                 break;
 
-            case "RoundBehaviourOpponentSelection":
-                SetBehaviourPlanning();
+            case "RoundStage_OpponentSelection":
+                SetStage_Planning();
                 break;
 
             default:
@@ -65,25 +65,24 @@ public class Round
     /// <summary>
     /// Включаем фазу
     /// </summary>
-    /// <param name="newBehaviour"></param>
-    void SetBehaviour(IRoundStage newBehaviour)
+    void SetStage(IRoundStage newStage)
     {
         //если сейчас активна другая фаза
-        if (currentBehaviour != null)
+        if (currentStage != null)
         {
             //выходим из нее
-            currentBehaviour.Exit();
+            currentStage.Exit();
         }
         //устанавливаем текущую фазу
-        currentBehaviour = newBehaviour;
+        currentStage = newStage;
         //запускаем фазу
-        currentBehaviour.Enter();
+        currentStage.Enter();
     }
 
     /// <summary>
     /// Достаем нужную фазу из словаря
     /// </summary>
-    IRoundStage GetBehaviour<T>() where T : IRoundStage
+    IRoundStage GetStage<T>() where T : IRoundStage
     {
         var type = typeof(T);
         return roundStagesMap[type];
@@ -92,46 +91,46 @@ public class Round
     /// <summary>
     /// Устанавливает начальную фазу
     /// </summary>
-    void SetBehaviourByDefault()
+    void SetStageByDefault()
     {
-        SetBehaviourPlanning();
+        SetStage_Planning();
     }
 
     private void Update()
     {
         //потому что Update не работает в классах, не унаследованных от MonoBehaviour
-        if (currentBehaviour != null) currentBehaviour.Update();
+        if (currentStage != null) currentStage.Update();
     }
 
     /// <summary>
     /// Устанавливает фазу планирования
     /// </summary>
-    public void SetBehaviourPlanning()
+    public void SetStage_Planning()
     {
-        SetBehaviour(GetBehaviour<RoundStage_Planning>());
+        SetStage(GetStage<RoundStage_Planning>());
     }
 
     /// <summary>
     /// Устанавливает фазу боя
     /// </summary>
-    public void SetBehaviourBattle()
+    public void SetStage_Battle()
     {
-        SetBehaviour(GetBehaviour<RoundStage_Battle>());
+        SetStage(GetStage<RoundStage_Battle>());
     }
 
     /// <summary>
     /// Устанавливает фазу расчетов
     /// </summary>
-    public void SetBehaviourCalculation()
+    public void SetStage_Calculation()
     {
-        SetBehaviour(GetBehaviour<RoundStage_Calculation>());
+        SetStage(GetStage<RoundStage_Calculation>());
     }
 
     /// <summary>
     /// Устанавливает фазу выбора противника
     /// </summary>
-    public void SetBehaviourOpponentSelection()
+    public void SetStage_OpponentSelection()
     {
-        SetBehaviour(GetBehaviour<RoundStage_OpponentSelection>());
+        SetStage(GetStage<RoundStage_OpponentSelection>());
     }
 }

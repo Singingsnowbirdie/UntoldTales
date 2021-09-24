@@ -49,6 +49,8 @@ public static class EventManager
     public static event Action OnChangeRoundStageBttnPressed;
     //Нажата кнопка "купить очки лидерства"
     public static event Action OnBuyLeadershipBttnPressed;
+    //Изменилось количество монет у игрока
+    public static event Action<int> OnCoinsAmountChanged;
     #endregion
 
     #region МЕТОДЫ: Матч
@@ -118,7 +120,7 @@ public static class EventManager
     internal static void SquadSizeChanged(int count) { OnSquadSizeChanged?.Invoke(count); }
     #endregion
 
-    #region Методы UI
+    #region МЕТОДЫ UI
     /// <summary>
     /// Нажата кнопка: сменить фазу раунда
     /// </summary>
@@ -131,6 +133,15 @@ public static class EventManager
     /// Нажата кнопка: купить героя (пока сразу переходим к покупкам, потом будет цепочка длиннее)
     /// </summary>
     internal static void BuyHero(Hero hero) { OnHeroPurchased?.Invoke(hero); }
+    #endregion
+
+
+    #region МЕТОДЫ: инвентарь
+    /// <summary>
+    /// Изменилось количество монет
+    /// </summary>
+    /// <param name="coins"></param>
+    internal static void CoinsAmountChanged(int coins) { OnCoinsAmountChanged?.Invoke(coins); }
     #endregion
 
 }

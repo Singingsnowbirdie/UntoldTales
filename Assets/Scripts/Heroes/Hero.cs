@@ -39,6 +39,11 @@ public abstract class Hero : MonoBehaviour
     public int Rank { get; set; }
 
     /// <summary>
+    /// Имя
+    /// </summary>
+    public string Name { get; set; }  
+
+    /// <summary>
     /// Максимальное здоровье
     /// </summary>
     public int MaxHealth { get; set; }

@@ -23,7 +23,7 @@ class RoundController : Controller
     /// </summary>
     private void ChangeRoundStage()
     {
-        round.SetNextBehaviour();
+        round.SetNextStage();
     }
 
     private void OnDestroy()

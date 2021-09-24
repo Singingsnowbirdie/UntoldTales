@@ -4,15 +4,38 @@ using UnityEngine;
 
 public class InventoryController : Controller
 {
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    /// Инвентарь
+    /// </summary>
+    Inventory inventory;
+
+    public override void Initialize()
     {
-        
+        base.Initialize();
+        inventory = new Inventory();
     }
 
-    // Update is called once per frame
-    void Update()
+
+    private void OnDestroy()
     {
-        
     }
+
+    /// <summary>
+    /// Добавляет монеты 
+    /// </summary>
+    public void AddCoins(int amount)
+    {
+        inventory.Coins += amount;
+        EventManager.CoinsAmountChanged(inventory.Coins);
+    }
+
+    /// <summary>
+    /// Отнимает монеты 
+    /// </summary>
+    public void SpendCoins(int amount)
+    {
+        inventory.Coins -= amount;
+        EventManager.CoinsAmountChanged(inventory.Coins);
+    }
+
 }
