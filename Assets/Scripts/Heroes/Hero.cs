@@ -5,6 +5,11 @@ using UnityEngine;
 public abstract class Hero : MonoBehaviour
 {
     /// <summary>
+    /// ID героя в отряде (присваивается при добавлении героя в отряд)
+    /// </summary>
+    public int HeroID { get; set; }
+
+    /// <summary>
     /// Текущая цель
     /// </summary>
     Hero currentTarget;
@@ -22,7 +27,7 @@ public abstract class Hero : MonoBehaviour
     /// </summary>
     public void Move()
     {
-        
+
     }
 
     /// <summary>

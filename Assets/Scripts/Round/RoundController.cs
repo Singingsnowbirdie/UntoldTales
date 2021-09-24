@@ -11,11 +11,9 @@ class RoundController : Controller
     /// </summary>
     Round round;
 
-    /// <summary>
-    /// Конструктор
-    /// </summary>
-    public RoundController()
+    public override void Initialize()
     {
+        base.Initialize();
         round = new Round();
         EventManager.OnChangeRoundStageBttnPressed += ChangeRoundStage;
     }

@@ -1,10 +1,15 @@
 ﻿using System;
 
-//менеджер событий (временная реализация?)
+//менеджер событий
 
 public static class EventManager
 {
-    #region СОБЫТИЯ: вход в фазу раунда / выход из фазы раунда
+    #region СОБЫТИЯ: Матч
+    //Игрок проиграл
+    public static event Action OnPlayerLose;
+    #endregion
+
+    #region СОБЫТИЯ: Раунд
     //Вход в фазу планирования
     public static event Action OnRoundPlanningStageEnter;
     //Выход из фазы планирования
@@ -28,6 +33,13 @@ public static class EventManager
     public static event Action OnKeeperInitialized;
     // Изменилось количество очков лидерства
     public static event Action<int> OnLeadershipChanged;
+    // Изменилось количество очков здоровья
+    public static event Action<int> OnKeeperHealthChanged;
+    #endregion
+
+    #region СОБЫТИЯ: Отряд
+    // Изменилось количество героев в отряде
+    public static event Action<int> OnSquadSizeChanged;
     #endregion
 
     #region СОБЫТИЯ: UI 
@@ -35,21 +47,18 @@ public static class EventManager
     public static event Action OnChangeRoundStageBttnPressed;
     //Нажата кнопка "купить очки лидерства"
     public static event Action OnBuyLeadershipBttnPressed;
+    //Нажата кнопка "купить героя"
+    public static event Action<Hero> OnBuyHeroBttnPressed;
     #endregion
 
-    #region МЕТОДЫ: Хранитель
+    #region МЕТОДЫ: Матч
     /// <summary>
-    /// Хранитель инициализирован
+    /// Игрок проиграл (здоровье Хранителя опустилось ниже 0)
     /// </summary>
-    internal static void KeeperInitialized() { OnKeeperInitialized?.Invoke(); }
-    /// <summary>
-    /// Изменилось количество очков лидерства
-    /// </summary>
-    internal static void LeadershipChanged(int leadership) { OnLeadershipChanged?.Invoke(leadership); }
+    internal static void PlayerLose() { throw new NotImplementedException(); }
     #endregion
 
-
-    #region МЕТОДЫ: вход в фазу раунда / выход из фазы раунда
+    #region МЕТОДЫ: Раунд
     /// <summary>
     /// Вход в фазу планирования
     /// </summary>
@@ -84,15 +93,44 @@ public static class EventManager
     public static void RoundOpponentSelectionStageExitEventInvoke() { OnRoundOpponentSelectionStageExit?.Invoke(); }
     #endregion
 
+    #region МЕТОДЫ: Хранитель
+    /// <summary>
+    /// Хранитель инициализирован
+    /// </summary>
+    internal static void KeeperInitialized() { OnKeeperInitialized?.Invoke(); }
+
+    /// <summary>
+    /// Изменилось количество очков лидерства
+    /// </summary>
+    internal static void LeadershipChanged(int leadership) { OnLeadershipChanged?.Invoke(leadership); }
+    /// <summary>
+    /// Изменилось количество очков здоровья Хранителя
+    /// </summary>
+    internal static void KeeperHealthChanged(int health) { OnKeeperHealthChanged?.Invoke(health); }
+    #endregion
+
+    #region МЕТОДЫ: Отряд
+    /// <summary>
+    /// Изменилось количество героев в отряде
+    /// </summary>
+    /// <param name="count"></param>
+    internal static void SquadSizeChanged(int count) { OnSquadSizeChanged?.Invoke(count); }
+    #endregion
+
     #region Методы UI
     /// <summary>
-    /// Сменить фазу раунда
+    /// Нажата кнопка: сменить фазу раунда
     /// </summary>
     public static void ChangeRoundStage() { OnChangeRoundStageBttnPressed?.Invoke(); }
     /// <summary>
-    /// Купить очки лидерства
+    /// Нажата кнопка: купить очки лидерства
     /// </summary>
     public static void BuyLeadership() { OnBuyLeadershipBttnPressed?.Invoke(); }
+    /// <summary>
+    /// Нажата кнопка: купить героя
+    /// </summary>
+    /// <param name="hero"></param>
+    internal static void BuyHero(Hero hero) { OnBuyHeroBttnPressed?.Invoke(hero); }
     #endregion
 
 }

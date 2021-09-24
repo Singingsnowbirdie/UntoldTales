@@ -4,10 +4,5 @@ using UnityEngine;
 
 public class HeroController : Controller
 {
-    void Start()
-    {
-        
-    }
-
 
 }
