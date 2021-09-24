@@ -38,6 +38,8 @@ public static class EventManager
     #endregion
 
     #region СОБЫТИЯ: Отряд
+    //Куплен герой
+    public static event Action<Hero> OnHeroPurchased;
     // Изменилось количество героев в отряде
     public static event Action<int> OnSquadSizeChanged;
     #endregion
@@ -47,8 +49,6 @@ public static class EventManager
     public static event Action OnChangeRoundStageBttnPressed;
     //Нажата кнопка "купить очки лидерства"
     public static event Action OnBuyLeadershipBttnPressed;
-    //Нажата кнопка "купить героя"
-    public static event Action<Hero> OnBuyHeroBttnPressed;
     #endregion
 
     #region МЕТОДЫ: Матч
@@ -110,6 +110,7 @@ public static class EventManager
     #endregion
 
     #region МЕТОДЫ: Отряд
+
     /// <summary>
     /// Изменилось количество героев в отряде
     /// </summary>
@@ -127,10 +128,9 @@ public static class EventManager
     /// </summary>
     public static void BuyLeadership() { OnBuyLeadershipBttnPressed?.Invoke(); }
     /// <summary>
-    /// Нажата кнопка: купить героя
+    /// Нажата кнопка: купить героя (пока сразу переходим к покупкам, потом будет цепочка длиннее)
     /// </summary>
-    /// <param name="hero"></param>
-    internal static void BuyHero(Hero hero) { OnBuyHeroBttnPressed?.Invoke(hero); }
+    internal static void BuyHero(Hero hero) { OnHeroPurchased?.Invoke(hero); }
     #endregion
 
 }

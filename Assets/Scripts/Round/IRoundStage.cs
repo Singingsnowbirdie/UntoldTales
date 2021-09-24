@@ -6,7 +6,7 @@ using UnityEngine;
 /// Поведение раунда
 /// </summary>
 
-public interface IRoundBehaviour
+public interface IRoundStage
 {
     /// <summary>
     /// Вход в состояние

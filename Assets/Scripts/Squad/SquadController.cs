@@ -31,7 +31,7 @@ public class SquadController : Controller
         if (squad.heroes.Count < squad.MaxHeroesAmount)
         {
             //присваиваем герою ID (и сразу увеличиваем счетчик)
-            hero.HeroID = squad.LastID++;
+            hero.ID = squad.LastID++;
             //добавляем героя в отряд
             squad.heroes.Add(hero);
             //оповещаем об изменении размера отряда
@@ -47,7 +47,7 @@ public class SquadController : Controller
     {
         foreach (var item in squad.heroes)
         {
-            if (item.HeroID == heroID)
+            if (item.ID == heroID)
             {
                 squad.heroes.Remove(item);
                 //оповещаем об изменении размера отряда
@@ -66,13 +66,13 @@ public class SquadController : Controller
 
         //подписываемся на повышение уровня лидерства
         EventManager.OnLeadershipChanged += ChangeMaxHeroesAmount;
-        //подписываемся на кнопку "купить героя"
-        EventManager.OnBuyHeroBttnPressed += AddHero;
+        //подписываемся на событие "куплен герой"
+        EventManager.OnHeroPurchased += AddHero;
     }
 
     private void OnDestroy()
     {
         EventManager.OnLeadershipChanged -= ChangeMaxHeroesAmount;
-        EventManager.OnBuyHeroBttnPressed -= AddHero;
+        EventManager.OnHeroPurchased -= AddHero;
     }
 }

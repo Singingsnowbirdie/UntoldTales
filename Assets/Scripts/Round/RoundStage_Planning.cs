@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class RoundBehaviourPlanning : IRoundBehaviour
+public class RoundStage_Planning : IRoundStage
 {
     public void Enter()
     {

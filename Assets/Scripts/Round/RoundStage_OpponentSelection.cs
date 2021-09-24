@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class RoundBehaviourOpponentSelection : IRoundBehaviour
+public class RoundStage_OpponentSelection : IRoundStage
 {
     public void Enter()
     {

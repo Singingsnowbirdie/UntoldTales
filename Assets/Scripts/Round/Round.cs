@@ -9,12 +9,12 @@ public class Round
     /// <summary>
     /// Все фазы раунда
     /// </summary>
-    Dictionary<Type, IRoundBehaviour> behavioursMap;
+    Dictionary<Type, IRoundStage> roundStagesMap;
 
     /// <summary>
     /// Текущее состояние раунда
     /// </summary>
-    IRoundBehaviour currentBehaviour;
+    IRoundStage currentBehaviour;
 
     public Round()
     {
@@ -27,11 +27,11 @@ public class Round
     /// </summary>
     void InitBehaviours()
     {
-        behavioursMap = new Dictionary<Type, IRoundBehaviour>();
-        behavioursMap[typeof(RoundBehaviourPlanning)] = new RoundBehaviourPlanning();
-        behavioursMap[typeof(RoundBehaviourBattle)] = new RoundBehaviourBattle();
-        behavioursMap[typeof(RoundBehaviourCalculation)] = new RoundBehaviourCalculation();
-        behavioursMap[typeof(RoundBehaviourOpponentSelection)] = new RoundBehaviourOpponentSelection();
+        roundStagesMap = new Dictionary<Type, IRoundStage>();
+        roundStagesMap[typeof(RoundStage_Planning)] = new RoundStage_Planning();
+        roundStagesMap[typeof(RoundStage_Battle)] = new RoundStage_Battle();
+        roundStagesMap[typeof(RoundStage_Calculation)] = new RoundStage_Calculation();
+        roundStagesMap[typeof(RoundStage_OpponentSelection)] = new RoundStage_OpponentSelection();
     }
 
     /// <summary>
@@ -66,7 +66,7 @@ public class Round
     /// Включаем фазу
     /// </summary>
     /// <param name="newBehaviour"></param>
-    void SetBehaviour(IRoundBehaviour newBehaviour)
+    void SetBehaviour(IRoundStage newBehaviour)
     {
         //если сейчас активна другая фаза
         if (currentBehaviour != null)
@@ -83,10 +83,10 @@ public class Round
     /// <summary>
     /// Достаем нужную фазу из словаря
     /// </summary>
-    IRoundBehaviour GetBehaviour<T>() where T : IRoundBehaviour
+    IRoundStage GetBehaviour<T>() where T : IRoundStage
     {
         var type = typeof(T);
-        return behavioursMap[type];
+        return roundStagesMap[type];
     }
 
     /// <summary>
@@ -108,7 +108,7 @@ public class Round
     /// </summary>
     public void SetBehaviourPlanning()
     {
-        SetBehaviour(GetBehaviour<RoundBehaviourPlanning>());
+        SetBehaviour(GetBehaviour<RoundStage_Planning>());
     }
 
     /// <summary>
@@ -116,7 +116,7 @@ public class Round
     /// </summary>
     public void SetBehaviourBattle()
     {
-        SetBehaviour(GetBehaviour<RoundBehaviourBattle>());
+        SetBehaviour(GetBehaviour<RoundStage_Battle>());
     }
 
     /// <summary>
@@ -124,7 +124,7 @@ public class Round
     /// </summary>
     public void SetBehaviourCalculation()
     {
-        SetBehaviour(GetBehaviour<RoundBehaviourCalculation>());
+        SetBehaviour(GetBehaviour<RoundStage_Calculation>());
     }
 
     /// <summary>
@@ -132,6 +132,6 @@ public class Round
     /// </summary>
     public void SetBehaviourOpponentSelection()
     {
-        SetBehaviour(GetBehaviour<RoundBehaviourOpponentSelection>());
+        SetBehaviour(GetBehaviour<RoundStage_OpponentSelection>());
     }
 }
