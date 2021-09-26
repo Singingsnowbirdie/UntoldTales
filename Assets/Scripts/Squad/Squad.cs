@@ -1,18 +1,24 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Squad : MonoBehaviour
 {
     /// <summary>
-    /// Начальное значение, максимального кол-ва героев
+    /// Максимальное количество героев в резерве
     /// </summary>
-    readonly int startHeroesAmount = 1;
+    public readonly int maxHeroesInReserveAndTemp = 8;
 
     /// <summary>
-    /// Максимальное кол-во героев в отряде (зависит от уровня Хранителя)
+    /// Начальное значение, максимального кол-ва героев на поле
     /// </summary>
-    public int MaxHeroesAmount { get; set; }
+    readonly int startHeroesOnTheFieldAmount = 1;
+
+    /// <summary>
+    /// Максимальное кол-во героев на поле (зависит от уровня Хранителя)
+    /// </summary>
+    public int MaxHeroesOnTheFieldAmount { get; set; }
 
     /// <summary>
     /// Последний присвоенный ID
@@ -20,12 +26,23 @@ public class Squad : MonoBehaviour
     public int LastID { get; set; }
 
     /// <summary>
-    /// Здесь лежат все герои, которых можно улучшать
+    /// Временное хранилище
+    /// Здесь лежат все купленные герои, которые не поместились в резерве
     /// </summary>
-    public List<Hero> heroesInPlanning;
+    public List<Hero> temporaryStorage;
 
     /// <summary>
-    /// Здесь лежат все герои, которых нельзя улучшать
+    /// Здесь лежат все герои, которые находятся в резерве (не на поле)
+    /// </summary>
+    public List<Hero> heroesInReserve;
+
+    /// <summary>
+    /// Здесь лежат все герои, которые находятся на поле
+    /// </summary>
+    public List<Hero> heroesOnTheField;
+
+    /// <summary>
+    /// Здесь лежат все герои, которые находятся в бою
     /// Когда начинается фаза боя, сюда переносятся все герои, которые находятся на поле (не в резерве)
     /// </summary>
     public List<Hero> heroesInBattle;
@@ -35,7 +52,44 @@ public class Squad : MonoBehaviour
     /// </summary>
     public Squad()
     {
-        heroesInPlanning = new List<Hero>();
-        MaxHeroesAmount = startHeroesAmount;
+        temporaryStorage = new List<Hero>();
+        heroesInReserve = new List<Hero>();
+        heroesOnTheField = new List<Hero>();
+        heroesInBattle = new List<Hero>();
+        MaxHeroesOnTheFieldAmount = startHeroesOnTheFieldAmount;
+    }
+
+    /// <summary>
+    /// Удаляет героя с поля
+    /// </summary>
+    /// <param name="item"></param>
+    internal void RemoveHeroFromField(Hero hero)
+    {
+        foreach (var item in heroesOnTheField)
+        {
+            if (item.ID == hero.ID)
+            {
+                heroesOnTheField.Remove(item);
+                EventManager.HeroesOnTheFieldAmountChanged(heroesOnTheField.Count);
+                break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Удаляет героя из резерва
+    /// </summary>
+    /// <param name="item"></param>
+    internal void RemoveHeroFromReserve(Hero hero)
+    {
+        for (int i = 0; i < heroesInReserve.Count; i++)
+        {
+            if (heroesInReserve[i].ID == hero.ID)
+            {
+                heroesInReserve.RemoveAt(i);
+                EventManager.ReserveSizeChanged(heroesInReserve.Count);
+                break;
+            }
+        }
     }
 }

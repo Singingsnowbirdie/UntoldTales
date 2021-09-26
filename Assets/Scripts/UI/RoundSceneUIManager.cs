@@ -27,9 +27,19 @@ public class RoundSceneUIManager : MonoBehaviour
     [SerializeField] Text keeperHealthCounter;
 
     /// <summary>
-    /// Текст: количество героев в отряде
+    /// Текст: количество героев в резерве
     /// </summary>
-    [SerializeField] Text heroesCounter;
+    [SerializeField] Text heroesInReserveCounter;
+
+    /// <summary>
+    /// Текст: количество героев во временном хранилище
+    /// </summary>
+    [SerializeField] Text heroesInTemporaryStorageCounter;
+
+    /// <summary>
+    /// Текст: количество героев на поле
+    /// </summary>
+    [SerializeField] Text heroesOnTheFieldCounter;
 
     /// <summary>
     /// Кнопка "купить опыт"
@@ -58,8 +68,12 @@ public class RoundSceneUIManager : MonoBehaviour
         EventManager.OnLeadershipChanged += ShowLeadership;
         //подписываемся на изменение количества очков здоровья
         EventManager.OnKeeperHealthChanged += ShowHealth;
-        //подписываемся на изменение количества героев в отряде
-        EventManager.OnSquadSizeChanged += ShowHeroesAmount;
+        //подписываемся на изменение количества героев в резерве
+        EventManager.OnReserveSizeChanged += ShowReservedHeroesAmount;
+        //подписываемся на изменение количества героев во временном хранилище
+        EventManager.OnTemporaryStorageSizeChanged += ShowTemporaryStoredHeroesAmount;
+        //подписываемся на изменение количества героев на поле
+        EventManager.OnTemporaryStorageSizeChanged += ShowHeroesOnTheFieldAmount;
     }
 
     /// <summary>
@@ -74,8 +88,9 @@ public class RoundSceneUIManager : MonoBehaviour
         EventManager.OnRoundOpponentSelectionStageEnter -= ShowOpponentSelectionStateMess;
         EventManager.OnLeadershipChanged -= ShowLeadership;
         EventManager.OnKeeperHealthChanged -= ShowHealth;
-        EventManager.OnSquadSizeChanged -= ShowHeroesAmount;
-
+        EventManager.OnReserveSizeChanged -= ShowReservedHeroesAmount;
+        EventManager.OnTemporaryStorageSizeChanged -= ShowHeroesOnTheFieldAmount;
+        EventManager.OnHeroesOnTheFieldAmountChanged -= ShowReservedHeroesAmount;
     }
 
     #region ТЕКСТ
@@ -90,10 +105,20 @@ public class RoundSceneUIManager : MonoBehaviour
     private void ShowLeadership(int amount) { leadershipCounter.text = $"Уровень лидерства: {amount}"; }
 
     /// <summary>
-    /// Показывает количество героев в отряде
+    /// Показывает количество героев в резерве
     /// </summary>
     /// <param name="obj"></param>
-    private void ShowHeroesAmount(int amount) { heroesCounter.text = $"Героев в отряде: {amount}"; }
+    private void ShowReservedHeroesAmount(int amount) { heroesInReserveCounter.text = $"Героев в резерве: {amount}"; }
+    /// <summary>
+    /// Показывает количество героев во временном хранилище
+    /// </summary>
+    /// <param name="amount"></param>
+    private void ShowTemporaryStoredHeroesAmount(int amount) { heroesInTemporaryStorageCounter.text = $"Героев во временном хранилище: {amount}"; }
+    /// <summary>
+    /// Показывает количество героев на поле
+    /// </summary>
+    /// <param name="amount"></param>
+    private void ShowHeroesOnTheFieldAmount(int amount) { heroesOnTheFieldCounter.text = $"Героев на поле: {amount}"; }
     #endregion
 
     #region КНОПКИ

@@ -1,9 +1,20 @@
 ﻿using System;
 
-//менеджер событий
+//менеджер событий (синглтон)
 
-public static class EventManager
+public class EventManager
 {
+    private static EventManager _instance;
+
+    public static EventManager instance
+    {
+        get
+        {
+            if (_instance == null) _instance = new EventManager();
+            return _instance;
+        }
+    }
+
     #region СОБЫТИЯ: Матч
     //Игрок проиграл
     public static event Action OnPlayerLose;
@@ -40,8 +51,12 @@ public static class EventManager
     #region СОБЫТИЯ: Отряд
     //Куплен герой
     public static event Action<Hero> OnHeroPurchased;
-    // Изменилось количество героев в отряде
-    public static event Action<int> OnSquadSizeChanged;
+    // Изменилось количество героев в резерве
+    public static event Action<int> OnReserveSizeChanged;
+    // Изменилось количество героев во временном хранилище
+    public static event Action<int> OnTemporaryStorageSizeChanged;
+    // Изменилось количество героев на поле
+    public static event Action<int> OnHeroesOnTheFieldAmountChanged;
     #endregion
 
     #region СОБЫТИЯ: UI 
@@ -114,10 +129,20 @@ public static class EventManager
     #region МЕТОДЫ: Отряд
 
     /// <summary>
-    /// Изменилось количество героев в отряде
+    /// Изменилось количество героев в резерве
     /// </summary>
     /// <param name="count"></param>
-    internal static void SquadSizeChanged(int count) { OnSquadSizeChanged?.Invoke(count); }
+    internal static void ReserveSizeChanged(int count) { OnReserveSizeChanged?.Invoke(count); }
+    /// <summary>
+    /// Изменилось количество героев во временном хранилище
+    /// </summary>
+    /// <param name="count"></param>
+    internal static void TemporaryStorageSizeChanged(int count) { OnTemporaryStorageSizeChanged?.Invoke(count); }
+    /// <summary>
+    /// Изменилось количество героев на поле
+    /// </summary>
+    /// <param name="count"></param>
+    internal static void HeroesOnTheFieldAmountChanged(int count) { OnHeroesOnTheFieldAmountChanged?.Invoke(count); }
     #endregion
 
     #region МЕТОДЫ UI
@@ -130,7 +155,7 @@ public static class EventManager
     /// </summary>
     public static void BuyLeadership() { OnBuyLeadershipBttnPressed?.Invoke(); }
     /// <summary>
-    /// Нажата кнопка: купить героя (пока сразу переходим к покупкам, потом будет цепочка длиннее)
+    /// Нажата кнопка: купить героя 
     /// </summary>
     internal static void BuyHero(Hero hero) { OnHeroPurchased?.Invoke(hero); }
     #endregion

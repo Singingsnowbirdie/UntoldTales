@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ public enum HeroAttackType
 /// </summary>
 public enum HeroStatus
 {
+    NoWhere,
     InTheReserve,
     OnTheField
 }
@@ -41,7 +43,7 @@ public abstract class Hero : MonoBehaviour
     /// <summary>
     /// Имя
     /// </summary>
-    public string Name { get; set; }  
+    public string Name { get; set; }
 
     /// <summary>
     /// Максимальное здоровье
@@ -114,11 +116,59 @@ public abstract class Hero : MonoBehaviour
     public Hero CurrentTarget { get; set; }
 
     /// <summary>
+    /// Суммарная стоимость всех экипированных предметов
+    /// </summary>
+    public int EquipmentСost { get; set; }
+
+    /// <summary>
     /// Жизненный цикл героя (после активации = после помещения на поле боя)
     /// </summary>
     /// <returns></returns>
     public IEnumerator HeroLifeCycleRoutine()
     {
         yield return null;
+    }
+
+    /// <summary>
+    /// "Снимает" с героя все надетые на него предметы
+    /// Передает их во временный рюкзак
+    /// </summary>
+    /// <returns></returns>
+    internal List<Item> TakeOffAllItems()
+    {
+        //дописать
+        return new List<Item>();
+    }
+
+    /// <summary>
+    /// Повышает ранг героя
+    /// </summary>
+    internal void Raise()
+    {
+        Rank++;
+    }
+
+    /// <summary>
+    /// Выбор цели
+    /// </summary>
+    public void SelectTarget()
+    {
+        Debug.Log("Цель выбрана");
+    }
+
+    /// <summary>
+    /// Двигает персонажа
+    /// </summary>
+    public void Move()
+    {
+        Debug.Log("Герой двигается");
+    }
+
+    /// <summary>
+    /// Атака
+    /// </summary>
+    public void Attack()
+    {
+        Debug.Log("Герой атакует");
     }
 }
