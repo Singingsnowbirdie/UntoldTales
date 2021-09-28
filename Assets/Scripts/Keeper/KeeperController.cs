@@ -11,15 +11,27 @@ public class KeeperController : Controller
     Keeper keeper;
 
     /// <summary>
-    /// Добавляет очки лидерства
+    /// Добавляет очки опыта
     /// </summary>
-    private void AddLeadership()
+    private void AddExperience(int amount)
     {
-        if (keeper.Leadership < keeper.MaxLeadership)
+        //добавляем опыт
+        keeper.Experience += amount;
+        //проверяем, хватает ли опыта для повышения уровня лидерства
+        CheckLeadership();
+    }
+
+    /// <summary>
+    /// Проверяет, хватает ли опыта для повышения уровня лидерства
+    /// </summary>
+    private void CheckLeadership()
+    {
+        if (keeper.Experience >= 6)
         {
-            keeper.Leadership++;
-            EventManager.LeadershipChanged(keeper.Leadership);
+            keeper.Leadership = 2;
         }
+        //сообщаем об изменении кол-ва опыта и лидерства (делаем это одним событием, чтоб сэкономить вызовы)
+        EventManager.ExperienceChanged(keeper.Experience, keeper.Leadership);
     }
 
     /// <summary>
@@ -87,15 +99,13 @@ public class KeeperController : Controller
     {
         keeper = new Keeper();
 
-        //подписываемся на нажатие кнопки "купить очки лидерства"
-        EventManager.OnBuyLeadershipBttnPressed += AddLeadership;
-        //вызываем событие "хранитель инициализован"
-        EventManager.KeeperInitialized();
+        //подписываемся на покупку опыта
+        EventManager.OnKeeperExperiencePurchased += AddExperience;
     }
 
     public override void OnExit()
     {
         base.OnExit();
-        EventManager.OnBuyLeadershipBttnPressed -= AddLeadership;
+        EventManager.OnKeeperExperiencePurchased -= AddExperience;
     }
 }

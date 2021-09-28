@@ -14,8 +14,8 @@ public class SquadController : Controller
 
         squad = new Squad();
 
-        //подписываемся на повышение уровня лидерства
-        EventManager.OnLeadershipChanged += ChangeMaxHeroesAmount;
+        //подписываемся на повышение уровня лидерства/опыта
+        EventManager.OnExperienceChanged += ChangeMaxHeroesAmount;
         //подписываемся на событие "куплен герой"
         EventManager.OnHeroPurchased += DistributeHero;
         //подписываемся на событие "выход из фазы планирования"
@@ -31,9 +31,9 @@ public class SquadController : Controller
     /// Изменяет максимальное количество героев на поле
     /// </summary>
     /// <param name="amount"></param>
-    private void ChangeMaxHeroesAmount(int amount)
+    private void ChangeMaxHeroesAmount(int experience, int leadership)
     {
-        squad.MaxHeroesOnTheFieldAmount = amount;
+        squad.MaxHeroesOnTheFieldAmount = leadership;
     }
 
     /// <summary>
@@ -200,7 +200,7 @@ public class SquadController : Controller
     public override void OnExit()
     {
         base.OnExit();
-        EventManager.OnLeadershipChanged -= ChangeMaxHeroesAmount;
+        EventManager.OnExperienceChanged -= ChangeMaxHeroesAmount;
         EventManager.OnHeroPurchased -= DistributeHero;
         EventManager.OnRoundPlanningStageExit -= TransferHeroesToBattle;
     }

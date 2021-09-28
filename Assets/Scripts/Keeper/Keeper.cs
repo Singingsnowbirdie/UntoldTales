@@ -30,10 +30,16 @@ public class Keeper
     public int Health { get; set; }
 
     /// <summary>
+    /// Текущие очки опыта
+    /// </summary>
+    public int Experience { get; set; }
+
+    /// <summary>
     /// Конструктор
     /// </summary>
     public Keeper()
     {
+        Experience = 0;
         Leadership = startLeadership;
         Health = MaxHealth;
     }

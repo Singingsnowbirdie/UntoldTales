@@ -40,10 +40,10 @@ public class EventManager
     #endregion
 
     #region СОБЫТИЯ: Хранитель
-    //Хранитель инициализирован
-    public static event Action OnKeeperInitialized;
-    // Изменилось количество очков лидерства
-    public static event Action<int> OnLeadershipChanged;
+    // Куплен опыт
+    public static event Action<int> OnKeeperExperiencePurchased;
+    // Изменилось количество опыта Хранителя (и, иногда, уровень лидерства)
+    public static event Action<int, int> OnExperienceChanged;
     // Изменилось количество очков здоровья
     public static event Action<int> OnKeeperHealthChanged;
     #endregion
@@ -62,8 +62,8 @@ public class EventManager
     #region СОБЫТИЯ: UI 
     //Нажата кнопка "сменить фазу раунда"
     public static event Action OnChangeRoundStageBttnPressed;
-    //Нажата кнопка "купить очки лидерства"
-    public static event Action OnBuyLeadershipBttnPressed;
+    //Нажата кнопка "купить опыт Хранителя"
+    public static event Action OnBuyExperienceBttnPressed;
     //Изменилось количество монет у игрока
     public static event Action<int> OnCoinsAmountChanged;
     #endregion
@@ -112,14 +112,13 @@ public class EventManager
 
     #region МЕТОДЫ: Хранитель
     /// <summary>
-    /// Хранитель инициализирован
+    /// Приобретен опыт
     /// </summary>
-    internal static void KeeperInitialized() { OnKeeperInitialized?.Invoke(); }
-
+    internal static void ExperiencePurchased(int experience) { OnKeeperExperiencePurchased?.Invoke(experience); }
     /// <summary>
-    /// Изменилось количество очков лидерства
+    /// Изменилось количество опыта Хранителя (и, иногда, уровень лидерства)
     /// </summary>
-    internal static void LeadershipChanged(int leadership) { OnLeadershipChanged?.Invoke(leadership); }
+    internal static void ExperienceChanged(int experience, int leadership) { OnExperienceChanged?.Invoke(experience, leadership); }
     /// <summary>
     /// Изменилось количество очков здоровья Хранителя
     /// </summary>
@@ -150,9 +149,9 @@ public class EventManager
     /// </summary>
     public static void ChangeRoundStage() { OnChangeRoundStageBttnPressed?.Invoke(); }
     /// <summary>
-    /// Нажата кнопка: купить очки лидерства
+    /// Нажата кнопка: купить опыт Хранителя
     /// </summary>
-    public static void BuyLeadership() { OnBuyLeadershipBttnPressed?.Invoke(); }
+    public static void BuyExperienceBttnPressed() { OnBuyExperienceBttnPressed?.Invoke(); }
     /// <summary>
     /// Нажата кнопка: купить героя 
     /// </summary>

@@ -17,6 +17,11 @@ public class RoundSceneUIManager : MonoBehaviour
     [SerializeField] Text roundStateText;
 
     /// <summary>
+    /// Текст: очки опыта Хранителя
+    /// </summary>
+    [SerializeField] Text experienceCounter;
+
+    /// <summary>
     /// Текст: количество очков лидерства
     /// </summary>
     [SerializeField] Text leadershipCounter;
@@ -70,7 +75,7 @@ public class RoundSceneUIManager : MonoBehaviour
         //подписываемся на вхождение в фазу подбора соперника
         EventManager.OnRoundOpponentSelectionStageEnter += ShowOpponentSelectionStateMess;
         //подписываемся на изменение количества очков лидерства
-        EventManager.OnLeadershipChanged += ShowLeadership;
+        EventManager.OnExperienceChanged += ShowExperience;
         //подписываемся на изменение количества очков здоровья
         EventManager.OnKeeperHealthChanged += ShowHealth;
         //подписываемся на изменение количества героев в резерве
@@ -93,7 +98,7 @@ public class RoundSceneUIManager : MonoBehaviour
         EventManager.OnRoundBattleStageEnter -= ShowBattleStateMess;
         EventManager.OnRoundCalculationStageEnter -= ShowCalculationStateMess;
         EventManager.OnRoundOpponentSelectionStageEnter -= ShowOpponentSelectionStateMess;
-        EventManager.OnLeadershipChanged -= ShowLeadership;
+        EventManager.OnExperienceChanged -= ShowExperience;
         EventManager.OnKeeperHealthChanged -= ShowHealth;
         EventManager.OnReserveSizeChanged -= ShowReservedHeroesAmount;
         EventManager.OnTemporaryStorageSizeChanged -= ShowTemporaryStoredHeroesAmount;
@@ -107,9 +112,13 @@ public class RoundSceneUIManager : MonoBehaviour
     private void ShowHealth(int amount) { keeperHealthCounter.text = $"Очков здоровья: {amount}"; }
 
     /// <summary>
-    /// Показывает новое значение очков лидерства
+    /// Показывает новое значение очков лидерства и опыта
     /// </summary>
-    private void ShowLeadership(int amount) { leadershipCounter.text = $"Уровень лидерства: {amount}"; }
+    private void ShowExperience(int experience, int leadership) 
+    { 
+        experienceCounter.text = $"Очки опыта Хранителя: {experience}"; 
+        leadershipCounter.text = $"Уровень лидерства: {leadership}"; 
+    }
 
     /// <summary>
     /// Показывает количество героев в резерве
@@ -143,11 +152,11 @@ public class RoundSceneUIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Кнопка "купить очки лидерства"
+    /// Кнопка "купить опыт Хранителя"
     /// </summary>
-    public void BuyLeadership()
+    public void BuyExperience()
     {
-        EventManager.BuyLeadership();
+        EventManager.BuyExperienceBttnPressed();
     }
 
     /// <summary>
