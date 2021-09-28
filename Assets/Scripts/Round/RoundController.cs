@@ -18,16 +18,17 @@ class RoundController : Controller
         EventManager.OnChangeRoundStageBttnPressed += ChangeRoundStage;
     }
 
+    public override void OnExit()
+    {
+        base.OnExit();
+        EventManager.OnChangeRoundStageBttnPressed -= ChangeRoundStage;
+    }
+
     /// <summary>
     /// Сменить фазу раунда
     /// </summary>
     private void ChangeRoundStage()
     {
         round.SetNextStage();
-    }
-
-    private void OnDestroy()
-    {
-        EventManager.OnChangeRoundStageBttnPressed -= ChangeRoundStage;
     }
 }

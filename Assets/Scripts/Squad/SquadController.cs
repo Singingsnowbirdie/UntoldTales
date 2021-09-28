@@ -18,12 +18,8 @@ public class SquadController : Controller
         EventManager.OnLeadershipChanged += ChangeMaxHeroesAmount;
         //подписываемся на событие "куплен герой"
         EventManager.OnHeroPurchased += DistributeHero;
-    }
-
-    private void OnDestroy()
-    {
-        EventManager.OnLeadershipChanged -= ChangeMaxHeroesAmount;
-        EventManager.OnHeroPurchased -= DistributeHero;
+        //подписываемся на событие "выход из фазы планирования"
+        EventManager.OnRoundPlanningStageExit += TransferHeroesToBattle;
     }
 
     /// <summary>
@@ -50,8 +46,6 @@ public class SquadController : Controller
         {
             //добавляем героя в резерв
             squad.heroesInReserve.Add(hero);
-            //меняем статус героя
-            hero.Status = HeroStatus.InTheReserve;
             //оповещаем об изменении количества героев в резерве
             EventManager.ReserveSizeChanged(squad.heroesInReserve.Count);
         }
@@ -59,7 +53,7 @@ public class SquadController : Controller
         else if (squad.temporaryStorage.Count < squad.maxHeroesInReserveAndTemp)
         {
             //добавляем героя во временное хранилище
-            squad.heroesInReserve.Add(hero);
+            squad.temporaryStorage.Add(hero);
             //оповещаем об изменении количества героев в хранилище
             EventManager.TemporaryStorageSizeChanged(squad.temporaryStorage.Count);
         }
@@ -90,7 +84,7 @@ public class SquadController : Controller
     /// </summary>
     private bool ThereAreThree(Hero hero)
     {
-        //коллекция одинаковых героев
+        //массив одинаковых героев
         List<Hero> trine = new List<Hero>();
 
         //добавляем в коллекцию только что купленного героя
@@ -136,7 +130,7 @@ public class SquadController : Controller
         //Проверяем, какой из ранее купленных героев экипирован "богаче".
         //Если такой есть, то улучшать будем его.
         //Проверяем только первого и второго героев, потому что "нулевой", это тот, которого мы только что купили.
-        //Само собой, на нем ничего неще не надето, и он не размещен на поле
+        //Само собой, на нем ничего еще не надето, и он не размещен на поле
         if (trine[1].EquipmentСost > trine[2].EquipmentСost)
         {
             newHero = trine[1];
@@ -149,7 +143,7 @@ public class SquadController : Controller
         else
         {
             //если второй герой выставлен на поле, то будем улучшать его
-            if (trine[2].Status == HeroStatus.OnTheField)
+            if (squad.IsInList(trine[2], squad.heroesOnTheField))
             {
                 newHero = trine[2];
             }
@@ -176,16 +170,38 @@ public class SquadController : Controller
         {
             if (item.ID != newHero.ID)
             {
-                if (item.Status == HeroStatus.OnTheField)
+                //пробуем удалить с поля
+                if (squad.RemoveHeroFromList(item,squad.heroesOnTheField))
                 {
-                    squad.RemoveHeroFromField(item);
+                    EventManager.HeroesOnTheFieldAmountChanged(squad.heroesOnTheField.Count);
                 }
-                else if (item.Status == HeroStatus.InTheReserve)
+                //если герой не нашелся на поле, значит он был в резерве
+                //удаляем оттуда
+                else if (squad.RemoveHeroFromList(item, squad.heroesInReserve))
                 {
-                    squad.RemoveHeroFromReserve(item);
+                    EventManager.ReserveSizeChanged(squad.heroesInReserve.Count);
                 }
             }
         }
     }
 
+    /// <summary>
+    /// Переносит всех героев из коллекции "на поле" в коллекцию "в бою"
+    /// </summary>
+    private void TransferHeroesToBattle()
+    {
+        foreach (var item in squad.heroesOnTheField)
+        {
+            squad.AddHeroToList(item, squad.heroesInBattle);
+        }
+        squad.heroesInBattle.Clear();
+    }
+
+    public override void OnExit()
+    {
+        base.OnExit();
+        EventManager.OnLeadershipChanged -= ChangeMaxHeroesAmount;
+        EventManager.OnHeroPurchased -= DistributeHero;
+        EventManager.OnRoundPlanningStageExit -= TransferHeroesToBattle;
+    }
 }

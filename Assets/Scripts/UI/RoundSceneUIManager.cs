@@ -42,6 +42,11 @@ public class RoundSceneUIManager : MonoBehaviour
     [SerializeField] Text heroesOnTheFieldCounter;
 
     /// <summary>
+    /// Текст: количество монет
+    /// </summary>
+    [SerializeField] Text coinsCounter;
+
+    /// <summary>
     /// Кнопка "купить опыт"
     /// </summary>
     [SerializeField] Button buyExperienceButton;
@@ -73,7 +78,9 @@ public class RoundSceneUIManager : MonoBehaviour
         //подписываемся на изменение количества героев во временном хранилище
         EventManager.OnTemporaryStorageSizeChanged += ShowTemporaryStoredHeroesAmount;
         //подписываемся на изменение количества героев на поле
-        EventManager.OnTemporaryStorageSizeChanged += ShowHeroesOnTheFieldAmount;
+        EventManager.OnHeroesOnTheFieldAmountChanged += ShowHeroesOnTheFieldAmount;
+        //подписываемся на изменение количества монет
+        EventManager.OnCoinsAmountChanged += ShowCoinsAmount;
     }
 
     /// <summary>
@@ -89,8 +96,8 @@ public class RoundSceneUIManager : MonoBehaviour
         EventManager.OnLeadershipChanged -= ShowLeadership;
         EventManager.OnKeeperHealthChanged -= ShowHealth;
         EventManager.OnReserveSizeChanged -= ShowReservedHeroesAmount;
-        EventManager.OnTemporaryStorageSizeChanged -= ShowHeroesOnTheFieldAmount;
-        EventManager.OnHeroesOnTheFieldAmountChanged -= ShowReservedHeroesAmount;
+        EventManager.OnTemporaryStorageSizeChanged -= ShowTemporaryStoredHeroesAmount;
+        EventManager.OnHeroesOnTheFieldAmountChanged -= ShowHeroesOnTheFieldAmount;
     }
 
     #region ТЕКСТ
@@ -119,6 +126,11 @@ public class RoundSceneUIManager : MonoBehaviour
     /// </summary>
     /// <param name="amount"></param>
     private void ShowHeroesOnTheFieldAmount(int amount) { heroesOnTheFieldCounter.text = $"Героев на поле: {amount}"; }
+    /// <summary>
+    /// Показывает количество монет у игрока
+    /// </summary>
+    /// <param name="obj"></param>
+    private void ShowCoinsAmount(int amount) { coinsCounter.text = $"Монет: {amount}"; }
     #endregion
 
     #region КНОПКИ
@@ -173,7 +185,6 @@ public class RoundSceneUIManager : MonoBehaviour
     private void ShowCalculationStateMess()
     {
         roundStateText.text = "Фаза расчетов";
-        buyExperienceButton.enabled = false;
     }
 
     /// <summary>

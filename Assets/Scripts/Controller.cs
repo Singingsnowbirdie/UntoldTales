@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 //оставить монобех, чтобы работали методы OnDestroy()
 
-public abstract class Controller : MonoBehaviour
+public abstract class Controller
 {
     /// <summary>
     /// Срабатывает после созданиия всех контроллеров и репозиториев
@@ -19,4 +20,8 @@ public abstract class Controller : MonoBehaviour
     /// </summary>
     public virtual void OnStart() { }
 
+    /// <summary>
+    /// срабатывает при выходе
+    /// </summary>
+    public virtual void OnExit() { }
 }

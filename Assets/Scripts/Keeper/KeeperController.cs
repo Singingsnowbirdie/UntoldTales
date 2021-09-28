@@ -93,9 +93,9 @@ public class KeeperController : Controller
         EventManager.KeeperInitialized();
     }
 
-    private void OnDestroy()
+    public override void OnExit()
     {
-        //отписываемся от всего
+        base.OnExit();
         EventManager.OnBuyLeadershipBttnPressed -= AddLeadership;
     }
 }

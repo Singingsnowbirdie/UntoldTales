@@ -43,13 +43,10 @@ internal class SceneConfig_IntroScene : SceneConfig
     /// <summary>
     /// Старт
     /// </summary>
-    public override void OnStart()
-    {
-        //throw new NotImplementedException();
-    }
+    public override void OnStart() { }
 
-    public override void Initialize()
-    {
-        //throw new NotImplementedException();
-    }
+    /// <summary>
+    /// Инициализатор
+    /// </summary>
+    public override void Initialize() { }
 }

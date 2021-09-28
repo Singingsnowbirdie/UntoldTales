@@ -15,11 +15,6 @@ public class InventoryController : Controller
         inventory = new Inventory();
     }
 
-
-    private void OnDestroy()
-    {
-    }
-
     /// <summary>
     /// Добавляет монеты 
     /// </summary>
@@ -38,4 +33,12 @@ public class InventoryController : Controller
         EventManager.CoinsAmountChanged(inventory.Coins);
     }
 
+    /// <summary>
+    /// На старте
+    /// </summary>
+    public override void OnStart()
+    {
+        base.OnStart();
+        inventory.SetStartCoinsAmount();
+    }
 }

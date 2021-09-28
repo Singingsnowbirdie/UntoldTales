@@ -899,6 +899,7 @@ MonoBehaviour:
   heroesInReserveCounter: {fileID: 1991041312}
   heroesInTemporaryStorageCounter: {fileID: 866743454}
   heroesOnTheFieldCounter: {fileID: 2133284103}
+  coinsCounter: {fileID: 223110564}
   buyExperienceButton: {fileID: 1098539749}
   buyHeroButton: {fileID: 1594321215}
 --- !u!4 &1186254466

@@ -72,10 +72,20 @@ public class
     }
 
     /// <summary>
+    /// Вызываем OnExit на всех контроллерах
+    /// </summary>
+    public void SendOnExitToAllControllers()
+    {
+        var allControllers = this.controllersMap.Values;
+        foreach (var controller in allControllers)
+        {
+            controller.OnExit();
+        }
+    }
+
+    /// <summary>
     /// Возвращает нужный контроллер
     /// </summary>
-    /// <typeparam name="T">Тип</typeparam>
-    /// <returns>Интерактор</returns>
     public T GetController<T>() where T : Controller
     {
         var type = typeof(T);

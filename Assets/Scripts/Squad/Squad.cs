@@ -37,7 +37,8 @@ public class Squad : MonoBehaviour
     public List<Hero> heroesInReserve;
 
     /// <summary>
-    /// Здесь лежат все герои, которые находятся на поле
+    /// Здесь лежат все герои, которые находятся на поле, но не в фазе боя
+    /// Этих героев можно экипировать, улучшать и продавать
     /// </summary>
     public List<Hero> heroesOnTheField;
 
@@ -60,36 +61,42 @@ public class Squad : MonoBehaviour
     }
 
     /// <summary>
-    /// Удаляет героя с поля
+    /// Проверяет, находится ли герой в соответствующем списке
     /// </summary>
-    /// <param name="item"></param>
-    internal void RemoveHeroFromField(Hero hero)
+    public bool IsInList(Hero hero, List<Hero> list)
     {
-        foreach (var item in heroesOnTheField)
+        for (int i = 0; i < list.Count; i++)
         {
-            if (item.ID == hero.ID)
+            if (list[i].ID == hero.ID)
             {
-                heroesOnTheField.Remove(item);
-                EventManager.HeroesOnTheFieldAmountChanged(heroesOnTheField.Count);
-                break;
+                return true;
             }
         }
+        return false;
     }
 
     /// <summary>
-    /// Удаляет героя из резерва
+    /// Добавляет героя в список 
+    /// </summary>
+    internal void AddHeroToList(Hero hero, List<Hero> list)
+    {
+        list.Add(hero);
+    }
+
+    /// <summary>
+    /// Удаляет героя из списка
     /// </summary>
     /// <param name="item"></param>
-    internal void RemoveHeroFromReserve(Hero hero)
+    internal bool RemoveHeroFromList(Hero hero, List<Hero> list)
     {
-        for (int i = 0; i < heroesInReserve.Count; i++)
+        for (int i = 0; i < list.Count; i++)
         {
-            if (heroesInReserve[i].ID == hero.ID)
+            if (list[i].ID == hero.ID)
             {
-                heroesInReserve.RemoveAt(i);
-                EventManager.ReserveSizeChanged(heroesInReserve.Count);
-                break;
+                list.RemoveAt(i);
+                return true;
             }
         }
+        return false;
     }
 }

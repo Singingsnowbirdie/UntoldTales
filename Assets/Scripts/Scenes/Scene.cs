@@ -86,4 +86,13 @@ public class Scene
     {
         sceneConfig.OnStart();
     }
+
+    /// <summary>
+    /// Выход
+    /// </summary>
+    internal void OnExit()
+    {
+        //вызываем на всех контроллерах, чтобы отписаться от всех тамошних событий
+        controllersBase.SendOnExitToAllControllers();
+    }
 }

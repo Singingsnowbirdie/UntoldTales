@@ -38,23 +38,17 @@ public class SceneConfig_RoundScene : SceneConfig
         CreateController<KeeperController>(controllersMap);
         CreateController<SquadController>(controllersMap);
         CreateController<InventoryController>(controllersMap);
+        CreateController<MarketController>(controllersMap);
         return controllersMap;
     }
 
     /// <summary>
     /// Инициализатор
     /// </summary>
-    public override void Initialize()
-    {
-        //throw new NotImplementedException();
-    }
+    public override void Initialize() { }
 
     /// <summary>
     /// Старт
     /// </summary>
-    public override void OnStart()
-    {
-        //throw new NotImplementedException();
-    }
-
+    public override void OnStart() { }
 }

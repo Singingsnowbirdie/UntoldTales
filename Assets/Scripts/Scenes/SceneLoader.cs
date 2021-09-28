@@ -110,6 +110,9 @@ public class SceneLoader
             throw new Exception("Scene is loading now");
         }
 
+        //освобождаемся от всех ненужных подписок
+        CurrentScene.OnExit();
+
         var config = ScenesConfigsMap[sceneName];
         return CoroutinesManager.StartRoutine(LoadNewSceneRoutine(config));
     }

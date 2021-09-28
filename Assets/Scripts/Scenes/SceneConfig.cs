@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 //Конфиг конкретной сцены
 
@@ -45,7 +43,6 @@ public abstract class SceneConfig
 
         repositoriesMap[type] = repository;
     }
-
 
     /// <summary>
     /// Инициализатор

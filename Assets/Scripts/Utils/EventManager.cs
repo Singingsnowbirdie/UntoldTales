@@ -127,7 +127,6 @@ public class EventManager
     #endregion
 
     #region МЕТОДЫ: Отряд
-
     /// <summary>
     /// Изменилось количество героев в резерве
     /// </summary>
@@ -160,8 +159,7 @@ public class EventManager
     internal static void BuyHero(Hero hero) { OnHeroPurchased?.Invoke(hero); }
     #endregion
 
-
-    #region МЕТОДЫ: инвентарь
+    #region МЕТОДЫ: Инвентарь
     /// <summary>
     /// Изменилось количество монет
     /// </summary>

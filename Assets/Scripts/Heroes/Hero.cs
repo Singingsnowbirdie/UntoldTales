@@ -13,27 +13,12 @@ public enum HeroAttackType
     Hybrid
 }
 
-/// <summary>
-/// Статус героя (на поле, в резерве)
-/// </summary>
-public enum HeroStatus
-{
-    NoWhere,
-    InTheReserve,
-    OnTheField
-}
-
 public abstract class Hero : MonoBehaviour
 {
     /// <summary>
     /// ID героя в отряде (присваивается при добавлении героя в отряд)
     /// </summary>
     public int ID { get; set; }
-
-    /// <summary>
-    /// Статус героя (на поле, в резерве)
-    /// </summary>
-    public HeroStatus Status { get; set; }
 
     /// <summary>
     /// Ранг
