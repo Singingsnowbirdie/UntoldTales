@@ -4,12 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-// Временный менеджер UI
-// В текущей реализации есть баг: OnEnable() вызывается позже инициализации раунда,
-// и первый вызов события OnRoundPlanningStageEnter не отлавливается
-// Решение: инициализировать UI менеджер раньше
+// Временный менеджер UI (раунд)
 
-public class RoundSceneUIManager : MonoBehaviour
+public class RoundUIManager : MonoBehaviour
 {
     /// <summary>
     /// Текст: текущая фаза раунда
@@ -50,16 +47,6 @@ public class RoundSceneUIManager : MonoBehaviour
     /// Текст: количество монет
     /// </summary>
     [SerializeField] Text coinsCounter;
-
-    /// <summary>
-    /// Кнопка "купить опыт"
-    /// </summary>
-    [SerializeField] Button buyExperienceButton;
-
-    /// <summary>
-    /// Кнопка "купить героя"
-    /// </summary>
-    [SerializeField] Button buyHeroButton;
 
     /// <summary>
     /// При активации
@@ -148,7 +135,7 @@ public class RoundSceneUIManager : MonoBehaviour
     /// </summary>
     public void ChangeRoundStage()
     {
-        EventManager.ChangeRoundStage();
+        EventManager.ChangeRoundStageBttnPressed();
     }
 
     /// <summary>
@@ -164,7 +151,7 @@ public class RoundSceneUIManager : MonoBehaviour
     /// </summary>
     public void BuyHero()
     {
-        Hero hero = new HeroExample();
+        Hero hero = new UltimateHero();
         EventManager.BuyHero(hero);
     }
     #endregion
@@ -176,8 +163,6 @@ public class RoundSceneUIManager : MonoBehaviour
     private void ShowPlanningStateMess()
     {
         roundStateText.text = "Фаза планирования";
-        buyExperienceButton.enabled = true;
-        buyHeroButton.enabled = true;
     }
 
     /// <summary>

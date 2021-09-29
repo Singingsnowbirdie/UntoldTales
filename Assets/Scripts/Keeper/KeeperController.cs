@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class KeeperController : Controller
+﻿public class KeeperController : Controller
 {
     /// <summary>
     /// Хранитель
@@ -50,7 +45,7 @@ public class KeeperController : Controller
         EventManager.KeeperHealthChanged(keeper.Health);
         if (!CheckHealth())
         {
-            EventManager.PlayerLose();
+            //игрок кроиграл
         }
     }
 
@@ -81,15 +76,6 @@ public class KeeperController : Controller
             return true;
         }
         return false;
-    }
-
-    /// <summary>
-    /// Проверяет, достаточно ли очков лидерства, для приобретения еще одного юнита (героя)
-    /// </summary>
-    public bool IsEnoughLeadership(int amount)
-    {
-        if (keeper.Leadership <= amount) return true;
-        else return false;
     }
 
     /// <summary>

@@ -13,6 +13,40 @@ public enum HeroAttackType
     Hybrid
 }
 
+/// <summary>
+/// Все фракции
+/// </summary>
+public enum Fractions
+{
+    Rogue, //разбойник
+    Heavenly, //небесный
+    EvilSpirit, //нечисть
+    Mischievous, //бедокур
+    ForgeMaster, //мастер ковки
+    Vampire, //вампир
+    Sylvan, //лесной
+    Eternal, //вечный
+    Forgotten, //забытый
+    Feral //дикарь
+}
+
+/// <summary>
+/// Все классы
+/// </summary>
+public enum Classes
+{
+    Pathfinder, //следопыт
+    SwordMaster, //мастер меча
+    Ranger, //рейнджер
+    Shooter, //стрелок
+    Sorcerer, //чародей
+    Mage, //маг
+    Paladin, //паладин
+    Guardian, //страж
+    Shapeshifter, //оборотень
+    Slayer, //убийца
+}
+
 public abstract class Hero : MonoBehaviour
 {
     /// <summary>
@@ -29,6 +63,16 @@ public abstract class Hero : MonoBehaviour
     /// Имя
     /// </summary>
     public string Name { get; set; }
+
+    /// <summary>
+    /// Фракция
+    /// </summary>
+    public Fractions Fraction { get; set; }
+
+    /// <summary>
+    /// Класс
+    /// </summary>
+    public Classes Class { get; set; }
 
     /// <summary>
     /// Максимальное здоровье
@@ -79,21 +123,6 @@ public abstract class Hero : MonoBehaviour
     /// Текущее значение маны
     /// </summary>
     public int Mana { get; set; }
-
-    /// <summary>
-    /// Максимальное значение энергии
-    /// </summary>
-    public readonly int MaxEnergy = 100;
-
-    /// <summary>
-    /// Текущее значение энергии
-    /// </summary>
-    public int Energy { get; set; }
-
-    /// <summary>
-    /// Скорость накопления энергии (в секунду)
-    /// </summary>
-    public int EnergyStorageRate { get; set; }
 
     /// <summary>
     /// Текущая цель
@@ -152,7 +181,7 @@ public abstract class Hero : MonoBehaviour
     /// <summary>
     /// Атака
     /// </summary>
-    public void Attack()
+    public virtual void Attack()
     {
         Debug.Log("Герой атакует");
     }

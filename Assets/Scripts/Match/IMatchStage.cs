@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Фаза раунда
-/// </summary>
-
-public interface IRoundStage
+public interface IMatchStage
 {
     /// <summary>
     /// Вход в состояние

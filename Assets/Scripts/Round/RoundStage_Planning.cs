@@ -5,14 +5,14 @@ public class RoundStage_Planning : IRoundStage
     public void Enter()
     {
         EventManager.RoundPlanningStageEnterEventInvoke();
-        Debug.Log("Planning stage enter");
+        Debug.Log("Round Planning stage enter");
 
     }
 
     public void Exit()
     {
         EventManager.RoundPlanningStageExitEventInvoke();
-        Debug.Log("Planning stage exit");
+        Debug.Log("Round Planning stage exit");
     }
 
     public void Update()

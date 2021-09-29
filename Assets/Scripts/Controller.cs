@@ -1,12 +1,10 @@
 ﻿using System;
 using UnityEngine;
 
-//оставить монобех, чтобы работали методы OnDestroy()
-
 public abstract class Controller
 {
     /// <summary>
-    /// Срабатывает после созданиия всех контроллеров и репозиториев
+    /// Срабатывает после создания всех контроллеров и репозиториев
     /// </summary>
     public virtual void OnCreate() { }
 

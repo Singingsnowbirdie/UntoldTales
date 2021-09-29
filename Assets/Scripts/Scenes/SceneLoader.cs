@@ -49,7 +49,7 @@ public class SceneLoader
         //интро
         ScenesConfigsMap[SceneConfig_IntroScene.SCENENAME] = new SceneConfig_IntroScene();
         //сцена раунда
-        ScenesConfigsMap[SceneConfig_RoundScene.SCENENAME] = new SceneConfig_RoundScene();
+        ScenesConfigsMap[SceneConfig_MatchScene.SCENENAME] = new SceneConfig_MatchScene();
     }
 
     /// <summary>

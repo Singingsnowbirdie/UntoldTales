@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SceneConfig_RoundScene : SceneConfig
+public class SceneConfig_MatchScene : SceneConfig
 {
     /// <summary>
     /// Название сцены (константа)
@@ -34,6 +34,7 @@ public class SceneConfig_RoundScene : SceneConfig
     public override Dictionary<Type, Controller> CreateAllControllers()
     {
         var controllersMap = new Dictionary<Type, Controller>();
+        CreateController<MatchController>(controllersMap);
         CreateController<RoundController>(controllersMap);
         CreateController<KeeperController>(controllersMap);
         CreateController<SquadController>(controllersMap);

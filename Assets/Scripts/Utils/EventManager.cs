@@ -16,8 +16,22 @@ public class EventManager
     }
 
     #region СОБЫТИЯ: Матч
-    //Игрок проиграл
-    public static event Action OnPlayerLose;
+    //Вход в начальную стадию
+    public static event Action OnMatchInitialStageEnter;
+    //Выход из начальной стадии
+    public static event Action OnMatchInitialStageExit;
+    //Вход в раннюю стадию
+    public static event Action OnMatchEarlyStageEnter;
+    //Выход из ранней стадии
+    public static event Action OnMatchEarlyStageExit;
+    //Вход в позднюю стадию
+    public static event Action OnMatchLateStageEnter;
+    //Выход из поздней стадии
+    public static event Action OnMatchLateStageExit;
+    //Вход в финальную стадию
+    public static event Action OnMatchFinalStageEnter;
+    //Выход из финальной стадии
+    public static event Action OnMatchFinalStageExit;
     #endregion
 
     #region СОБЫТИЯ: Раунд
@@ -59,7 +73,12 @@ public class EventManager
     public static event Action<int> OnHeroesOnTheFieldAmountChanged;
     #endregion
 
-    #region СОБЫТИЯ: UI 
+    #region СОБЫТИЯ: UI матч
+    //Нажата кнопка "сменить стадию матча"
+    public static event Action OnChangeMatchStageBttnPressed;
+    #endregion
+
+    #region СОБЫТИЯ: UI раунд
     //Нажата кнопка "сменить фазу раунда"
     public static event Action OnChangeRoundStageBttnPressed;
     //Нажата кнопка "купить опыт Хранителя"
@@ -70,9 +89,37 @@ public class EventManager
 
     #region МЕТОДЫ: Матч
     /// <summary>
-    /// Игрок проиграл (здоровье Хранителя опустилось ниже 0)
+    /// Вход в начальную стадию
     /// </summary>
-    internal static void PlayerLose() { throw new NotImplementedException(); }
+    internal static void MatchInitialStageEnterEventInvoke() { OnMatchInitialStageEnter?.Invoke(); }
+    /// <summary>
+    /// Выход из начальной стадии
+    /// </summary>
+    internal static void MatchInitialStageExitEventInvoke() { OnMatchInitialStageExit?.Invoke(); }
+    /// <summary>
+    /// Вход в раннюю стадию
+    /// </summary>
+    internal static void MatchEarlyStageEnterEventInvoke() { OnMatchEarlyStageEnter?.Invoke(); }
+    /// <summary>
+    /// Выход из ранней стадии
+    /// </summary>
+    internal static void MatchEarlyStageExitEventInvoke() { OnMatchEarlyStageExit?.Invoke(); }
+    /// <summary>
+    /// Вход в позднюю стадию
+    /// </summary>
+    internal static void MatchLateStageEnterEventInvoke() { OnMatchLateStageEnter?.Invoke(); }
+    /// <summary>
+    /// Выход из поздней стадии
+    /// </summary>
+    internal static void MatchLateStageExitEventInvoke() { OnMatchLateStageExit?.Invoke(); }
+    /// <summary>
+    /// Вход в финальную стадию
+    /// </summary>
+    internal static void MatchFinalStageEnterEventInvoke() { OnMatchFinalStageEnter?.Invoke(); }
+    /// <summary>
+    /// Выход из финальной стадии
+    /// </summary>
+    internal static void MatchFinalStageExitEventInvoke() { OnMatchFinalStageExit?.Invoke(); }
     #endregion
 
     #region МЕТОДЫ: Раунд
@@ -143,11 +190,18 @@ public class EventManager
     internal static void HeroesOnTheFieldAmountChanged(int count) { OnHeroesOnTheFieldAmountChanged?.Invoke(count); }
     #endregion
 
-    #region МЕТОДЫ UI
+    #region МЕТОДЫ UI матч
+    /// <summary>
+    /// Нажата кнопка "сменить стадию матча"
+    /// </summary>
+    internal static void ChangeMatchStageBttnPressed() { OnChangeMatchStageBttnPressed?.Invoke(); }
+    #endregion
+
+    #region МЕТОДЫ UI раунд
     /// <summary>
     /// Нажата кнопка: сменить фазу раунда
     /// </summary>
-    public static void ChangeRoundStage() { OnChangeRoundStageBttnPressed?.Invoke(); }
+    public static void ChangeRoundStageBttnPressed() { OnChangeRoundStageBttnPressed?.Invoke(); }
     /// <summary>
     /// Нажата кнопка: купить опыт Хранителя
     /// </summary>
