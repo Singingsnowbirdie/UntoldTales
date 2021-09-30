@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿//от этого класса наследуются все герои, не имеющие ульты (не умеющие накапливать энергию)
 
-public class PassiveAbilityHero : Hero
+public abstract class PassiveAbilityHero : Hero
 {
 
 }

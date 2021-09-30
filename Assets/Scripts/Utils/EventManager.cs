@@ -15,42 +15,14 @@ public class EventManager
         }
     }
 
-    #region СОБЫТИЯ: Матч
-    //Вход в начальную стадию
-    public static event Action OnMatchInitialStageEnter;
-    //Выход из начальной стадии
-    public static event Action OnMatchInitialStageExit;
-    //Вход в раннюю стадию
-    public static event Action OnMatchEarlyStageEnter;
-    //Выход из ранней стадии
-    public static event Action OnMatchEarlyStageExit;
-    //Вход в позднюю стадию
-    public static event Action OnMatchLateStageEnter;
-    //Выход из поздней стадии
-    public static event Action OnMatchLateStageExit;
-    //Вход в финальную стадию
-    public static event Action OnMatchFinalStageEnter;
-    //Выход из финальной стадии
-    public static event Action OnMatchFinalStageExit;
+    #region ВХОД В СОСТОЯНИЕ
+    internal static void OnStageEnterEventInvoke(string stage) { OnStageEnter?.Invoke(stage); }
+    public static event Action<string> OnStageEnter;
     #endregion
 
-    #region СОБЫТИЯ: Раунд
-    //Вход в фазу планирования
-    public static event Action OnRoundPlanningStageEnter;
-    //Выход из фазы планирования
-    public static event Action OnRoundPlanningStageExit;
-    //Вход в фазу боя
-    public static event Action OnRoundBattleStageEnter;
-    //Выход из фазы боя
-    public static event Action OnRoundBattleStageExit;
-    //Вход в фазу расчетов
-    public static event Action OnRoundCalculationStageEnter;
-    //Выход из фазы расчетов
-    public static event Action OnRoundCalculationStageExit;
-    //Вход в фазу подбора соперников
-    public static event Action OnRoundOpponentSelectionStageEnter;
-    //Выход из фазы подбора соперников
-    public static event Action OnRoundOpponentSelectionStageExit;
+    #region ВЫХОД ИЗ СОСТОЯНИЯ
+    internal static void OnStageExitEventInvoke(string stage) { OnStageExit?.Invoke(stage); }
+    public static event Action<string> OnStageExit;
     #endregion
 
     #region СОБЫТИЯ: Хранитель
@@ -85,76 +57,6 @@ public class EventManager
     public static event Action OnBuyExperienceBttnPressed;
     //Изменилось количество монет у игрока
     public static event Action<int> OnCoinsAmountChanged;
-    #endregion
-
-    #region МЕТОДЫ: Матч
-    /// <summary>
-    /// Вход в начальную стадию
-    /// </summary>
-    internal static void MatchInitialStageEnterEventInvoke() { OnMatchInitialStageEnter?.Invoke(); }
-    /// <summary>
-    /// Выход из начальной стадии
-    /// </summary>
-    internal static void MatchInitialStageExitEventInvoke() { OnMatchInitialStageExit?.Invoke(); }
-    /// <summary>
-    /// Вход в раннюю стадию
-    /// </summary>
-    internal static void MatchEarlyStageEnterEventInvoke() { OnMatchEarlyStageEnter?.Invoke(); }
-    /// <summary>
-    /// Выход из ранней стадии
-    /// </summary>
-    internal static void MatchEarlyStageExitEventInvoke() { OnMatchEarlyStageExit?.Invoke(); }
-    /// <summary>
-    /// Вход в позднюю стадию
-    /// </summary>
-    internal static void MatchLateStageEnterEventInvoke() { OnMatchLateStageEnter?.Invoke(); }
-    /// <summary>
-    /// Выход из поздней стадии
-    /// </summary>
-    internal static void MatchLateStageExitEventInvoke() { OnMatchLateStageExit?.Invoke(); }
-    /// <summary>
-    /// Вход в финальную стадию
-    /// </summary>
-    internal static void MatchFinalStageEnterEventInvoke() { OnMatchFinalStageEnter?.Invoke(); }
-    /// <summary>
-    /// Выход из финальной стадии
-    /// </summary>
-    internal static void MatchFinalStageExitEventInvoke() { OnMatchFinalStageExit?.Invoke(); }
-    #endregion
-
-    #region МЕТОДЫ: Раунд
-    /// <summary>
-    /// Вход в фазу планирования
-    /// </summary>
-    public static void RoundPlanningStageEnterEventInvoke() { OnRoundPlanningStageEnter?.Invoke(); }
-    /// <summary>
-    /// Выход из фазы планирования
-    /// </summary>
-    public static void RoundPlanningStageExitEventInvoke() { OnRoundPlanningStageExit?.Invoke(); }
-    /// <summary>
-    /// Вход в фазу боя
-    /// </summary>
-    public static void RoundBattleStageEnterEventInvoke() { OnRoundBattleStageEnter?.Invoke(); }
-    /// <summary>
-    /// Выход из фазы боя
-    /// </summary>
-    public static void RoundBattleStageExitEventInvoke() { OnRoundBattleStageExit?.Invoke(); }
-    /// <summary>
-    /// Вход в фазу расчетов
-    /// </summary>
-    public static void RoundCalculationStageEnterEventInvoke() { OnRoundCalculationStageEnter?.Invoke(); }
-    /// <summary>
-    /// Выход из фазы расчетов
-    /// </summary>
-    public static void RoundCalculationStageExitEventInvoke() { OnRoundCalculationStageExit?.Invoke(); }
-    /// <summary>
-    /// Вход в фазу подбора соперников
-    /// </summary>
-    public static void RoundOpponentSelectionStageEnterEventInvoke() { OnRoundOpponentSelectionStageEnter?.Invoke(); }
-    /// <summary>
-    /// Выход из фазы подбора соперников
-    /// </summary>
-    public static void RoundOpponentSelectionStageExitEventInvoke() { OnRoundOpponentSelectionStageExit?.Invoke(); }
     #endregion
 
     #region МЕТОДЫ: Хранитель

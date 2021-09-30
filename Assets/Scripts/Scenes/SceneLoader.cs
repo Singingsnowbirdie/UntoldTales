@@ -161,7 +161,7 @@ public class SceneLoader
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public T GetController<T>() where T : Controller
+    public T GetController<T>() where T : IController
     {
         return CurrentScene.GetController<T>();
     }

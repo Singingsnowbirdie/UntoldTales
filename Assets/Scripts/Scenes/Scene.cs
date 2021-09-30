@@ -26,7 +26,7 @@ public class Scene
     /// <summary>
     /// Возвращает контроллер
     /// </summary>
-    internal T GetController<T>() where T : Controller
+    internal T GetController<T>() where T : IController
     {
         return controllersBase.GetController<T>();
     }

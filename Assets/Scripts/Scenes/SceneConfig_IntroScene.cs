@@ -32,9 +32,9 @@ internal class SceneConfig_IntroScene : SceneConfig
     /// Создаем все контроллеры
     /// </summary>
     /// <returns></returns>
-    public override Dictionary<Type, Controller> CreateAllControllers()
+    public override Dictionary<Type, IController> CreateAllControllers()
     {
-        var controllersMap = new Dictionary<Type, Controller>();
+        var controllersMap = new Dictionary<Type, IController>();
         //пример
         //CreateController<WalletController>(controllersMap);
         return controllersMap;

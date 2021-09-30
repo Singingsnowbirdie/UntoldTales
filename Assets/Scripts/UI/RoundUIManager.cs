@@ -53,14 +53,6 @@ public class RoundUIManager : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
-        //подписываемся на вхождение в фазу планирования
-        EventManager.OnRoundPlanningStageEnter += ShowPlanningStateMess;
-        //подписываемся на вхождение в фазу боя
-        EventManager.OnRoundBattleStageEnter += ShowBattleStateMess;
-        //подписываемся на вхождение в фазу расчетов
-        EventManager.OnRoundCalculationStageEnter += ShowCalculationStateMess;
-        //подписываемся на вхождение в фазу подбора соперника
-        EventManager.OnRoundOpponentSelectionStageEnter += ShowOpponentSelectionStateMess;
         //подписываемся на изменение количества очков лидерства
         EventManager.OnExperienceChanged += ShowExperience;
         //подписываемся на изменение количества очков здоровья
@@ -81,10 +73,6 @@ public class RoundUIManager : MonoBehaviour
     private void OnDestroy()
     {
         //отписываемся от всего
-        EventManager.OnRoundPlanningStageEnter -= ShowPlanningStateMess;
-        EventManager.OnRoundBattleStageEnter -= ShowBattleStateMess;
-        EventManager.OnRoundCalculationStageEnter -= ShowCalculationStateMess;
-        EventManager.OnRoundOpponentSelectionStageEnter -= ShowOpponentSelectionStateMess;
         EventManager.OnExperienceChanged -= ShowExperience;
         EventManager.OnKeeperHealthChanged -= ShowHealth;
         EventManager.OnReserveSizeChanged -= ShowReservedHeroesAmount;
@@ -151,42 +139,9 @@ public class RoundUIManager : MonoBehaviour
     /// </summary>
     public void BuyHero()
     {
-        Hero hero = new UltimateHero();
+        Hero hero = new UltimateHeroExample();
         EventManager.BuyHero(hero);
     }
     #endregion
 
-    #region СМЕНА ФАЗЫ РАУНДА
-    /// <summary>
-    /// Входим в фазу планирования
-    /// </summary>
-    private void ShowPlanningStateMess()
-    {
-        roundStateText.text = "Фаза планирования";
-    }
-
-    /// <summary>
-    /// Входим в фазу боя
-    /// </summary>
-    private void ShowBattleStateMess()
-    {
-        roundStateText.text = "Фаза боя";
-    }
-
-    /// <summary>
-    /// Входим в фазу расчетов
-    /// </summary>
-    private void ShowCalculationStateMess()
-    {
-        roundStateText.text = "Фаза расчетов";
-    }
-
-    /// <summary>
-    /// Входим в фазу подбора соперника
-    /// </summary>
-    private void ShowOpponentSelectionStateMess()
-    {
-        roundStateText.text = "Фаза подбора соперников";
-    }
-    #endregion
 }

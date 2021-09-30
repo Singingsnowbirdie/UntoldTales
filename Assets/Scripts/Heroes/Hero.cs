@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//от этого класса наследуются все герои
+
 /// <summary>
 /// Тип атаки (физическая, магическая, гибридная)
 /// </summary>

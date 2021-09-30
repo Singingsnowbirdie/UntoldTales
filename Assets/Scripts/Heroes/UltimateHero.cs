@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UltimateHero : Hero
+//от этого класса наследуются все герои, умеющие накапливать энергию и имеющие ульту
+
+public abstract class UltimateHero : Hero
 {
     /// <summary>
     /// Максимальное значение энергии

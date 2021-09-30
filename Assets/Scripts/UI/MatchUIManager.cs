@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 // Временный менеджер UI (матч)
@@ -6,55 +7,30 @@ using UnityEngine.UI;
 public class MatchUIManager : MonoBehaviour
 {
     /// <summary>
-    /// Текст: текущая стадия матча
+    /// Текст: стадия матча
     /// </summary>
     [SerializeField] Text matchStageText;
+    /// <summary>
+    /// Текст: этап стадии
+    /// </summary>
+    [SerializeField] Text currentStageText;
 
     /// <summary>
     /// При активации
     /// </summary>
     private void OnEnable()
     {
-        //подписываемся на вхождение в начальную стадию
-        EventManager.OnMatchInitialStageEnter += ShowInitialStageMess;
-        //подписываемся на вхождение в раннюю стадию
-        EventManager.OnMatchEarlyStageEnter += ShowEarlyStageMess;
-        //подписываемся на вхождение в позднюю стадию
-        EventManager.OnMatchLateStageEnter += ShowLateStageMess;
-        //подписываемся на вхождение в финальную стадию
-        EventManager.OnMatchFinalStageEnter += ShowFinalStageMess;
+        //Подписка на смену стадии
+        EventManager.OnStageEnter += ShowCurrentStage;
     }
 
     /// <summary>
-    /// ПОказать сообщение "финальная стадия"
+    /// Показывает текущую стадию
     /// </summary>
-    private void ShowFinalStageMess()
+    /// <param name="obj"></param>
+    private void ShowCurrentStage(string stage)
     {
-        matchStageText.text = "Финальная стадия матча";
-    }
-
-    /// <summary>
-    /// Показать сообщение "поздняя стадия"
-    /// </summary>
-    private void ShowLateStageMess()
-    {
-        matchStageText.text = "Поздняя стадия матча";
-    }
-
-    /// <summary>
-    /// Показать сообщение "ранняя стадия"
-    /// </summary>
-    private void ShowEarlyStageMess()
-    {
-        matchStageText.text = "Ранняя стадия матча";
-    }
-
-    /// <summary>
-    /// Показать сообщение "начальная стадия"
-    /// </summary>
-    private void ShowInitialStageMess()
-    {
-        matchStageText.text = "Начальная стадия матча";
+        matchStageText.text = stage;
     }
 
     /// <summary>
@@ -63,10 +39,7 @@ public class MatchUIManager : MonoBehaviour
     private void OnDestroy()
     {
         //отписываемся от всего
-        EventManager.OnMatchInitialStageEnter -= ShowInitialStageMess;
-        EventManager.OnMatchEarlyStageEnter -= ShowEarlyStageMess;
-        EventManager.OnMatchLateStageEnter -= ShowLateStageMess;
-        EventManager.OnMatchFinalStageEnter -= ShowFinalStageMess;
+        EventManager.OnStageEnter -= ShowCurrentStage;
     }
 
     #region КНОПКИ
@@ -77,9 +50,5 @@ public class MatchUIManager : MonoBehaviour
     {
         EventManager.ChangeMatchStageBttnPressed();
     }
-    #endregion
-
-    #region СМЕНА СТАДИИ МАТЧА
-
     #endregion
 }

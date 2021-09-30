@@ -43,7 +43,7 @@ public class Game : MonoBehaviour
     /// <summary>
     /// Возвращает контроллер
     /// </summary>
-    public static T GetController<T>() where T : Controller
+    public static T GetController<T>() where T : IController
     {
         return sceneLoader.GetController<T>();
     }
