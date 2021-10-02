@@ -49,7 +49,7 @@ public class SceneLoader
         //интро
         ScenesConfigsMap[SceneConfig_IntroScene.SCENENAME] = new SceneConfig_IntroScene();
         //сцена раунда
-        ScenesConfigsMap[SceneConfig_RoundScene.SCENENAME] = new SceneConfig_RoundScene();
+        ScenesConfigsMap[SceneConfig_MatchScene.SCENENAME] = new SceneConfig_MatchScene();
     }
 
     /// <summary>
@@ -66,7 +66,7 @@ public class SceneLoader
         //спрашиваем имя текущей сцены у юнити
         var sceneName = SceneManager.GetActiveScene().name;
         var config = ScenesConfigsMap[sceneName];
-        return CoroutinesManager.StartRoutine(LoadCurrentSceneRoutine(config));
+        return UtilsManager.StartRoutine(LoadCurrentSceneRoutine(config));
     }
 
     /// <summary>
@@ -78,7 +78,7 @@ public class SceneLoader
     {
         IsLoading = true;
         //уже загружена, поэтому только инициализируем
-        yield return CoroutinesManager.StartRoutine(InitializeSceneRoutine(sceneConfig));
+        yield return UtilsManager.StartRoutine(InitializeSceneRoutine(sceneConfig));
         IsLoading = false;
         OnSceneLoadedEvent?.Invoke(CurrentScene);
     }
@@ -91,8 +91,8 @@ public class SceneLoader
     IEnumerator LoadNewSceneRoutine(SceneConfig sceneConfig)
     {
         IsLoading = true;
-        yield return CoroutinesManager.StartRoutine(LoadSceneRoutine(sceneConfig));
-        yield return CoroutinesManager.StartRoutine(InitializeSceneRoutine(sceneConfig));
+        yield return UtilsManager.StartRoutine(LoadSceneRoutine(sceneConfig));
+        yield return UtilsManager.StartRoutine(InitializeSceneRoutine(sceneConfig));
         IsLoading = false;
         OnSceneLoadedEvent?.Invoke(CurrentScene);
     }
@@ -110,8 +110,11 @@ public class SceneLoader
             throw new Exception("Scene is loading now");
         }
 
+        //освобождаемся от всех ненужных подписок
+        CurrentScene.OnExit();
+
         var config = ScenesConfigsMap[sceneName];
-        return CoroutinesManager.StartRoutine(LoadNewSceneRoutine(config));
+        return UtilsManager.StartRoutine(LoadNewSceneRoutine(config));
     }
 
     /// <summary>
@@ -158,7 +161,7 @@ public class SceneLoader
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public T GetController<T>() where T : Controller
+    public T GetController<T>() where T : IController
     {
         return CurrentScene.GetController<T>();
     }

@@ -1,98 +1,125 @@
 ﻿using System;
 
-//менеджер событий (временная реализация?)
+//менеджер событий (синглтон)
 
-public static class EventManager
+public class EventManager
 {
-    #region СОБЫТИЯ: вход в фазу раунда / выход из фазы раунда
-    //Вход в фазу планирования
-    public static event Action OnRoundPlanningStageEnter;
-    //Выход из фазы планирования
-    public static event Action OnRoundPlanningStageExit;
-    //Вход в фазу боя
-    public static event Action OnRoundBattleStageEnter;
-    //Выход из фазы боя
-    public static event Action OnRoundBattleStageExit;
-    //Вход в фазу расчетов
-    public static event Action OnRoundCalculationStageEnter;
-    //Выход из фазы расчетов
-    public static event Action OnRoundCalculationStageExit;
-    //Вход в фазу подбора соперников
-    public static event Action OnRoundOpponentSelectionStageEnter;
-    //Выход из фазы подбора соперников
-    public static event Action OnRoundOpponentSelectionStageExit;
+    private static EventManager _instance;
+
+    public static EventManager instance
+    {
+        get
+        {
+            if (_instance == null) _instance = new EventManager();
+            return _instance;
+        }
+    }
+
+    #region ВХОД В СОСТОЯНИЕ
+    internal static void OnStageEnterEventInvoke(string stage) { OnStageEnter?.Invoke(stage); }
+    public static event Action<string> OnStageEnter;
+    #endregion
+
+    #region ВЫХОД ИЗ СОСТОЯНИЯ
+    internal static void OnStageExitEventInvoke(string stage) { OnStageExit?.Invoke(stage); }
+    public static event Action<string> OnStageExit;
     #endregion
 
     #region СОБЫТИЯ: Хранитель
-    //Хранитель инициализирован
-    public static event Action OnKeeperInitialized;
-    // Изменилось количество очков лидерства
-    public static event Action<int> OnLeadershipChanged;
+    // Куплен опыт
+    public static event Action<int> OnKeeperExperiencePurchased;
+    // Изменилось количество опыта Хранителя (и, иногда, уровень лидерства)
+    public static event Action<int, int> OnExperienceChanged;
+    // Изменилось количество очков здоровья
+    public static event Action<int> OnKeeperHealthChanged;
     #endregion
 
-    #region СОБЫТИЯ: UI 
+    #region СОБЫТИЯ: Отряд
+    //Куплен герой
+    public static event Action<Hero> OnHeroPurchased;
+    // Изменилось количество героев в резерве
+    public static event Action<int> OnReserveSizeChanged;
+    // Изменилось количество героев во временном хранилище
+    public static event Action<int> OnTemporaryStorageSizeChanged;
+    // Изменилось количество героев на поле
+    public static event Action<int> OnHeroesOnTheFieldAmountChanged;
+    #endregion
+
+    #region СОБЫТИЯ: UI матч
+    //Нажата кнопка "сменить стадию матча"
+    public static event Action OnChangeMatchStageBttnPressed;
+    #endregion
+
+    #region СОБЫТИЯ: UI раунд
     //Нажата кнопка "сменить фазу раунда"
     public static event Action OnChangeRoundStageBttnPressed;
-    //Нажата кнопка "купить очки лидерства"
-    public static event Action OnBuyLeadershipBttnPressed;
+    //Нажата кнопка "купить опыт Хранителя"
+    public static event Action OnBuyExperienceBttnPressed;
+    //Изменилось количество монет у игрока
+    public static event Action<int> OnCoinsAmountChanged;
     #endregion
 
     #region МЕТОДЫ: Хранитель
     /// <summary>
-    /// Хранитель инициализирован
+    /// Приобретен опыт
     /// </summary>
-    internal static void KeeperInitialized() { OnKeeperInitialized?.Invoke(); }
+    internal static void ExperiencePurchased(int experience) { OnKeeperExperiencePurchased?.Invoke(experience); }
     /// <summary>
-    /// Изменилось количество очков лидерства
+    /// Изменилось количество опыта Хранителя (и, иногда, уровень лидерства)
     /// </summary>
-    internal static void LeadershipChanged(int leadership) { OnLeadershipChanged?.Invoke(leadership); }
+    internal static void ExperienceChanged(int experience, int leadership) { OnExperienceChanged?.Invoke(experience, leadership); }
+    /// <summary>
+    /// Изменилось количество очков здоровья Хранителя
+    /// </summary>
+    internal static void KeeperHealthChanged(int health) { OnKeeperHealthChanged?.Invoke(health); }
     #endregion
 
-
-    #region МЕТОДЫ: вход в фазу раунда / выход из фазы раунда
+    #region МЕТОДЫ: Отряд
     /// <summary>
-    /// Вход в фазу планирования
+    /// Изменилось количество героев в резерве
     /// </summary>
-    public static void RoundPlanningStageEnterEventInvoke() { OnRoundPlanningStageEnter?.Invoke(); }
+    /// <param name="count"></param>
+    internal static void ReserveSizeChanged(int count) { OnReserveSizeChanged?.Invoke(count); }
     /// <summary>
-    /// Выход из фазы планирования
+    /// Изменилось количество героев во временном хранилище
     /// </summary>
-    public static void RoundPlanningStageExitEventInvoke() { OnRoundPlanningStageExit?.Invoke(); }
+    /// <param name="count"></param>
+    internal static void TemporaryStorageSizeChanged(int count) { OnTemporaryStorageSizeChanged?.Invoke(count); }
     /// <summary>
-    /// Вход в фазу боя
+    /// Изменилось количество героев на поле
     /// </summary>
-    public static void RoundBattleStageEnterEventInvoke() { OnRoundBattleStageEnter?.Invoke(); }
-    /// <summary>
-    /// Выход из фазы боя
-    /// </summary>
-    public static void RoundBattleStageExitEventInvoke() { OnRoundBattleStageExit?.Invoke(); }
-    /// <summary>
-    /// Вход в фазу расчетов
-    /// </summary>
-    public static void RoundCalculationStageEnterEventInvoke() { OnRoundCalculationStageEnter?.Invoke(); }
-    /// <summary>
-    /// Выход из фазы расчетов
-    /// </summary>
-    public static void RoundCalculationStageExitEventInvoke() { OnRoundCalculationStageExit?.Invoke(); }
-    /// <summary>
-    /// Вход в фазу подбора соперников
-    /// </summary>
-    public static void RoundOpponentSelectionStageEnterEventInvoke() { OnRoundOpponentSelectionStageEnter?.Invoke(); }
-    /// <summary>
-    /// Выход из фазы подбора соперников
-    /// </summary>
-    public static void RoundOpponentSelectionStageExitEventInvoke() { OnRoundOpponentSelectionStageExit?.Invoke(); }
+    /// <param name="count"></param>
+    internal static void HeroesOnTheFieldAmountChanged(int count) { OnHeroesOnTheFieldAmountChanged?.Invoke(count); }
     #endregion
 
-    #region Методы UI
+    #region МЕТОДЫ UI матч
     /// <summary>
-    /// Сменить фазу раунда
+    /// Нажата кнопка "сменить стадию матча"
     /// </summary>
-    public static void ChangeRoundStage() { OnChangeRoundStageBttnPressed?.Invoke(); }
+    internal static void ChangeMatchStageBttnPressed() { OnChangeMatchStageBttnPressed?.Invoke(); }
+    #endregion
+
+    #region МЕТОДЫ UI раунд
     /// <summary>
-    /// Купить очки лидерства
+    /// Нажата кнопка: сменить фазу раунда
     /// </summary>
-    public static void BuyLeadership() { OnBuyLeadershipBttnPressed?.Invoke(); }
+    public static void ChangeRoundStageBttnPressed() { OnChangeRoundStageBttnPressed?.Invoke(); }
+    /// <summary>
+    /// Нажата кнопка: купить опыт Хранителя
+    /// </summary>
+    public static void BuyExperienceBttnPressed() { OnBuyExperienceBttnPressed?.Invoke(); }
+    /// <summary>
+    /// Нажата кнопка: купить героя 
+    /// </summary>
+    internal static void BuyHero(Hero hero) { OnHeroPurchased?.Invoke(hero); }
+    #endregion
+
+    #region МЕТОДЫ: Инвентарь
+    /// <summary>
+    /// Изменилось количество монет
+    /// </summary>
+    /// <param name="coins"></param>
+    internal static void CoinsAmountChanged(int coins) { OnCoinsAmountChanged?.Invoke(coins); }
     #endregion
 
 }

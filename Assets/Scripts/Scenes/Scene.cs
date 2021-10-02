@@ -8,12 +8,12 @@ public class Scene
     /// <summary>
     /// База контроллеров
     /// </summary>
-    ControllersBase controllersBase;
+    ControllersDB controllersBase;
 
     /// <summary>
     /// База репозиториев
     /// </summary>
-    RepositoriesBase repositoriesBase;
+    RepositoriesDB repositoriesBase;
 
     /// <summary>
     /// Возвращает репозиторий
@@ -26,7 +26,7 @@ public class Scene
     /// <summary>
     /// Возвращает контроллер
     /// </summary>
-    internal T GetController<T>() where T : Controller
+    internal T GetController<T>() where T : IController
     {
         return controllersBase.GetController<T>();
     }
@@ -43,8 +43,8 @@ public class Scene
     public Scene(SceneConfig config)
     {
         sceneConfig = config;
-        controllersBase = new ControllersBase(config);
-        repositoriesBase = new RepositoriesBase(config);
+        controllersBase = new ControllersDB(config);
+        repositoriesBase = new RepositoriesDB(config);
     }
 
     /// <summary>
@@ -53,7 +53,7 @@ public class Scene
     /// <returns></returns>
     public Coroutine InitializeAsync()
     {
-        return CoroutinesManager.StartRoutine(InitializeRoutine());
+        return UtilsManager.StartRoutine(InitializeRoutine());
     }
 
     /// <summary>
@@ -85,5 +85,14 @@ public class Scene
     internal void OnStart()
     {
         sceneConfig.OnStart();
+    }
+
+    /// <summary>
+    /// Выход
+    /// </summary>
+    internal void OnExit()
+    {
+        //вызываем на всех контроллерах, чтобы отписаться от всех тамошних событий
+        controllersBase.SendOnExitToAllControllers();
     }
 }

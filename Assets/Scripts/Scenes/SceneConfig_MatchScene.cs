@@ -1,15 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//Нулевая сцена
-
-internal class SceneConfig_IntroScene : SceneConfig
+public class SceneConfig_MatchScene : SceneConfig
 {
     /// <summary>
     /// Название сцены (константа)
     /// </summary>
-    public const string SCENENAME = "IntroScene";
+    public const string SCENENAME = "RoundScene";
 
     /// <summary>
     /// Название сцены (свойство)
@@ -17,14 +16,13 @@ internal class SceneConfig_IntroScene : SceneConfig
     public override string SceneName => SCENENAME;
 
     /// <summary>
-    /// Создаем все репозиитории
+    /// Создаем все репозитории
     /// </summary>
     /// <returns></returns>
     public override Dictionary<Type, Repository> CreateAllRepositories()
     {
         var repositoriesMap = new Dictionary<Type, Repository>();
-        //пример
-        //CreateRepository<WalletRepository>(repositoriesMap);
+        CreateRepository<HeroesRepository>(repositoriesMap);
         return repositoriesMap;
     }
 
@@ -35,18 +33,22 @@ internal class SceneConfig_IntroScene : SceneConfig
     public override Dictionary<Type, IController> CreateAllControllers()
     {
         var controllersMap = new Dictionary<Type, IController>();
-        //пример
-        //CreateController<WalletController>(controllersMap);
+        CreateController<MatchController>(controllersMap);
+        CreateController<RoundController>(controllersMap);
+        CreateController<KeeperController>(controllersMap);
+        CreateController<SquadController>(controllersMap);
+        CreateController<InventoryController>(controllersMap);
+        CreateController<MarketController>(controllersMap);
         return controllersMap;
     }
-
-    /// <summary>
-    /// Старт
-    /// </summary>
-    public override void OnStart() { }
 
     /// <summary>
     /// Инициализатор
     /// </summary>
     public override void Initialize() { }
+
+    /// <summary>
+    /// Старт
+    /// </summary>
+    public override void OnStart() { }
 }

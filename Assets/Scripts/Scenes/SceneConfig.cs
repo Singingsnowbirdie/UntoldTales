@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 //Конфиг конкретной сцены
 
@@ -17,7 +15,7 @@ public abstract class SceneConfig
     /// Словарь контроллеров
     /// </summary>
     /// <returns></returns>
-    public abstract Dictionary<Type, Controller> CreateAllControllers();
+    public abstract Dictionary<Type, IController> CreateAllControllers();
 
     /// <summary>
     /// Название сцены
@@ -27,7 +25,7 @@ public abstract class SceneConfig
     /// <summary>
     /// Создание одного контроллера
     /// </summary>
-    public void CreateController<T>(Dictionary<Type, Controller> controllersMap) where T : Controller, new()
+    public void CreateController<T>(Dictionary<Type, IController> controllersMap) where T : IController, new()
     {
         var controller = new T();
         var type = typeof(T);
@@ -45,7 +43,6 @@ public abstract class SceneConfig
 
         repositoriesMap[type] = repository;
     }
-
 
     /// <summary>
     /// Инициализатор
