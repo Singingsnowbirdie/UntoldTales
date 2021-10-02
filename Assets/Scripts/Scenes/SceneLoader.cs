@@ -66,7 +66,7 @@ public class SceneLoader
         //спрашиваем имя текущей сцены у юнити
         var sceneName = SceneManager.GetActiveScene().name;
         var config = ScenesConfigsMap[sceneName];
-        return CoroutinesManager.StartRoutine(LoadCurrentSceneRoutine(config));
+        return UtilsManager.StartRoutine(LoadCurrentSceneRoutine(config));
     }
 
     /// <summary>
@@ -78,7 +78,7 @@ public class SceneLoader
     {
         IsLoading = true;
         //уже загружена, поэтому только инициализируем
-        yield return CoroutinesManager.StartRoutine(InitializeSceneRoutine(sceneConfig));
+        yield return UtilsManager.StartRoutine(InitializeSceneRoutine(sceneConfig));
         IsLoading = false;
         OnSceneLoadedEvent?.Invoke(CurrentScene);
     }
@@ -91,8 +91,8 @@ public class SceneLoader
     IEnumerator LoadNewSceneRoutine(SceneConfig sceneConfig)
     {
         IsLoading = true;
-        yield return CoroutinesManager.StartRoutine(LoadSceneRoutine(sceneConfig));
-        yield return CoroutinesManager.StartRoutine(InitializeSceneRoutine(sceneConfig));
+        yield return UtilsManager.StartRoutine(LoadSceneRoutine(sceneConfig));
+        yield return UtilsManager.StartRoutine(InitializeSceneRoutine(sceneConfig));
         IsLoading = false;
         OnSceneLoadedEvent?.Invoke(CurrentScene);
     }
@@ -114,7 +114,7 @@ public class SceneLoader
         CurrentScene.OnExit();
 
         var config = ScenesConfigsMap[sceneName];
-        return CoroutinesManager.StartRoutine(LoadNewSceneRoutine(config));
+        return UtilsManager.StartRoutine(LoadNewSceneRoutine(config));
     }
 
     /// <summary>

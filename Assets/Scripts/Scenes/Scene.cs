@@ -8,12 +8,12 @@ public class Scene
     /// <summary>
     /// База контроллеров
     /// </summary>
-    ControllersBase controllersBase;
+    ControllersDB controllersBase;
 
     /// <summary>
     /// База репозиториев
     /// </summary>
-    RepositoriesBase repositoriesBase;
+    RepositoriesDB repositoriesBase;
 
     /// <summary>
     /// Возвращает репозиторий
@@ -43,8 +43,8 @@ public class Scene
     public Scene(SceneConfig config)
     {
         sceneConfig = config;
-        controllersBase = new ControllersBase(config);
-        repositoriesBase = new RepositoriesBase(config);
+        controllersBase = new ControllersDB(config);
+        repositoriesBase = new RepositoriesDB(config);
     }
 
     /// <summary>
@@ -53,7 +53,7 @@ public class Scene
     /// <returns></returns>
     public Coroutine InitializeAsync()
     {
-        return CoroutinesManager.StartRoutine(InitializeRoutine());
+        return UtilsManager.StartRoutine(InitializeRoutine());
     }
 
     /// <summary>

@@ -6,7 +6,7 @@ using UnityEngine;
 /// База репозиториев
 /// </summary>
 
-public class RepositoriesBase : MonoBehaviour
+public class RepositoriesDB : MonoBehaviour
 {
     /// <summary>
     /// Карта репозиториев
@@ -21,7 +21,7 @@ public class RepositoriesBase : MonoBehaviour
     /// <summary>
     /// Конструктор
     /// </summary>
-    public RepositoriesBase(SceneConfig sceneConfig)
+    public RepositoriesDB(SceneConfig sceneConfig)
     {
         this.sceneConfig = sceneConfig;
     }

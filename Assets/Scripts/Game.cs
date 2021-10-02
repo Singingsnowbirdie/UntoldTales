@@ -23,7 +23,7 @@ public class Game : MonoBehaviour
     public static void Run()
     {
         //запускаем инициализатор игры
-        CoroutinesManager.StartRoutine(InitializeGameRoutine());
+        UtilsManager.StartRoutine(InitializeGameRoutine());
     }
 
     /// <summary>

@@ -40,20 +40,24 @@ public class MatchStage_Initial : StateMachine, IStage
     protected override void InitStages()
     {
         Stages = new Dictionary<Type, IStage>();
-        Stages[typeof(HeroesCircle)] = new HeroesCircle();
-    }
-
-    protected override void SetStageByDefault()
-    {
-        SetStage_HeroesCircle();
+        Stages[typeof(HeroesCircleStage)] = new HeroesCircleStage();
     }
 
     /// <summary>
-    /// Устанавливает начальную стадию
+    /// Устанавливаем начальное состояние
     /// </summary>
-    private void SetStage_HeroesCircle()
+    protected override void SetStageByDefault()
     {
-        SetStage(GetStage<HeroesCircle>());
+        SetStage_HeroesCircle(false);
+    }
+
+    /// <summary>
+    /// Запускает Круг Героев
+    /// </summary>
+    private void SetStage_HeroesCircle(bool isQueueMode)
+    {
+        SetStage(GetStage<HeroesCircleStage>());
+        (CurrentStage as HeroesCircleStage).IsQueueMode = isQueueMode;
     }
 
 }

@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 
 public class 
-    ControllersBase : MonoBehaviour
+    ControllersDB : MonoBehaviour
 {
     /// <summary>
     /// Карта контроллеров
@@ -22,7 +22,7 @@ public class
     /// <summary>
     /// Конструктор
     /// </summary>
-    public ControllersBase(SceneConfig sceneConfig)
+    public ControllersDB(SceneConfig sceneConfig)
     {
         this.sceneConfig = sceneConfig;
     }

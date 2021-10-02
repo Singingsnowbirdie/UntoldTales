@@ -22,8 +22,7 @@ public class SceneConfig_MatchScene : SceneConfig
     public override Dictionary<Type, Repository> CreateAllRepositories()
     {
         var repositoriesMap = new Dictionary<Type, Repository>();
-        //пример
-        //CreateRepository<WalletRepository>(repositoriesMap);
+        CreateRepository<HeroesRepository>(repositoriesMap);
         return repositoriesMap;
     }
 

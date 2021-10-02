@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 //Круг героев
@@ -7,7 +7,7 @@ using UnityEngine;
 //Первый этап: на время
 //Последний этап: по очереди
 
-public class HeroesCircle : IStage
+public class HeroesCircleStage : IStage
 {
     /// <summary>
     /// Название стадии
@@ -20,12 +20,18 @@ public class HeroesCircle : IStage
     public bool IsQueueMode { get; set; }
 
     /// <summary>
+    /// Круг героев (GO)
+    /// </summary>
+    GameObject heroesCircleGO;
+
+    /// <summary>
     /// При входе в состояние
     /// </summary>
     public void Enter()
     {
         EventManager.OnStageEnterEventInvoke(stageName);
         Debug.Log($"Вход в стадию: {stageName}");
+        heroesCircleGO = UtilsManager.Spawn("TestObjects/HeroesCircle");      
     }
 
     /// <summary>
@@ -36,4 +42,6 @@ public class HeroesCircle : IStage
         EventManager.OnStageExitEventInvoke(stageName);
         Debug.Log($"Выход из стадии: {stageName}");
     }
+
+
 }

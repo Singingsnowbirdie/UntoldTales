@@ -1,3 +1,3 @@
-﻿internal class UltimateHeroExample : Hero
+﻿internal class UltimateHeroExample : UltimateHero
 {
 }
