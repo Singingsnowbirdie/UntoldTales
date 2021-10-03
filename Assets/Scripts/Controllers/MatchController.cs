@@ -16,6 +16,7 @@ public class MatchController : IController
     {
         match = new Match();
         match.InitPlayers();
+        match.StartMatch();
     }
 
     /// <summary>

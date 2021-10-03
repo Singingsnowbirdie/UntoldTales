@@ -17,7 +17,7 @@ public class HeroesRepository : Repository
     public override void Initialize()
     {
         //получаем массив инфо всех существующих героев
-        var allHeroInfos = Resources.LoadAll<HeroInfo>("");
+        var allHeroInfos = Resources.LoadAll<HeroInfo>("HeroesInfo");
         //для каждого создаем своего героя, и помещаем его в массив всех героев
         foreach (var item in allHeroInfos)
         {

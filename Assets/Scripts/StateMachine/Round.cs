@@ -16,6 +16,9 @@ public class Round : StateMachine, IStage
     {
         EventManager.OnStageEnterEventInvoke(stageName);
         Debug.Log($"Вход в стадию: {stageName}");
+
+        //устанавливаем начальное состояние
+        SetStage(GetStage<RoundStage_Planning>());
     }
 
     public void Exit()
@@ -36,8 +39,5 @@ public class Round : StateMachine, IStage
         Stages[typeof(RoundStage_Battle)] = new RoundStage_Battle();
         Stages[typeof(RoundStage_Calculation)] = new RoundStage_Calculation();
         Stages[typeof(RoundStage_OpponentSelection)] = new RoundStage_OpponentSelection();
-
-        //устанавливаем начальное состояние
-        SetStage(GetStage<RoundStage_Planning>());
     }
 }

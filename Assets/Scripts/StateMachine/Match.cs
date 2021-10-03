@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class Match : StateMachine
 {
@@ -13,18 +15,10 @@ public class Match : StateMachine
     List<Player> players;
 
     /// <summary>
-    /// Инициализатор стадий
+    /// Начинает матч
     /// </summary>
-    protected override void InitStages()
+    internal void StartMatch()
     {
-        base.InitStages();
-
-        //добавляем состояния
-        Stages[typeof(MatchStage_Initial)] = new MatchStage_Initial();
-        Stages[typeof(MatchStage_Early)] = new MatchStage_Early();
-        Stages[typeof(MatchStage_Late)] = new MatchStage_Late();
-        Stages[typeof(MatchStage_Final)] = new MatchStage_Final();
-
         //устанавливаем начальное состояние
         SetStage(GetStage<MatchStage_Initial>());
     }
@@ -37,5 +31,15 @@ public class Match : StateMachine
         players = new List<Player>();
 
         //сюда должны передаваться игроки из матчмейкера
+    }
+
+    protected override void InitStages()
+    {
+        base.InitStages();
+        //добавляем состояния
+        Stages[typeof(MatchStage_Initial)] = new MatchStage_Initial();
+        //Stages[typeof(MatchStage_Early)] = new MatchStage_Early();
+        //Stages[typeof(MatchStage_Late)] = new MatchStage_Late();
+        //Stages[typeof(MatchStage_Final)] = new MatchStage_Final();
     }
 }
