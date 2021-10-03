@@ -26,13 +26,13 @@ public class EventManager
     #endregion
 
     #region КУПЛЕНО ЧТО-ТО (передаем сколько и чего)
-    internal static void OnSomethingPurchasedEventInvoke(int amount, Purchasables value) { OnSomethingPurchased?.Invoke(amount, value); }
-    public static event Action<int, Purchasables> OnSomethingPurchased;
+    internal static void OnSomethingPurchasedEventInvoke(int amount, Purchasable value) { OnSomethingPurchased?.Invoke(amount, value); }
+    public static event Action<int, Purchasable> OnSomethingPurchased;
     #endregion
 
     #region ИЗМЕНИЛОСЬ КОЛИЧЕСТВО ЧЕГО-ТО (передаем сколько стало и чего)
-    internal static void OnSomethingChangedEventInvoke(int amount, Changeables value) { OnSomethingChanged?.Invoke(amount, value); }
-    public static event Action<int, Changeables> OnSomethingChanged;
+    internal static void OnSomethingChangedEventInvoke(int amount, Changeable value) { OnSomethingChanged?.Invoke(amount, value); }
+    public static event Action<int, Changeable> OnSomethingChanged;
     #endregion
 
     #region КУПЛЕН ГЕРОЙ
@@ -41,7 +41,7 @@ public class EventManager
     #endregion
 
     #region НАЖАТА КНОПКА
-    internal static void OnBttnPressedEventInvoke(Bttns bttn) { OnBttnPressed?.Invoke(bttn); }
-    public static event Action<Bttns> OnBttnPressed;
+    internal static void OnBttnPressedEventInvoke(Bttn bttn) { OnBttnPressed?.Invoke(bttn); }
+    public static event Action<Bttn> OnBttnPressed;
     #endregion
 }

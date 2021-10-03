@@ -17,8 +17,8 @@ public class KeeperController : IController
             keeper.Leadership = 2;
         }
         //сообщаем об изменении кол-ва опыта и лидерства
-        EventManager.OnSomethingChangedEventInvoke(keeper.Experience, Changeables.Experience);
-        EventManager.OnSomethingChangedEventInvoke(keeper.Leadership, Changeables.Leadership);
+        EventManager.OnSomethingChangedEventInvoke(keeper.Experience, Changeable.Experience);
+        EventManager.OnSomethingChangedEventInvoke(keeper.Leadership, Changeable.Leadership);
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public class KeeperController : IController
         {
             keeper.Health = 0;
         }
-        EventManager.OnSomethingChangedEventInvoke(keeper.Health, Changeables.Health);
+        EventManager.OnSomethingChangedEventInvoke(keeper.Health, Changeable.Health);
         if (!CheckHealth())
         {
             //игрок gроиграл
@@ -54,7 +54,7 @@ public class KeeperController : IController
         {
             keeper.Health = keeper.MaxHealth;
         }
-        EventManager.OnSomethingChangedEventInvoke(keeper.Health, Changeables.Health);
+        EventManager.OnSomethingChangedEventInvoke(keeper.Health, Changeable.Health);
     }
 
 
@@ -79,9 +79,9 @@ public class KeeperController : IController
     /// <summary>
     /// Что-то куплено
     /// </summary>
-    private void SomethingPurchased(int amount, Purchasables value)
+    private void SomethingPurchased(int amount, Purchasable value)
     {
-        if (value == Purchasables.Experience)
+        if (value == Purchasable.Experience)
         {
             //добавляем опыт
             keeper.Experience += amount;

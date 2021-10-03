@@ -1,4 +1,4 @@
-﻿public enum Changeables
+﻿public enum Changeable
 {
     Experience,
     Leadership,

@@ -52,15 +52,15 @@ public class RoundUI : MonoBehaviour
     /// <summary>
     /// Количество чего-то поменялось
     /// </summary>
-    private void SomethingChanged(int amount, Changeables value)
+    private void SomethingChanged(int amount, Changeable value)
     {
-        if (value == Changeables.Experience) leadershipCounter.text = $"Уровень лидерства: {amount}";
-        else if (value == Changeables.Leadership) { experienceCounter.text = $"Очки опыта Хранителя: {amount}"; }
-        else if (value == Changeables.Health) { keeperHealthCounter.text = $"Очков здоровья: {amount}"; }
-        else if (value == Changeables.Coins) { coinsCounter.text = $"Монет: {amount}"; }
-        else if (value == Changeables.Reserve) { heroesInReserveCounter.text = $"Героев в резерве: {amount}"; }
-        else if (value == Changeables.Storage) { heroesInTemporaryStorageCounter.text = $"Героев во временном хранилище: {amount}"; }
-        else if (value == Changeables.Field) { heroesOnTheFieldCounter.text = $"Героев на поле: {amount}"; }
+        if (value == Changeable.Experience) leadershipCounter.text = $"Уровень лидерства: {amount}";
+        else if (value == Changeable.Leadership) { experienceCounter.text = $"Очки опыта Хранителя: {amount}"; }
+        else if (value == Changeable.Health) { keeperHealthCounter.text = $"Очков здоровья: {amount}"; }
+        else if (value == Changeable.Coins) { coinsCounter.text = $"Монет: {amount}"; }
+        else if (value == Changeable.Reserve) { heroesInReserveCounter.text = $"Героев в резерве: {amount}"; }
+        else if (value == Changeable.Storage) { heroesInTemporaryStorageCounter.text = $"Героев во временном хранилище: {amount}"; }
+        else if (value == Changeable.Field) { heroesOnTheFieldCounter.text = $"Героев на поле: {amount}"; }
     }
 
     /// <summary>
@@ -78,7 +78,7 @@ public class RoundUI : MonoBehaviour
     /// </summary>
     public void BuyExperience()
     {
-        EventManager.OnBttnPressedEventInvoke(Bttns.BuyExperienceBttn);
+        EventManager.OnBttnPressedEventInvoke(Bttn.BuyExperienceBttn);
     }
 
     /// <summary>
@@ -86,8 +86,8 @@ public class RoundUI : MonoBehaviour
     /// </summary>
     public void BuyHero()
     {
-        Hero hero = new UltimateHeroExample();
-        EventManager.OnHeroPurchasedEventInvoke(hero);
+        //Hero hero = new UltimateHero();
+        //EventManager.OnHeroPurchasedEventInvoke(hero);
     }
     #endregion
 

@@ -47,7 +47,7 @@ public class SquadController : IController
             //добавляем героя в резерв
             squad.heroesInReserve.Add(hero);
             //оповещаем об изменении количества героев в резерве
-            EventManager.OnSomethingChangedEventInvoke(squad.heroesInReserve.Count, Changeables.Reserve);
+            EventManager.OnSomethingChangedEventInvoke(squad.heroesInReserve.Count, Changeable.Reserve);
         }
         //если герой не помещается в резерве, проверяем, есть ли место во временном хранилище
         else if (squad.temporaryStorage.Count < squad.maxHeroesInReserveAndTemp)
@@ -55,7 +55,7 @@ public class SquadController : IController
             //добавляем героя во временное хранилище
             squad.temporaryStorage.Add(hero);
             //оповещаем об изменении количества героев в хранилище
-            EventManager.OnSomethingChangedEventInvoke(squad.temporaryStorage.Count, Changeables.Storage);
+            EventManager.OnSomethingChangedEventInvoke(squad.temporaryStorage.Count, Changeable.Storage);
 
         }
         else
@@ -94,7 +94,7 @@ public class SquadController : IController
         //ищем таких же героев на поле
         foreach (var item in squad.heroesOnTheField)
         {
-            if (item.Name == hero.Name && item.Rank == hero.Rank)
+            if (item.info.Name == hero.info.Name && item.info.Rank == hero.info.Rank)
             {
                 trine.Add(item);
                 if (trine.Count == 3)
@@ -107,7 +107,7 @@ public class SquadController : IController
         //затем ищем таких же героев в резерве
         foreach (var item in squad.heroesInReserve)
         {
-            if (item.Name == hero.Name && item.Rank == hero.Rank)
+            if (item.info.Name == hero.info.Name && item.info.Rank == hero.info.Rank)
             {
                 trine.Add(item);
                 if (trine.Count == 3)
@@ -174,13 +174,13 @@ public class SquadController : IController
                 //пробуем удалить с поля
                 if (squad.RemoveHeroFromList(item, squad.heroesOnTheField))
                 {
-                    EventManager.OnSomethingChangedEventInvoke(squad.heroesOnTheField.Count, Changeables.Field);
+                    EventManager.OnSomethingChangedEventInvoke(squad.heroesOnTheField.Count, Changeable.Field);
                 }
                 //если герой не нашелся на поле, значит он был в резерве
                 //удаляем оттуда
                 else if (squad.RemoveHeroFromList(item, squad.heroesInReserve))
                 {
-                    EventManager.OnSomethingChangedEventInvoke(squad.heroesInReserve.Count, Changeables.Reserve);
+                    EventManager.OnSomethingChangedEventInvoke(squad.heroesInReserve.Count, Changeable.Reserve);
                 }
             }
         }
@@ -216,7 +216,7 @@ public class SquadController : IController
     }
 
     //что-то поменялось (сколько стало и чего)
-    private void SomethingChanged(int amount, Changeables value)
+    private void SomethingChanged(int amount, Changeable value)
     {
 
     }

@@ -38,7 +38,7 @@ public class MarketController : IController
             //тратим
             bank.SpendCoins(transfer);
             //сообщаем о покупке
-            EventManager.OnSomethingChangedEventInvoke(ExperiencePurchasedForOnce, Changeables.Experience);
+            EventManager.OnSomethingChangedEventInvoke(ExperiencePurchasedForOnce, Changeable.Experience);
         }
     }
 
@@ -65,7 +65,7 @@ public class MarketController : IController
     /// Нажата какая-то кнопка
     /// </summary>
     /// <param name="obj"></param>
-    private void BttnPressed(Bttns bttn)
+    private void BttnPressed(Bttn bttn)
     {
         if (true)
         {

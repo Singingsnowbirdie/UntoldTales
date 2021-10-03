@@ -3,29 +3,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//от этого класса наследуются все герои, умеющие накапливать энергию и имеющие ульту
+//Этот герой умеет накапливать энергию, имеет ульту
 
-public abstract class UltimateHero : Hero
+public class UltimateHero : Hero
 {
     /// <summary>
-    /// Максимальное значение энергии
+    /// Конструктор
     /// </summary>
-    public readonly int MaxEnergy = 100;
+    /// <param name="info"></param>
+    public UltimateHero(HeroInfo info) : base(info) 
+    {
+        maxEnergy = info.MaxEnergy;
+        energy = 0;
+        energyStorageRate = info.EnergyStorageRate;
+    }
+
+    /// <summary>
+    /// Максимальное значение энергии
+    /// (Начальное значение берется из карточки (инфо), потом меняется, под действием модификаторов)
+    /// </summary>
+    int maxEnergy;
 
     /// <summary>
     /// Текущее значение энергии
     /// </summary>
-    public int Energy { get; set; }
+    int energy;
 
     /// <summary>
     /// Сколько энергии герой получает за одну атаку по цели
     /// </summary>
-    public readonly int EnergyStorageRate = 10;
+    int energyStorageRate;
 
     /// <summary>
     /// Следующая атака - ульта?
     /// </summary>
-    public bool IsUltimateAttack;
+    bool IsUltimateAttack;
 
     public override void Attack()
     {
@@ -44,7 +56,7 @@ public abstract class UltimateHero : Hero
     /// <summary>
     /// Обычная атака
     /// </summary>
-    private void OrdinaryAttack()
+    void OrdinaryAttack()
     {
         Debug.Log("OrdinaryAttack");
     }
@@ -52,7 +64,7 @@ public abstract class UltimateHero : Hero
     /// <summary>
     /// Атака ультой
     /// </summary>
-    private void UltimateAttack()
+    void UltimateAttack()
     {
         IsUltimateAttack = false;
         Debug.Log("UltimateAttack");
@@ -62,12 +74,12 @@ public abstract class UltimateHero : Hero
     /// Пополняет энергию
     /// Проверяет, достаточно ли энергии для проведения ульты
     /// </summary>
-    private void AddEnergy()
+    void AddEnergy()
     {
-        Energy += EnergyStorageRate;
-        if (Energy >= MaxEnergy)
+        energy += energyStorageRate;
+        if (energy >= maxEnergy)
         {
-            Energy -= MaxEnergy;
+            energy -= maxEnergy;
             IsUltimateAttack = true;
         }
     }

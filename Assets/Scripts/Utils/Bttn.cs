@@ -1,4 +1,4 @@
-﻿public enum Bttns
+﻿public enum Bttn
 {
     BuyExperienceBttn
 }

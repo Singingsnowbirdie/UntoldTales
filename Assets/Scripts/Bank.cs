@@ -16,7 +16,7 @@
     public void SetStartCoinsAmount()
     {
         Coins = startCoins;
-        EventManager.OnSomethingChangedEventInvoke(Coins, Changeables.Coins);
+        EventManager.OnSomethingChangedEventInvoke(Coins, Changeable.Coins);
     }
 
     /// <summary>
@@ -25,7 +25,7 @@
     public void AddCoins(int amount)
     {
         Coins += amount;
-        EventManager.OnSomethingChangedEventInvoke(Coins, Changeables.Coins);
+        EventManager.OnSomethingChangedEventInvoke(Coins, Changeable.Coins);
     }
 
     /// <summary>
@@ -34,7 +34,7 @@
     public void SpendCoins(int amount)
     {
         Coins -= amount;
-        EventManager.OnSomethingChangedEventInvoke(Coins, Changeables.Coins);
+        EventManager.OnSomethingChangedEventInvoke(Coins, Changeable.Coins);
     }
 
     /// <summary>
