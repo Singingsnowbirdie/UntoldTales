@@ -38,7 +38,7 @@ public class MarketController : IController
             //тратим
             bank.SpendCoins(transfer);
             //сообщаем о покупке
-            EventManager.ExperiencePurchased(ExperiencePurchasedForOnce);
+            EventManager.OnSomethingChangedEventInvoke(ExperiencePurchasedForOnce, Changeables.Experience);
         }
     }
 
@@ -52,12 +52,24 @@ public class MarketController : IController
 
     public void OnExit()
     {
-        EventManager.OnBuyExperienceBttnPressed -= BuyExperience;
+        EventManager.OnBttnPressed += BttnPressed;
     }
 
     public void OnCreate()
     {
-        //подписываемся на нажатие кнопки "купить опыт Хранителя"
-        EventManager.OnBuyExperienceBttnPressed += BuyExperience;
+        //подписываемся на нажатие кнопок
+        EventManager.OnBttnPressed += BttnPressed;
+    }
+
+    /// <summary>
+    /// Нажата какая-то кнопка
+    /// </summary>
+    /// <param name="obj"></param>
+    private void BttnPressed(Bttns bttn)
+    {
+        if (true)
+        {
+
+        }
     }
 }

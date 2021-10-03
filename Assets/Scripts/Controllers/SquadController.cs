@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 //Контроллер отряда героев (Не путать с контроллером одного героя!)
 
@@ -46,7 +47,7 @@ public class SquadController : IController
             //добавляем героя в резерв
             squad.heroesInReserve.Add(hero);
             //оповещаем об изменении количества героев в резерве
-            EventManager.ReserveSizeChanged(squad.heroesInReserve.Count);
+            EventManager.OnSomethingChangedEventInvoke(squad.heroesInReserve.Count, Changeables.Reserve);
         }
         //если герой не помещается в резерве, проверяем, есть ли место во временном хранилище
         else if (squad.temporaryStorage.Count < squad.maxHeroesInReserveAndTemp)
@@ -54,7 +55,8 @@ public class SquadController : IController
             //добавляем героя во временное хранилище
             squad.temporaryStorage.Add(hero);
             //оповещаем об изменении количества героев в хранилище
-            EventManager.TemporaryStorageSizeChanged(squad.temporaryStorage.Count);
+            EventManager.OnSomethingChangedEventInvoke(squad.temporaryStorage.Count, Changeables.Storage);
+
         }
         else
         {
@@ -172,13 +174,13 @@ public class SquadController : IController
                 //пробуем удалить с поля
                 if (squad.RemoveHeroFromList(item, squad.heroesOnTheField))
                 {
-                    EventManager.HeroesOnTheFieldAmountChanged(squad.heroesOnTheField.Count);
+                    EventManager.OnSomethingChangedEventInvoke(squad.heroesOnTheField.Count, Changeables.Field);
                 }
                 //если герой не нашелся на поле, значит он был в резерве
                 //удаляем оттуда
                 else if (squad.RemoveHeroFromList(item, squad.heroesInReserve))
                 {
-                    EventManager.ReserveSizeChanged(squad.heroesInReserve.Count);
+                    EventManager.OnSomethingChangedEventInvoke(squad.heroesInReserve.Count, Changeables.Reserve);
                 }
             }
         }
@@ -198,19 +200,25 @@ public class SquadController : IController
 
     public void OnExit()
     {
-        EventManager.OnExperienceChanged -= ChangeMaxHeroesAmount;
+        EventManager.OnSomethingChanged -= SomethingChanged;
         EventManager.OnHeroPurchased -= DistributeHero;
         EventManager.OnStageExit -= OnStageExit;
     }
 
     public void OnCreate()
     {
-        //подписываемся на повышение уровня лидерства/опыта
-        EventManager.OnExperienceChanged += ChangeMaxHeroesAmount;
+        //подписываемся на изменение какого-либо показателя
+        EventManager.OnSomethingChanged += SomethingChanged;
         //подписываемся на событие "куплен герой"
         EventManager.OnHeroPurchased += DistributeHero;
         //подписываемся на событие "выход из состояния"
         EventManager.OnStageExit += OnStageExit;
+    }
+
+    //что-то поменялось (сколько стало и чего)
+    private void SomethingChanged(int amount, Changeables value)
+    {
+
     }
 
     public void OnStart()

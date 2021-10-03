@@ -16,26 +16,10 @@ class RoundController : IController
         round = new Round();
     }
 
-    public void OnCreate()
-    {
-        EventManager.OnChangeRoundStageBttnPressed += ChangeRoundStage;
-    }
+    public void OnCreate() { }
 
-    public void OnExit()
-    {
-        EventManager.OnChangeRoundStageBttnPressed -= ChangeRoundStage;
-    }
+    public void OnExit() { }
 
-    public void OnStart()
-    {
-        //throw new NotImplementedException();
-    }
+    public void OnStart() { }
 
-    /// <summary>
-    /// Сменить фазу раунда
-    /// </summary>
-    private void ChangeRoundStage()
-    {
-        round.SetNextStage();
-    }
 }

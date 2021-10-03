@@ -15,37 +15,24 @@ public class MatchController : IController
     public void Initialize()
     {
         match = new Match();
+        match.InitPlayers();
     }
 
     /// <summary>
     /// При создании
     /// </summary>
-    public void OnCreate()
-    {
-        EventManager.OnChangeMatchStageBttnPressed += ChangeMatchStage;
-    }
+    public void OnCreate() { }
+
 
     /// <summary>
     /// При выходе
     /// </summary>
-    public void OnExit()
-    {
-        EventManager.OnChangeMatchStageBttnPressed -= ChangeMatchStage;
-    }
+    public void OnExit() { }
 
     /// <summary>
     /// При старте
     /// </summary>
     public void OnStart()
     {
-        match.AddPlayers();
-    }
-
-    /// <summary>
-    /// Сменить стадию
-    /// </summary>
-    private void ChangeMatchStage()
-    {
-        match.SetNextStage();
     }
 }

@@ -25,101 +25,23 @@ public class EventManager
     public static event Action<string> OnStageExit;
     #endregion
 
-    #region СОБЫТИЯ: Хранитель
-    // Куплен опыт
-    public static event Action<int> OnKeeperExperiencePurchased;
-    // Изменилось количество опыта Хранителя (и, иногда, уровень лидерства)
-    public static event Action<int, int> OnExperienceChanged;
-    // Изменилось количество очков здоровья
-    public static event Action<int> OnKeeperHealthChanged;
+    #region КУПЛЕНО ЧТО-ТО (передаем сколько и чего)
+    internal static void OnSomethingPurchasedEventInvoke(int amount, Purchasables value) { OnSomethingPurchased?.Invoke(amount, value); }
+    public static event Action<int, Purchasables> OnSomethingPurchased;
     #endregion
 
-    #region СОБЫТИЯ: Отряд
-    //Куплен герой
+    #region ИЗМЕНИЛОСЬ КОЛИЧЕСТВО ЧЕГО-ТО (передаем сколько стало и чего)
+    internal static void OnSomethingChangedEventInvoke(int amount, Changeables value) { OnSomethingChanged?.Invoke(amount, value); }
+    public static event Action<int, Changeables> OnSomethingChanged;
+    #endregion
+
+    #region КУПЛЕН ГЕРОЙ
+    internal static void OnHeroPurchasedEventInvoke(Hero hero) { OnHeroPurchased?.Invoke(hero); }
     public static event Action<Hero> OnHeroPurchased;
-    // Изменилось количество героев в резерве
-    public static event Action<int> OnReserveSizeChanged;
-    // Изменилось количество героев во временном хранилище
-    public static event Action<int> OnTemporaryStorageSizeChanged;
-    // Изменилось количество героев на поле
-    public static event Action<int> OnHeroesOnTheFieldAmountChanged;
     #endregion
 
-    #region СОБЫТИЯ: UI матч
-    //Нажата кнопка "сменить стадию матча"
-    public static event Action OnChangeMatchStageBttnPressed;
+    #region НАЖАТА КНОПКА
+    internal static void OnBttnPressedEventInvoke(Bttns bttn) { OnBttnPressed?.Invoke(bttn); }
+    public static event Action<Bttns> OnBttnPressed;
     #endregion
-
-    #region СОБЫТИЯ: UI раунд
-    //Нажата кнопка "сменить фазу раунда"
-    public static event Action OnChangeRoundStageBttnPressed;
-    //Нажата кнопка "купить опыт Хранителя"
-    public static event Action OnBuyExperienceBttnPressed;
-    //Изменилось количество монет у игрока
-    public static event Action<int> OnCoinsAmountChanged;
-    #endregion
-
-    #region МЕТОДЫ: Хранитель
-    /// <summary>
-    /// Приобретен опыт
-    /// </summary>
-    internal static void ExperiencePurchased(int experience) { OnKeeperExperiencePurchased?.Invoke(experience); }
-    /// <summary>
-    /// Изменилось количество опыта Хранителя (и, иногда, уровень лидерства)
-    /// </summary>
-    internal static void ExperienceChanged(int experience, int leadership) { OnExperienceChanged?.Invoke(experience, leadership); }
-    /// <summary>
-    /// Изменилось количество очков здоровья Хранителя
-    /// </summary>
-    internal static void KeeperHealthChanged(int health) { OnKeeperHealthChanged?.Invoke(health); }
-    #endregion
-
-    #region МЕТОДЫ: Отряд
-    /// <summary>
-    /// Изменилось количество героев в резерве
-    /// </summary>
-    /// <param name="count"></param>
-    internal static void ReserveSizeChanged(int count) { OnReserveSizeChanged?.Invoke(count); }
-    /// <summary>
-    /// Изменилось количество героев во временном хранилище
-    /// </summary>
-    /// <param name="count"></param>
-    internal static void TemporaryStorageSizeChanged(int count) { OnTemporaryStorageSizeChanged?.Invoke(count); }
-    /// <summary>
-    /// Изменилось количество героев на поле
-    /// </summary>
-    /// <param name="count"></param>
-    internal static void HeroesOnTheFieldAmountChanged(int count) { OnHeroesOnTheFieldAmountChanged?.Invoke(count); }
-    #endregion
-
-    #region МЕТОДЫ UI матч
-    /// <summary>
-    /// Нажата кнопка "сменить стадию матча"
-    /// </summary>
-    internal static void ChangeMatchStageBttnPressed() { OnChangeMatchStageBttnPressed?.Invoke(); }
-    #endregion
-
-    #region МЕТОДЫ UI раунд
-    /// <summary>
-    /// Нажата кнопка: сменить фазу раунда
-    /// </summary>
-    public static void ChangeRoundStageBttnPressed() { OnChangeRoundStageBttnPressed?.Invoke(); }
-    /// <summary>
-    /// Нажата кнопка: купить опыт Хранителя
-    /// </summary>
-    public static void BuyExperienceBttnPressed() { OnBuyExperienceBttnPressed?.Invoke(); }
-    /// <summary>
-    /// Нажата кнопка: купить героя 
-    /// </summary>
-    internal static void BuyHero(Hero hero) { OnHeroPurchased?.Invoke(hero); }
-    #endregion
-
-    #region МЕТОДЫ: Инвентарь
-    /// <summary>
-    /// Изменилось количество монет
-    /// </summary>
-    /// <param name="coins"></param>
-    internal static void CoinsAmountChanged(int coins) { OnCoinsAmountChanged?.Invoke(coins); }
-    #endregion
-
 }

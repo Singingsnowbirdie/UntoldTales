@@ -8,26 +8,26 @@ public abstract class StateMachine
     /// </summary>
     protected StateMachine()
     {
-        //инициализировать состояния
         InitStages();
-        //установить начальное состояние
-        SetStageByDefault();
     }
 
     /// <summary>
     /// Все состояния
     /// </summary>
-    protected abstract Dictionary<Type, IStage> Stages { get; set; }
+    protected Dictionary<Type, IStage> Stages { get; set; }
 
     /// <summary>
     /// Текущее состояние
     /// </summary>
-    protected abstract IStage CurrentStage { get; set; }
+    protected IStage CurrentStage { get; set; }
 
     /// <summary>
     /// Инициализатор состояний
     /// </summary>
-    protected abstract void InitStages();
+    protected virtual void InitStages()
+    {
+        Stages = new Dictionary<Type, IStage>();
+    }
 
     /// <summary>
     /// Включаем новое состояние
@@ -54,9 +54,4 @@ public abstract class StateMachine
         var type = typeof(T);
         return Stages[type];
     }
-
-    /// <summary>
-    /// Устанавливает начальную фазу
-    /// </summary>
-    protected abstract void SetStageByDefault();
 }

@@ -28,36 +28,17 @@ public class MatchStage_Initial : StateMachine, IStage
         Debug.Log($"Выход из стадии: {stageName}");
     }
 
-    //все состояния
-    protected override Dictionary<Type, IStage> Stages { get; set; }
-
-    //текущее состояние
-    protected override IStage CurrentStage { get; set; }
-
     /// <summary>
-    /// Инициализатор этапов
+    /// Инициализатор
     /// </summary>
     protected override void InitStages()
     {
-        Stages = new Dictionary<Type, IStage>();
+        base.InitStages();
+        //добавляем состояния
         Stages[typeof(HeroesCircleStage)] = new HeroesCircleStage();
-    }
-
-    /// <summary>
-    /// Устанавливаем начальное состояние
-    /// </summary>
-    protected override void SetStageByDefault()
-    {
-        SetStage_HeroesCircle(false);
-    }
-
-    /// <summary>
-    /// Запускает Круг Героев
-    /// </summary>
-    private void SetStage_HeroesCircle(bool isQueueMode)
-    {
+        //устанавливаем начальное состояние
         SetStage(GetStage<HeroesCircleStage>());
-        (CurrentStage as HeroesCircleStage).IsQueueMode = isQueueMode;
+        //уточняем режим круга героев
+        (CurrentStage as HeroesCircleStage).IsQueueMode = false;
     }
-
 }
