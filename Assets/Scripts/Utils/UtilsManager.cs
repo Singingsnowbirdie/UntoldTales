@@ -59,8 +59,8 @@ public sealed class UtilsManager : MonoBehaviour
     /// Спавнит ГО
     /// </summary>
     /// <param name="obj"></param>
-    public static GameObject Spawn(string path)
+    public static void Spawn(GameObject go)
     {
-        return Instantiate(Resources.Load(path) as GameObject, new Vector3(0, 0, 0), Quaternion.identity);
+        Instantiate(go, new Vector3(0, 0, 0), Quaternion.identity);
     }
 }

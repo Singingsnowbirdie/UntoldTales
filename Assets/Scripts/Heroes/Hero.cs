@@ -3,128 +3,71 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//от этого класса наследуются все герои
-
-/// <summary>
-/// Тип атаки (физическая, магическая, гибридная)
-/// </summary>
-public enum HeroAttackType
-{
-    Physical,
-    Magic,
-    Hybrid
-}
-
-/// <summary>
-/// Все фракции
-/// </summary>
-public enum Fractions
-{
-    Rogue, //разбойник
-    Heavenly, //небесный
-    EvilSpirit, //нечисть
-    Mischievous, //бедокур
-    ForgeMaster, //мастер ковки
-    Vampire, //вампир
-    Sylvan, //лесной
-    Eternal, //вечный
-    Forgotten, //забытый
-    Feral //дикарь
-}
-
-/// <summary>
-/// Все классы
-/// </summary>
-public enum Classes
-{
-    Pathfinder, //следопыт
-    SwordMaster, //мастер меча
-    Ranger, //рейнджер
-    Shooter, //стрелок
-    Sorcerer, //чародей
-    Mage, //маг
-    Paladin, //паладин
-    Guardian, //страж
-    Shapeshifter, //оборотень
-    Slayer, //убийца
-}
-
 public abstract class Hero : MonoBehaviour
 {
-    /// <summary>
-    /// ID героя в отряде (присваивается при добавлении героя в отряд)
-    /// </summary>
-    public int ID { get; set; }
+    //Конструктор
+    public Hero(HeroInfo info)
+    {
+        this.info = info;
+        maxHealth = info.Health;
+        health = maxHealth;
+        maxMana = info.Mana;
+        mana = maxMana;
+        physicalProtection = info.PhysicalProtection;
+        magicProtection = info.MagicProtection;
+        attackPower = info.AttackPower;
+        attackSpeed = info.AttackSpeed;
+        attackRange = info.AttackRange;
+    }
 
+    #region ПОКАЗАТЕЛИ (Начальное значение берется из карточки (инфо), потом меняется, под действием модификаторов)
     /// <summary>
-    /// Ранг
+    /// Максимальное здоровье (в единицах)
     /// </summary>
-    public int Rank { get; set; }
-
-    /// <summary>
-    /// Имя
-    /// </summary>
-    public string Name { get; set; }
-
-    /// <summary>
-    /// Фракция
-    /// </summary>
-    public Fractions Fraction { get; set; }
-
-    /// <summary>
-    /// Класс
-    /// </summary>
-    public Classes Class { get; set; }
-
-    /// <summary>
-    /// Максимальное здоровье
-    /// </summary>
-    public int MaxHealth { get; set; }
-
-    /// <summary>
-    /// Текущее здоровье
-    /// </summary>
-    public int Health { get; set; }
+    int maxHealth;
 
     /// <summary>
     /// Физическая защита: (количество поглощаемого физического урона)
     /// </summary>
-    public int PhysicalProtection { get; set; }
+    int physicalProtection;
 
     /// <summary>
     /// Магическая защита: (количество поглощаемого магического урона)
     /// </summary>
-    public int MagicProtection { get; set; }
-
-    /// <summary>
-    /// Тип атаки (физическая, магическая, гибридная)
-    /// </summary>
-    public HeroAttackType AttackType { get; set; }
+    int magicProtection;
 
     /// <summary>
     /// Сила атаки: (количество ед. урона за одну атаку)
     /// </summary>
-    public int AttackPower { get; set; }
+    int attackPower;
 
     /// <summary>
     /// Скорость атаки: (количество атак в секунду)
     /// </summary>
-    public int AttackSpeed { get; set; }
+    int attackSpeed;
 
     /// <summary>
     /// Дальность атаки: (в количестве ячеек по прямой)
     /// </summary>
-    public int AttackRange { get; set; }
+    int attackRange { get; set; }
 
     /// <summary>
-    /// Максимальное значение маны
+    /// Максимальное количество маны
     /// </summary>
-    public readonly int MaxMana = 100;
+    int maxMana { get; set; }
+    #endregion
+
+    #region РЕСУРСЫ (здоровье, мана)
+    /// <summary>
+    /// Текущее здоровье
+    /// </summary>
+    int health;
 
     /// <summary>
     /// Текущее значение маны
     /// </summary>
-    public int Mana { get; set; }
+    int mana { get; set; }
+    #endregion
 
     /// <summary>
     /// Текущая цель
@@ -132,7 +75,7 @@ public abstract class Hero : MonoBehaviour
     public Hero CurrentTarget { get; set; }
 
     /// <summary>
-    /// Суммарная стоимость всех экипированных предметов
+    /// Суммарная стоимость всех экипированных предметов (в единицах)
     /// </summary>
     public int EquipmentСost { get; set; }
 
@@ -161,7 +104,7 @@ public abstract class Hero : MonoBehaviour
     /// </summary>
     internal void Raise()
     {
-        Rank++;
+        //ищем инфо героя с таким же именем, но выше рангом, "наклеиваем" его на этого героя
     }
 
     /// <summary>
@@ -187,4 +130,14 @@ public abstract class Hero : MonoBehaviour
     {
         Debug.Log("Герой атакует");
     }
+
+    /// <summary>
+    /// Информация о герое
+    /// </summary>
+    public HeroInfo info;
+
+    /// <summary>
+    /// ID героя в отряде (присваивается при добавлении героя в отряд)
+    /// </summary>
+    public int ID { get; set; }
 }

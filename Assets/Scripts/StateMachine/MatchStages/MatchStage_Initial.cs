@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MatchStage_Initial : StateMachine, IStage
 {
@@ -17,6 +14,10 @@ public class MatchStage_Initial : StateMachine, IStage
     {
         EventManager.OnStageEnterEventInvoke(stageName);
         Debug.Log($"Вход в стадию: {stageName}");
+        //устанавливаем начальное состояние
+        SetStage(GetStage<HeroesCircleStage>());
+        //уточняем режим круга героев
+        (CurrentStage as HeroesCircleStage).IsQueueMode = false;
     }
 
     /// <summary>
@@ -28,36 +29,13 @@ public class MatchStage_Initial : StateMachine, IStage
         Debug.Log($"Выход из стадии: {stageName}");
     }
 
-    //все состояния
-    protected override Dictionary<Type, IStage> Stages { get; set; }
-
-    //текущее состояние
-    protected override IStage CurrentStage { get; set; }
-
     /// <summary>
-    /// Инициализатор этапов
+    /// Инициализатор
     /// </summary>
     protected override void InitStages()
     {
-        Stages = new Dictionary<Type, IStage>();
+        base.InitStages();
+        //добавляем состояния
         Stages[typeof(HeroesCircleStage)] = new HeroesCircleStage();
     }
-
-    /// <summary>
-    /// Устанавливаем начальное состояние
-    /// </summary>
-    protected override void SetStageByDefault()
-    {
-        SetStage_HeroesCircle(false);
-    }
-
-    /// <summary>
-    /// Запускает Круг Героев
-    /// </summary>
-    private void SetStage_HeroesCircle(bool isQueueMode)
-    {
-        SetStage(GetStage<HeroesCircleStage>());
-        (CurrentStage as HeroesCircleStage).IsQueueMode = isQueueMode;
-    }
-
 }

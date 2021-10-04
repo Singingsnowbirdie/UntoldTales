@@ -37,11 +37,5 @@ public class HeroesCircle : MonoBehaviour
     /// <param name="item"></param>
     private void PlaceHero(Point point)
     {
-        //спавним болванку
-        GameObject go = UtilsManager.Spawn("TestObjects/HeroesCircle");
-        //помещаем ее над точкой
-        go.transform.position = point.transform.position;
-        //навешиваем на нее скрипт
-        go.AddComponent<Hero> ();
     }
 }

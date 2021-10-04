@@ -1,6 +1,10 @@
-﻿//от этого класса наследуются все герои, не имеющие ульты (не умеющие накапливать энергию)
+﻿//этот герой не умеет накапливать энергию, не имеет ульты, но имеет пассивную способность
 
-public abstract class PassiveAbilityHero : Hero
+public class PassiveAbilityHero : Hero
 {
-
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="info"></param>
+    public PassiveAbilityHero(HeroInfo info) : base(info) { }
 }

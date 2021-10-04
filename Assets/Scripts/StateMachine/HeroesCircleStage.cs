@@ -20,9 +20,9 @@ public class HeroesCircleStage : IStage
     public bool IsQueueMode { get; set; }
 
     /// <summary>
-    /// Круг героев (GO)
+    /// Круг героев
     /// </summary>
-    GameObject heroesCircleGO;
+    GameObject HeroesCircle;
 
     /// <summary>
     /// При входе в состояние
@@ -31,7 +31,17 @@ public class HeroesCircleStage : IStage
     {
         EventManager.OnStageEnterEventInvoke(stageName);
         Debug.Log($"Вход в стадию: {stageName}");
-        heroesCircleGO = UtilsManager.Spawn("TestObjects/HeroesCircle");      
+        SpawnHeroesCircle();
+    }
+
+    /// <summary>
+    /// Создает круг героев и размещает его в сцене
+    /// </summary>
+    private void SpawnHeroesCircle()
+    {
+        var obj = Resources.Load("TestObjects/HeroesCircle");
+        HeroesCircle = obj as GameObject;
+        UtilsManager.Spawn(HeroesCircle);
     }
 
     /// <summary>

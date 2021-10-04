@@ -2,16 +2,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-// Временный менеджер UI (матч)
+// UI Матча
 
-public class MatchUIManager : MonoBehaviour
+public class MatchUI : MonoBehaviour
 {
     /// <summary>
-    /// Текст: стадия матча
-    /// </summary>
-    [SerializeField] Text matchStageText;
-    /// <summary>
-    /// Текст: этап стадии
+    /// Текст: текущая стадия
     /// </summary>
     [SerializeField] Text currentStageText;
 
@@ -30,7 +26,7 @@ public class MatchUIManager : MonoBehaviour
     /// <param name="obj"></param>
     private void ShowCurrentStage(string stage)
     {
-        matchStageText.text = stage;
+        currentStageText.text = stage;
     }
 
     /// <summary>
@@ -41,14 +37,4 @@ public class MatchUIManager : MonoBehaviour
         //отписываемся от всего
         EventManager.OnStageEnter -= ShowCurrentStage;
     }
-
-    #region КНОПКИ
-    /// <summary>
-    /// Кнопка "сменить стадию матча"
-    /// </summary>
-    public void ChangeMatchStage()
-    {
-        EventManager.ChangeMatchStageBttnPressed();
-    }
-    #endregion
 }

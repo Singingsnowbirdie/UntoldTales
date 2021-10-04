@@ -1,20 +1,11 @@
-﻿public class KeeperController : IController
+﻿using System;
+
+public class KeeperController : IController
 {
     /// <summary>
     /// Хранитель
     /// </summary>
     Keeper keeper;
-
-    /// <summary>
-    /// Добавляет очки опыта
-    /// </summary>
-    private void AddExperience(int amount)
-    {
-        //добавляем опыт
-        keeper.Experience += amount;
-        //проверяем, хватает ли опыта для повышения уровня лидерства
-        CheckLeadership();
-    }
 
     /// <summary>
     /// Проверяет, хватает ли опыта для повышения уровня лидерства
@@ -25,8 +16,9 @@
         {
             keeper.Leadership = 2;
         }
-        //сообщаем об изменении кол-ва опыта и лидерства (делаем это одним событием, чтоб сэкономить вызовы)
-        EventManager.ExperienceChanged(keeper.Experience, keeper.Leadership);
+        //сообщаем об изменении кол-ва опыта и лидерства
+        EventManager.OnSomethingChangedEventInvoke(keeper.Experience, Changeable.Experience);
+        EventManager.OnSomethingChangedEventInvoke(keeper.Leadership, Changeable.Leadership);
     }
 
     /// <summary>
@@ -42,10 +34,10 @@
         {
             keeper.Health = 0;
         }
-        EventManager.KeeperHealthChanged(keeper.Health);
+        EventManager.OnSomethingChangedEventInvoke(keeper.Health, Changeable.Health);
         if (!CheckHealth())
         {
-            //игрок кроиграл
+            //игрок gроиграл
         }
     }
 
@@ -62,7 +54,7 @@
         {
             keeper.Health = keeper.MaxHealth;
         }
-        EventManager.KeeperHealthChanged(keeper.Health);
+        EventManager.OnSomethingChangedEventInvoke(keeper.Health, Changeable.Health);
     }
 
 
@@ -76,13 +68,26 @@
 
     public void OnExit()
     {
-        EventManager.OnKeeperExperiencePurchased -= AddExperience;
+        EventManager.OnSomethingPurchased -= SomethingPurchased;
     }
 
     public void OnCreate()
     {
-        //подписываемся на покупку опыта
-        EventManager.OnKeeperExperiencePurchased += AddExperience;
+        EventManager.OnSomethingPurchased += SomethingPurchased;
+    }
+
+    /// <summary>
+    /// Что-то куплено
+    /// </summary>
+    private void SomethingPurchased(int amount, Purchasable value)
+    {
+        if (value == Purchasable.Experience)
+        {
+            //добавляем опыт
+            keeper.Experience += amount;
+            //проверяем, хватает ли опыта для повышения уровня лидерства
+            CheckLeadership();
+        }
     }
 
     public void OnStart()
