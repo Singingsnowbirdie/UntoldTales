@@ -12,3 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bdd48fe0058f2946bfd250793ba5e02, type: 3}
   m_Name: HeroInfo_Test
   m_EditorClassIdentifier: 
+  heroName: One
+  rank: 1
+  fraction: 0
+  heroClass: 0
+  health: 10
+  mana: 10
+  physicalProtection: 10
+  magicProtection: 10
+  attackType: 1
+  attackPower: 10
+  attackSpeed: 10
+  attackRange: 10
+  hasUltimateAbility: 0
+  maxEnergy: 10
+  energyStorageRate: 10

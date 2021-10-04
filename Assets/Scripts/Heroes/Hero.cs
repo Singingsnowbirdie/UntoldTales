@@ -19,6 +19,21 @@ public abstract class Hero : MonoBehaviour
         attackSpeed = info.AttackSpeed;
         attackRange = info.AttackRange;
     }
+    
+    private void Awake()
+    {
+        maxHealth = info.Health;
+        health = maxHealth;
+        maxMana = info.Mana;
+        mana = maxMana;
+        physicalProtection = info.PhysicalProtection;
+        magicProtection = info.MagicProtection;
+        attackPower = info.AttackPower;
+        attackSpeed = info.AttackSpeed;
+        attackRange = info.AttackRange;
+
+        heroStateMachine = new HeroStateMachine();
+    }
 
     #region ПОКАЗАТЕЛИ (Начальное значение берется из карточки (инфо), потом меняется, под действием модификаторов)
     /// <summary>
@@ -70,9 +85,16 @@ public abstract class Hero : MonoBehaviour
     #endregion
 
     /// <summary>
+    /// состояния
+    /// </summary>
+    public HeroStateMachine heroStateMachine;  
+
+    /// <summary>
     /// Текущая цель
     /// </summary>
-    public Hero CurrentTarget { get; set; }
+    
+    // public Hero CurrentTarget { private get =>throw new System.NotImplementedException(); set => this.CurrentTarget = CurrentTarget; }
+    public Hero CurrentTarget ;
 
     /// <summary>
     /// Суммарная стоимость всех экипированных предметов (в единицах)
