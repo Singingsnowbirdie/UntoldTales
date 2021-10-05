@@ -8,17 +8,6 @@ using UnityEngine;
 public class UltimateHero : Hero
 {
     /// <summary>
-    /// Конструктор
-    /// </summary>
-    /// <param name="info"></param>
-    public UltimateHero(HeroInfo info) : base(info) 
-    {
-        maxEnergy = info.MaxEnergy;
-        energy = 0;
-        energyStorageRate = info.EnergyStorageRate;
-    }
-
-    /// <summary>
     /// Максимальное значение энергии
     /// (Начальное значение берется из карточки (инфо), потом меняется, под действием модификаторов)
     /// </summary>
@@ -82,5 +71,13 @@ public class UltimateHero : Hero
             energy -= maxEnergy;
             IsUltimateAttack = true;
         }
+    }
+
+    public override void Initialize()
+    {
+        base.Initialize();
+        maxEnergy = info.MaxEnergy;
+        energy = 0;
+        energyStorageRate = info.EnergyStorageRate;
     }
 }

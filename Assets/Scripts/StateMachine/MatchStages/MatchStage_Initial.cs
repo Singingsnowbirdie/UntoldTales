@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class MatchStage_Initial : StateMachine, IStage
 {
@@ -12,12 +13,13 @@ public class MatchStage_Initial : StateMachine, IStage
     /// </summary>
     public void Enter()
     {
+        //сообщаем о входе в состояние
         EventManager.OnStageEnterEventInvoke(stageName);
         Debug.Log($"Вход в стадию: {stageName}");
+        //инициализируем состояния
+        InitStages();
         //устанавливаем начальное состояние
         SetStage(GetStage<HeroesCircleStage>());
-        //уточняем режим круга героев
-        (CurrentStage as HeroesCircleStage).IsQueueMode = false;
     }
 
     /// <summary>
@@ -37,5 +39,6 @@ public class MatchStage_Initial : StateMachine, IStage
         base.InitStages();
         //добавляем состояния
         Stages[typeof(HeroesCircleStage)] = new HeroesCircleStage();
+        Debug.Log($"Инициализация состояний: {stageName}");
     }
 }

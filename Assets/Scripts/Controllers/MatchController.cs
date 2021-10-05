@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class MatchController : IController
+﻿public class MatchController : IController
 {
     /// <summary>
     /// Текущий матч
@@ -15,7 +11,7 @@ public class MatchController : IController
     public void Initialize()
     {
         match = new Match();
-        match.InitPlayers();
+        match.Initialize();
         match.StartMatch();
     }
 
@@ -33,7 +29,5 @@ public class MatchController : IController
     /// <summary>
     /// При старте
     /// </summary>
-    public void OnStart()
-    {
-    }
+    public void OnStart() { }
 }

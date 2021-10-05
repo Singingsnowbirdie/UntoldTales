@@ -13,8 +13,8 @@ public class HeroInfo : ScriptableObject
     public string Name => this.heroName;
 
     [Header("Ранг")]
-    [SerializeField] private string rank;
-    public string Rank => this.rank;
+    [SerializeField] private int rank;
+    public int Rank => this.rank;
 
     [Header("Фракция")]
     [SerializeField] Fraction fraction;
@@ -67,5 +67,9 @@ public class HeroInfo : ScriptableObject
     [Header("Сколько энергии герой получает за одну атаку по цели (для героев, имеющих ульту)")]
     [SerializeField] int energyStorageRate;
     public int EnergyStorageRate => this.energyStorageRate;
+
+    [Header("Префаб")]
+    [SerializeField] GameObject pref;
+    public GameObject Pref => this.pref;
 }
 

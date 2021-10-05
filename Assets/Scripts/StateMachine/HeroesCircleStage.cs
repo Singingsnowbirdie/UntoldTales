@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.IO;
-using UnityEngine;
+﻿using UnityEngine;
 
 //Круг героев
 //Первый и последний этапы начальной стадии матча
@@ -15,23 +13,35 @@ public class HeroesCircleStage : IStage
     readonly string stageName = "Круг героев";
 
     /// <summary>
-    /// Режим: по очереди?
+    /// Круг героев (скрипт)
     /// </summary>
-    public bool IsQueueMode { get; set; }
-
-    /// <summary>
-    /// Круг героев
-    /// </summary>
-    GameObject HeroesCircle;
+    HeroesCircle heroesCircle;
 
     /// <summary>
     /// При входе в состояние
     /// </summary>
     public void Enter()
     {
+        //сообщаем о входе в состояние
         EventManager.OnStageEnterEventInvoke(stageName);
         Debug.Log($"Вход в стадию: {stageName}");
+        //создаем круг героев
         SpawnHeroesCircle();
+        //подписываемся на событие "игрок выбрал себе героя"
+        EventManager.OnHeroSelected += OnHeroSelected;
+    }
+
+    /// <summary>
+    /// Игрок выбрал себе героя
+    /// </summary>
+    /// <param name="obj"></param>
+    private void OnHeroSelected(Hero hero, int playerID)
+    {
+        //проверяем, всех ли героев разобрали
+        if (heroesCircle.AllHeroesSelected(hero))
+        {
+            Debug.Log("AllHeroesSelected");
+        }
     }
 
     /// <summary>
@@ -40,8 +50,8 @@ public class HeroesCircleStage : IStage
     private void SpawnHeroesCircle()
     {
         var obj = Resources.Load("TestObjects/HeroesCircle");
-        HeroesCircle = obj as GameObject;
-        UtilsManager.Spawn(HeroesCircle);
+        GameObject heroesCircleGO = UtilsManager.Spawn(obj as GameObject);
+        heroesCircle = heroesCircleGO.GetComponent<HeroesCircle>();
     }
 
     /// <summary>
@@ -52,6 +62,4 @@ public class HeroesCircleStage : IStage
         EventManager.OnStageExitEventInvoke(stageName);
         Debug.Log($"Выход из стадии: {stageName}");
     }
-
-
 }

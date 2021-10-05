@@ -21,9 +21,9 @@ public class SceneConfig_MatchScene : SceneConfig
     /// <returns></returns>
     public override Dictionary<Type, Repository> CreateAllRepositories()
     {
-        var repositoriesMap = new Dictionary<Type, Repository>();
-        CreateRepository<HeroesRepository>(repositoriesMap);
-        return repositoriesMap;
+        var allRepositories = new Dictionary<Type, Repository>();
+        //CreateRepository<HeroesRepository>(repositoriesMap);
+        return allRepositories;
     }
 
     /// <summary>
@@ -32,14 +32,14 @@ public class SceneConfig_MatchScene : SceneConfig
     /// <returns></returns>
     public override Dictionary<Type, IController> CreateAllControllers()
     {
-        var controllersMap = new Dictionary<Type, IController>();
-        CreateController<MatchController>(controllersMap);
-        CreateController<RoundController>(controllersMap);
-        CreateController<KeeperController>(controllersMap);
-        CreateController<SquadController>(controllersMap);
-        CreateController<InventoryController>(controllersMap);
-        CreateController<MarketController>(controllersMap);
-        return controllersMap;
+        var allControllers = new Dictionary<Type, IController>();
+        CreateController<MatchController>(allControllers);
+        CreateController<RoundController>(allControllers);
+        CreateController<KeeperController>(allControllers);
+        CreateController<SquadController>(allControllers);
+        CreateController<InventoryController>(allControllers);
+        CreateController<MarketController>(allControllers);
+        return allControllers;
     }
 
     /// <summary>

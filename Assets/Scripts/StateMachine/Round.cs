@@ -33,7 +33,6 @@ public class Round : StateMachine, IStage
     protected override void InitStages()
     {
         base.InitStages();
-
         //добавляем состояния
         Stages[typeof(RoundStage_Planning)] = new RoundStage_Planning();
         Stages[typeof(RoundStage_Battle)] = new RoundStage_Battle();

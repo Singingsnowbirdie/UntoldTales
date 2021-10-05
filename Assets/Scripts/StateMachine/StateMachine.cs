@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public abstract class StateMachine
 {
-    /// <summary>
-    /// Конструктор
-    /// </summary>
-    protected StateMachine()
-    {
-        InitStages();
-    }
-
     /// <summary>
     /// Все состояния
     /// </summary>

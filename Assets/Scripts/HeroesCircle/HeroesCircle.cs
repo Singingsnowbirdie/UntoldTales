@@ -9,33 +9,80 @@ public class HeroesCircle : MonoBehaviour
     Point[] points;
 
     /// <summary>
-    /// Репозиторий всех существующих героев
+    /// Все заспавненные герои
     /// </summary>
-    List<Hero> heroesDB;
+    public List<Hero> Heroes { get; set; }
 
-    private void OnEnable()
+    private void Start()
     {
-        PlaceHeroes();
-    }
-
-    /// <summary>
-    /// Размещаем всех героев
-    /// </summary>
-    private void PlaceHeroes()
-    {
-        //получаем все точки в массив
+        //получаем все точки 
         points = gameObject.GetComponentsInChildren<Point>();
-        //получаем ссылку на репозиторий всех героев
-        heroesDB = Game.GetRepository<HeroesRepository>().Heroes;
-        //спавним героев
-        foreach (var item in points) PlaceHero(item);
+        //получаем всех героев 
+        Heroes = CreateHeroes();
+    }
+
+    private List<Hero> CreateHeroes()
+    {
+        //создаем пустой список
+        List<Hero> heroes = new List<Hero>();
+        //получаем коллекцию карточек всех существующих героев
+        List<HeroInfo> infos = GetAllHeroInfos();
+        //создаем случайных героев (столько, сколько есть точек в круге)
+        for (int i = 0; i < points.Length; i++)
+        {
+            //берем случайную карточку
+            HeroInfo randInfo = infos[Random.Range(0, infos.Count)];
+            //создаем го героя (берем префаб из карточки)
+            GameObject heroGO = randInfo.Pref;
+            //назначаем ему ID
+            heroGO.GetComponent<Hero>().ID = i;
+            //вешаем на него карточку
+            heroGO.GetComponent<Hero>().info = randInfo;
+            //помещаем его на точку
+            Instantiate(heroGO, points[i].transform.position, Quaternion.identity);
+            //добавляем его в список
+            heroes.Add(heroGO.GetComponent<Hero>());
+
+        }
+        return heroes;
     }
 
     /// <summary>
-    /// Спавнит случайного героя и помещает его на точку
+    /// Возвращает коллекцию карточек всех героев 1 ранга
     /// </summary>
-    /// <param name="item"></param>
-    private void PlaceHero(Point point)
+    private List<HeroInfo> GetAllHeroInfos()
     {
+        //создаем пустой список
+        List<HeroInfo> infos = new List<HeroInfo>();
+        //помещаем в него всех героев 1 ранга
+        foreach (var item in Resources.LoadAll<HeroInfo>("HeroesInfo"))
+        {
+            if (item.Rank == 1)
+            {
+                infos.Add(item);
+            }
+        }
+        return infos;
+    }
+
+    /// <summary>
+    /// Проверяет, всех ли героев разобрали
+    /// </summary>
+    internal bool AllHeroesSelected(Hero hero)
+    {
+        for (int i = 0; i < Heroes.Count; i++)
+        {
+            if (Heroes[i].ID == hero.ID)
+            {
+                Heroes.RemoveAt(i);
+                break;
+            }
+        }
+        if (Heroes.Count > 2)
+        {
+            return false;
+        }
+        return true;
     }
 }
+

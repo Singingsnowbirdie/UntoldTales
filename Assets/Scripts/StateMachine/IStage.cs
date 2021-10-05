@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-//этот интерфейс должны реализовывать все состояния
+﻿//этот интерфейс должны реализовывать все состояния
 
 public interface IStage
 {

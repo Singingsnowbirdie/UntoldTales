@@ -1,6 +1,7 @@
 ﻿using System;
+using UnityEngine;
 
-//менеджер событий (синглтон)
+//менеджер событий
 
 public class EventManager
 {
@@ -43,5 +44,10 @@ public class EventManager
     #region НАЖАТА КНОПКА
     internal static void OnBttnPressedEventInvoke(Bttn bttn) { OnBttnPressed?.Invoke(bttn); }
     public static event Action<Bttn> OnBttnPressed;
+    #endregion
+
+    #region ИГРОК ВЫБРАЛ СЕБЕ ГЕРОЯ НА КРУГЕ ГЕРОЕВ
+    internal static void OnHeroSelectedEventInvoke(Hero hero, int playerID) { OnHeroSelected?.Invoke(hero, playerID); }
+    public static event Action<Hero, int> OnHeroSelected;
     #endregion
 }

@@ -5,21 +5,6 @@ using UnityEngine;
 
 public abstract class Hero : MonoBehaviour
 {
-    //Конструктор
-    public Hero(HeroInfo info)
-    {
-        this.info = info;
-        maxHealth = info.Health;
-        health = maxHealth;
-        maxMana = info.Mana;
-        mana = maxMana;
-        physicalProtection = info.PhysicalProtection;
-        magicProtection = info.MagicProtection;
-        attackPower = info.AttackPower;
-        attackSpeed = info.AttackSpeed;
-        attackRange = info.AttackRange;
-    }
-
     #region ПОКАЗАТЕЛИ (Начальное значение берется из карточки (инфо), потом меняется, под действием модификаторов)
     /// <summary>
     /// Максимальное здоровье (в единицах)
@@ -49,12 +34,12 @@ public abstract class Hero : MonoBehaviour
     /// <summary>
     /// Дальность атаки: (в количестве ячеек по прямой)
     /// </summary>
-    int attackRange { get; set; }
+    int attackRange;
 
     /// <summary>
     /// Максимальное количество маны
     /// </summary>
-    int maxMana { get; set; }
+    int maxMana;
     #endregion
 
     #region РЕСУРСЫ (здоровье, мана)
@@ -66,8 +51,25 @@ public abstract class Hero : MonoBehaviour
     /// <summary>
     /// Текущее значение маны
     /// </summary>
-    int mana { get; set; }
+    int mana;
     #endregion
+
+    /// <summary>
+    /// Инициализатор
+    /// Все эти показатели не нужны герою на "Круге", но нужны в бою, поэтому запускаем инициализацию после покупки героя
+    /// </summary>
+    public virtual void Initialize()
+    {
+        maxHealth = info.Health;
+        health = maxHealth;
+        maxMana = info.Mana;
+        mana = maxMana;
+        physicalProtection = info.PhysicalProtection;
+        magicProtection = info.MagicProtection;
+        attackPower = info.AttackPower;
+        attackSpeed = info.AttackSpeed;
+        attackRange = info.AttackRange;
+    }
 
     /// <summary>
     /// Текущая цель

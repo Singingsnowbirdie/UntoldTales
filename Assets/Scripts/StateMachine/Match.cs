@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Match : StateMachine
@@ -15,24 +14,19 @@ public class Match : StateMachine
     List<Player> players;
 
     /// <summary>
-    /// Начинает матч
+    /// Инициализатор 
     /// </summary>
-    internal void StartMatch()
+    internal void Initialize()
     {
-        //устанавливаем начальное состояние
-        SetStage(GetStage<MatchStage_Initial>());
+        //инициализируем игроков
+        InitPlayers();
+        //инициализируем состояния
+        InitStages();
     }
 
     /// <summary>
-    /// Инициализатор игроков 
+    /// Инициализатор состояний
     /// </summary>
-    internal void InitPlayers()
-    {
-        players = new List<Player>();
-
-        //сюда должны передаваться игроки из матчмейкера
-    }
-
     protected override void InitStages()
     {
         base.InitStages();
@@ -41,5 +35,33 @@ public class Match : StateMachine
         //Stages[typeof(MatchStage_Early)] = new MatchStage_Early();
         //Stages[typeof(MatchStage_Late)] = new MatchStage_Late();
         //Stages[typeof(MatchStage_Final)] = new MatchStage_Final();
+        Debug.Log($"Состояния матча инициализированы");
+    }
+
+    /// <summary>
+    /// Инициализатор игроков
+    /// </summary>
+    void InitPlayers()
+    {
+        //определяем список игроков
+        players = new List<Player>();
+        //добавляем "живого" игрока
+        players.Add(new Player(0));
+        //добавляем AI игроков
+        for (int i = 1; i < maxPlayers; i++)
+        {
+            players.Add(new AIPlayer(i));
+        }
+        Debug.Log($"Игроки инициализированы");
+
+    }
+
+    /// <summary>
+    /// Начинает матч
+    /// </summary>
+    internal void StartMatch()
+    {
+        //устанавливаем начальное состояние
+        SetStage(GetStage<MatchStage_Initial>());
     }
 }
