@@ -31,6 +31,7 @@ public abstract class StateMachine
         Stages = new Dictionary<Type, IStage>();
         //добавляем состояния
         Stages.Add(typeof(HeroSearchEnemy),new HeroSearchEnemy());
+        Stages.Add(typeof(HeroMoveToEnemy),new HeroMoveToEnemy());
         Stages.Add(typeof(HeroAttackEnemy),new HeroAttackEnemy());
     }
 

@@ -13,7 +13,12 @@ public class PassiveAbilityHero : Hero
     public bool active = true;
     private void Start() 
     {
-        if(active)
+        
+    }
+
+    private void Update() 
+    {
+        if (active)
         {
             HeroSearchEnemy heroSearchEnemy = heroStateMachine.Stages[typeof(HeroSearchEnemy)] as HeroSearchEnemy;
             heroSearchEnemy.Hero = this;

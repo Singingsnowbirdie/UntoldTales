@@ -151,7 +151,7 @@ public class Pathfinding : MonoBehaviour
         //         Gizmos.color = Color.blue;
         //         Gizmos.DrawSphere(new Vector3(item.myPosition.x + offset, 0, item.myPosition.z + offset), 0.1f);
         //     }
-
+        Debug.Log("dsd");
         if(pathToTarget != null)
         foreach (var item in pathToTarget)
         {
