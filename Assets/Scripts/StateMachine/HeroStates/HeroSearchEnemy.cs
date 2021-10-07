@@ -5,7 +5,12 @@
 /// </summary>
 public class HeroSearchEnemy : IStage
 {
-    public Hero Hero;
+    private Hero Hero;
+
+    public HeroSearchEnemy(Hero hero)
+    {
+        Hero = hero;
+    }
 
     public void Enter()
     {
@@ -14,7 +19,7 @@ public class HeroSearchEnemy : IStage
 
     public void Exit()
     {
-        Debug.Log("выход");
+        // Debug.Log("HeroSearchEnemy выход");
     }
 
     /// <summary>
@@ -22,8 +27,6 @@ public class HeroSearchEnemy : IStage
     /// </summary>
     private void SetNextState()
     {
-        HeroMoveToEnemy heroSearchEnemy = Hero.heroStateMachine.Stages[typeof(HeroMoveToEnemy)] as HeroMoveToEnemy;
-        heroSearchEnemy.Hero = Hero;
         if (Hero.CurrentTarget) Hero.heroStateMachine.SetStage(Hero.heroStateMachine.Stages[typeof(HeroMoveToEnemy)]);
     }
 
@@ -32,8 +35,9 @@ public class HeroSearchEnemy : IStage
     /// </summary>
     private void SearchEnemy()
     {
+       
+        if (Hero.CurrentTarget) {SetNextState(); return;} else Exit();
+        Debug.Log("ищу цель");
         Hero.CurrentTarget = GameObject.Find("target").GetComponent<PassiveAbilityHero>();
-
-        if(Hero.CurrentTarget) SetNextState(); else Exit();
     }
 }

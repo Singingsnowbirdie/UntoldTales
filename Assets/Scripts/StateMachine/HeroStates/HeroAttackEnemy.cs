@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class HeroAttackEnemy : IStage
 {
+    private Hero hero;
+
+    public HeroAttackEnemy(Hero hero)
+    {
+        this.hero = hero;
+    }
+
     public void Enter()
     {
         Attack();
@@ -11,7 +18,7 @@ public class HeroAttackEnemy : IStage
 
     public void Exit()
     {
-        throw new System.NotImplementedException();
+        // Debug.Log("HeroAttackEnemy выход");
     }
 
     private void Attack()

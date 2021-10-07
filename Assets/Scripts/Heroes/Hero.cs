@@ -32,7 +32,7 @@ public abstract class Hero : MonoBehaviour
         attackSpeed = info.AttackSpeed;
         attackRange = info.AttackRange;
 
-        heroStateMachine = new HeroStateMachine();
+        heroStateMachine = new HeroStateMachine(this);
     }
 
     #region ПОКАЗАТЕЛИ (Начальное значение берется из карточки (инфо), потом меняется, под действием модификаторов)
@@ -87,7 +87,7 @@ public abstract class Hero : MonoBehaviour
     /// <summary>
     /// состояния
     /// </summary>
-    public HeroStateMachine heroStateMachine;  
+    public StateMachine heroStateMachine;  
 
     /// <summary>
     /// Текущая цель
