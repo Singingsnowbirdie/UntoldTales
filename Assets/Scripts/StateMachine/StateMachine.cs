@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 public abstract class StateMachine
@@ -41,7 +42,7 @@ public abstract class StateMachine
     /// <summary>
     /// Достаем нужную стадию из словаря
     /// </summary>
-    protected IStage GetStage<T>() where T : IStage
+    public IStage GetStage<T>() where T : IStage
     {
         var type = typeof(T);
         return Stages[type];

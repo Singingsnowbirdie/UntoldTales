@@ -34,7 +34,7 @@ public class Scene
     /// <summary>
     /// Конфиг
     /// </summary>
-    SceneConfig sceneConfig;
+    public SceneConfig SceneConfig { get; set; }
 
     /// <summary>
     /// Конструктор
@@ -42,7 +42,7 @@ public class Scene
     /// <param name="config"></param>
     public Scene(SceneConfig config)
     {
-        sceneConfig = config;
+        SceneConfig = config;
         controllersBase = new ControllersDB(config);
         repositoriesBase = new RepositoriesDB(config);
     }
@@ -72,7 +72,7 @@ public class Scene
 
         repositoriesBase.InitializeAllRepositories();
         controllersBase.InitializeAllControllers();
-        sceneConfig.Initialize();
+        SceneConfig.Initialize();
         yield return null;
 
         repositoriesBase.SendOnStartToAllRepositories();
@@ -84,7 +84,7 @@ public class Scene
     /// </summary>
     internal void OnStart()
     {
-        sceneConfig.OnStart();
+        SceneConfig.OnStart();
     }
 
     /// <summary>

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 //Круг героев
 //Первый и последний этапы начальной стадии матча
@@ -15,43 +17,124 @@ public class HeroesCircleStage : IStage
     /// <summary>
     /// Круг героев (скрипт)
     /// </summary>
-    HeroesCircle heroesCircle;
+    public HeroesCircle HeroesCircle { get; set; }
+
+    /// <summary>
+    /// родительская машина состояний
+    /// </summary>
+    readonly MatchStage_Initial match;
+
+    /// <summary>
+    /// Список игроков
+    /// </summary>
+    private readonly List<Player> players;
+
+    public HeroesCircleStage(MatchStage_Initial parent, List<Player> players)
+    {
+        match = parent;
+        this.players = players;
+    }
 
     /// <summary>
     /// При входе в состояние
     /// </summary>
     public void Enter()
     {
+        //инициализируем
+        Initialize();
         //сообщаем о входе в состояние
         EventManager.OnStageEnterEventInvoke(stageName);
         Debug.Log($"Вход в стадию: {stageName}");
-        //создаем круг героев
-        SpawnHeroesCircle();
-        //подписываемся на событие "игрок выбрал себе героя"
-        EventManager.OnHeroSelected += OnHeroSelected;
+        //запускаем таймер
+        UtilsManager.StartRoutine(StageTimer());
+        //запускаем распределение героев между AI игроками
+        UtilsManager.StartRoutine(HeroesDistribution());
     }
 
     /// <summary>
-    /// Игрок выбрал себе героя
+    /// Распределяет героев между AI
     /// </summary>
-    /// <param name="obj"></param>
-    private void OnHeroSelected(Hero hero, int playerID)
+    /// <returns></returns>
+    private IEnumerator HeroesDistribution()
     {
-        //проверяем, всех ли героев разобрали
-        if (heroesCircle.AllHeroesSelected(hero))
+        //создаем временный список
+        List<Player> AIPlayers = new List<Player>();
+        //выбираем в него всех AI игроков
+        foreach (var item in players)
         {
-            Debug.Log("AllHeroesSelected");
+            if (item is AIPlayer)
+            {
+                AIPlayers.Add(item);
+            }
+        }
+
+        //раздаем всем AI по герою
+        foreach (var item in AIPlayers)
+        {
+            //делаем паузу
+            float pause = Random.Range(0f, 3f);
+            yield return new WaitForSeconds(pause);
+            //отдаем случайного героя AI и отключаем его
+            item.SelectedHero = GameObject.FindObjectOfType<Hero>();
+            item.SelectedHero.gameObject.SetActive(false);
+        }
+
+        //проверяем, все ли герои розданы
+        if (AllHeroesDistributed())
+        {
+            match.ChangeStage();
         }
     }
 
     /// <summary>
-    /// Создает круг героев и размещает его в сцене
+    /// Проверяет все ли герои розданы
     /// </summary>
-    private void SpawnHeroesCircle()
+    private bool AllHeroesDistributed()
     {
-        var obj = Resources.Load("TestObjects/HeroesCircle");
-        GameObject heroesCircleGO = UtilsManager.Spawn(obj as GameObject);
-        heroesCircle = heroesCircleGO.GetComponent<HeroesCircle>();
+        foreach (var item in players)
+        {
+            if (item.SelectedHero == null)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// Таймер этапа
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator StageTimer()
+    {
+        //ждем 15 секунд
+        yield return new WaitForSeconds(15f);
+        //проверяем, все ли герои розданы
+        if (AllHeroesDistributed())
+        {
+            match.ChangeStage();
+        }
+        else
+        {
+            ForcedHeroesDistribution();
+        }
+    }
+
+    /// <summary>
+    /// Насильно распихивает случайных героев игрокам, не выбравшим себе героя 
+    /// </summary>
+    private void ForcedHeroesDistribution()
+    {
+        foreach (var item in players)
+        {
+            if (item.SelectedHero == null)
+            {
+                //отдаем случайного героя отключаем его
+                item.SelectedHero = GameObject.FindObjectOfType<Hero>();
+                item.SelectedHero.gameObject.SetActive(false);
+            }
+        }
+        match.ChangeStage();
     }
 
     /// <summary>
@@ -61,5 +144,25 @@ public class HeroesCircleStage : IStage
     {
         EventManager.OnStageExitEventInvoke(stageName);
         Debug.Log($"Выход из стадии: {stageName}");
+    }
+
+    /// <summary>
+    /// Инициализатор
+    /// </summary>
+    public void Initialize()
+    {
+        //создаем и получаем круг героев
+        HeroesCircle = SpawnHeroesCircle();
+        //создаем героев
+        HeroesCircle.CreateHeroes();
+    }
+
+    /// <summary>
+    /// Создает круг героев и размещает его в сцене
+    /// </summary>
+    private HeroesCircle SpawnHeroesCircle()
+    {
+        GameObject heroesCircleGO = UtilsManager.Spawn(Resources.Load("TestObjects/HeroesCircle") as GameObject);
+        return heroesCircleGO.GetComponent<HeroesCircle>();
     }
 }

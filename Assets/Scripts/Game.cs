@@ -8,11 +8,6 @@ using UnityEngine;
 public class Game : MonoBehaviour
 {
     /// <summary>
-    /// Событие: игра запущена
-    /// </summary>
-    public static event Action OnGameInitializedEvent;
-
-    /// <summary>
     /// Загрузчик сцены
     /// </summary>
     public static SceneLoader sceneLoader { get; private set; }
@@ -36,8 +31,6 @@ public class Game : MonoBehaviour
         sceneLoader = new SceneLoader();
         //ждем, пока загрузится текущая сцена
         yield return sceneLoader.LoadCurrentSceneAsync();
-        //вызываем событие "игра инициализирована"
-        OnGameInitializedEvent?.Invoke();
     }
 
     /// <summary>

@@ -4,29 +4,10 @@ using UnityEngine;
 public class HeroesCircle : MonoBehaviour
 {
     /// <summary>
-    /// Точки, над которыми будут спавниться случайные герои
+    /// Создает героев и помещает их на точках спавна
     /// </summary>
-    Point[] points;
-
-    /// <summary>
-    /// Все заспавненные герои
-    /// </summary>
-    public List<Hero> Heroes { get; set; }
-
-    private void Start()
+    void CreateHeroes(Point[] points, List<HeroInfo> infos)
     {
-        //получаем все точки 
-        points = gameObject.GetComponentsInChildren<Point>();
-        //получаем всех героев 
-        Heroes = CreateHeroes();
-    }
-
-    private List<Hero> CreateHeroes()
-    {
-        //создаем пустой список
-        List<Hero> heroes = new List<Hero>();
-        //получаем коллекцию карточек всех существующих героев
-        List<HeroInfo> infos = GetAllHeroInfos();
         //создаем случайных героев (столько, сколько есть точек в круге)
         for (int i = 0; i < points.Length; i++)
         {
@@ -40,11 +21,7 @@ public class HeroesCircle : MonoBehaviour
             heroGO.GetComponent<Hero>().info = randInfo;
             //помещаем его на точку
             Instantiate(heroGO, points[i].transform.position, Quaternion.identity);
-            //добавляем его в список
-            heroes.Add(heroGO.GetComponent<Hero>());
-
         }
-        return heroes;
     }
 
     /// <summary>
@@ -66,23 +43,26 @@ public class HeroesCircle : MonoBehaviour
     }
 
     /// <summary>
-    /// Проверяет, всех ли героев разобрали
+    /// Возвращает все точки спавна
     /// </summary>
-    internal bool AllHeroesSelected(Hero hero)
+    /// <returns></returns>
+    private Point[] GetPoints()
     {
-        for (int i = 0; i < Heroes.Count; i++)
-        {
-            if (Heroes[i].ID == hero.ID)
-            {
-                Heroes.RemoveAt(i);
-                break;
-            }
-        }
-        if (Heroes.Count > 2)
-        {
-            return false;
-        }
-        return true;
+        return gameObject.GetComponentsInChildren<Point>();
+    }
+
+    /// <summary>
+    /// Возвращает список героев
+    /// </summary>
+    /// <returns></returns>
+    internal void CreateHeroes()
+    {
+        //получаем все точки спавна
+        Point[] points = GetPoints();
+        //получаем коллекцию карточек всех существующих героев
+        List<HeroInfo> infos = GetAllHeroInfos();
+        //создаем героев
+        CreateHeroes(points, infos);
     }
 }
 

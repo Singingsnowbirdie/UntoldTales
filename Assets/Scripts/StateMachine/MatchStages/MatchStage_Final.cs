@@ -26,4 +26,9 @@ public class MatchStage_Final : IStage
         EventManager.OnStageExitEventInvoke(stageName);
         Debug.Log($"Выход из стадии: {stageName}");
     }
+
+    public void Initialize()
+    {
+
+    }
 }

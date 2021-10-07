@@ -3,16 +3,16 @@
     /// <summary>
     /// Текущий матч
     /// </summary>
-    Match match;
+    public Match Match { get; set; }
 
     /// <summary>
     /// Инициализатор
     /// </summary>
     public void Initialize()
     {
-        match = new Match();
-        match.Initialize();
-        match.StartMatch();
+        Match = new Match();
+        Match.Initialize();
+        Match.StartMatch();
     }
 
     /// <summary>

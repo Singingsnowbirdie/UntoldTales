@@ -3,6 +3,11 @@
 public interface IStage
 {
     /// <summary>
+    /// Инициализатор состояния
+    /// </summary>
+    void Initialize(); 
+    
+    /// <summary>
     /// Вход в состояние
     /// </summary>
     void Enter();

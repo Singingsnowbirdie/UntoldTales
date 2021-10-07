@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Match : StateMachine
+public class Match: StateMachine
 {
     /// <summary>
     /// Максимальное кол-во игроков
@@ -31,11 +31,10 @@ public class Match : StateMachine
     {
         base.InitStages();
         //добавляем состояния
-        Stages[typeof(MatchStage_Initial)] = new MatchStage_Initial();
+        Stages[typeof(MatchStage_Initial)] = new MatchStage_Initial(players);
         //Stages[typeof(MatchStage_Early)] = new MatchStage_Early();
         //Stages[typeof(MatchStage_Late)] = new MatchStage_Late();
         //Stages[typeof(MatchStage_Final)] = new MatchStage_Final();
-        Debug.Log($"Состояния матча инициализированы");
     }
 
     /// <summary>
@@ -44,16 +43,16 @@ public class Match : StateMachine
     void InitPlayers()
     {
         //определяем список игроков
-        players = new List<Player>();
-        //добавляем "живого" игрока
-        players.Add(new Player(0));
+        players = new List<Player>
+        {
+            //добавляем "живого" игрока
+            new Player(0)
+        };
         //добавляем AI игроков
         for (int i = 1; i < maxPlayers; i++)
         {
             players.Add(new AIPlayer(i));
         }
-        Debug.Log($"Игроки инициализированы");
-
     }
 
     /// <summary>

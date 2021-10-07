@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 //менеджер событий
@@ -7,7 +8,7 @@ public class EventManager
 {
     private static EventManager _instance;
 
-    public static EventManager instance
+    public static EventManager Instance
     {
         get
         {
@@ -46,8 +47,8 @@ public class EventManager
     public static event Action<Bttn> OnBttnPressed;
     #endregion
 
-    #region ИГРОК ВЫБРАЛ СЕБЕ ГЕРОЯ НА КРУГЕ ГЕРОЕВ
-    internal static void OnHeroSelectedEventInvoke(Hero hero, int playerID) { OnHeroSelected?.Invoke(hero, playerID); }
-    public static event Action<Hero, int> OnHeroSelected;
+    #region КЛИК ПО ГЕРОЮ (используется на круге героев)
+    internal static void OnHeroPointedEventInvoke(Hero hero) { OnHeroPointed?.Invoke(hero); }
+    public static event Action<Hero> OnHeroPointed;
     #endregion
 }

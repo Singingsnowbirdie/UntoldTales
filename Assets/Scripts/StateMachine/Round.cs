@@ -27,8 +27,13 @@ public class Round : StateMachine, IStage
         Debug.Log($"Выход из стадии: {stageName}");
     }
 
+    public void Initialize()
+    {
+        InitStages();
+    }
+
     /// <summary>
-    /// Инициализатор 
+    /// Инициализатор состояний
     /// </summary>
     protected override void InitStages()
     {

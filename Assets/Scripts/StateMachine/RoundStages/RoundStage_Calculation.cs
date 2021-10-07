@@ -24,4 +24,8 @@ public class RoundStage_Calculation : IStage
         EventManager.OnStageExitEventInvoke(stageName);
         Debug.Log($"Выход из стадии: {stageName}");
     }
+
+    public void Initialize()
+    {
+    }
 }

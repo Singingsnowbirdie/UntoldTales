@@ -6,9 +6,9 @@ public class Player
     public Player(int id)
     {
         ID = id;
-        //подписываемся на вход в состояние
+        //подписываемся на вход игры  в состояние
         EventManager.OnStageEnter += OnStageEnter;
-        //подписываемся на выход из состояния
+        //подписываемся на выход игры из состояния
         EventManager.OnStageExit += OnStageExit;
     }
 
@@ -28,10 +28,10 @@ public class Player
     protected virtual void OnStageEnter(string stage)
     {
         //Круг героев
-        if (stage == "HeroesCircleStage")
+        if (stage == "Круг героев")
         {
             //подписываемся на выбор героя
-            EventManager.OnHeroSelected += OnHeroSelected;
+            EventManager.OnHeroPointed += OnHeroPointed;
         }
     }
 
@@ -41,23 +41,20 @@ public class Player
     /// <param name="obj"></param>
     protected virtual void OnStageExit(string stage)
     {
-        //Круг героев
-        if (stage == "HeroesCircleStage")
-        {
-            //отписываемся от выбора героя
-            EventManager.OnHeroSelected -= OnHeroSelected;
-        }
+
     }
 
     /// <summary>
-    /// Игрок выбрал себе героя на Круге
+    /// При клике на героя
     /// </summary>
-    private void OnHeroSelected(Hero hero, int heroID)
+    /// <param name="obj"></param>
+    private void OnHeroPointed(Hero hero)
     {
-        //проверяем, пришло сообщение от нашего игрока, или от другого
-        if (heroID == ID)
-        {
-            SelectedHero = hero;
-        }
+        //запоминаем героя
+        SelectedHero = hero;
+        //отключаем его
+        SelectedHero.gameObject.SetActive(false);
+        //отписываемся
+        EventManager.OnHeroPointed -= OnHeroPointed;
     }
 }
