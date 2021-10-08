@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿//От этого класса наследуются живой игрок и AI 
 
-public class Player
+public abstract class Player
 {
     public Player(int id)
     {
@@ -25,36 +24,11 @@ public class Player
     /// <summary>
     /// При входе в состояние
     /// </summary>
-    protected virtual void OnStageEnter(string stage)
-    {
-        //Круг героев
-        if (stage == "Круг героев")
-        {
-            //подписываемся на выбор героя
-            EventManager.OnHeroPointed += OnHeroPointed;
-        }
-    }
+    protected virtual void OnStageEnter(string stage) { }
 
     /// <summary>
     /// При выходе из состояния
     /// </summary>
     /// <param name="obj"></param>
-    protected virtual void OnStageExit(string stage)
-    {
-
-    }
-
-    /// <summary>
-    /// При клике на героя
-    /// </summary>
-    /// <param name="obj"></param>
-    private void OnHeroPointed(Hero hero)
-    {
-        //запоминаем героя
-        SelectedHero = hero;
-        //отключаем его
-        SelectedHero.gameObject.SetActive(false);
-        //отписываемся
-        EventManager.OnHeroPointed -= OnHeroPointed;
-    }
+    protected virtual void OnStageExit(string stage) { }
 }

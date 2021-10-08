@@ -11,7 +11,6 @@
     public void Initialize()
     {
         Match = new Match();
-        Match.Initialize();
         Match.StartMatch();
     }
 

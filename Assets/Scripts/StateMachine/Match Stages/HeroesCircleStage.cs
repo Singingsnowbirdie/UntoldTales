@@ -7,13 +7,8 @@ using UnityEngine;
 //Первый этап: на время
 //Последний этап: по очереди
 
-public class HeroesCircleStage : IStage
+public class HeroesCircleStage : Stage
 {
-    /// <summary>
-    /// Название стадии
-    /// </summary>
-    readonly string stageName = "Круг героев";
-
     /// <summary>
     /// Круг героев (скрипт)
     /// </summary>
@@ -29,6 +24,9 @@ public class HeroesCircleStage : IStage
     /// </summary>
     private readonly List<Player> players;
 
+    /// <summary>
+    /// Конструктор
+    /// </summary>
     public HeroesCircleStage(MatchStage_Initial parent, List<Player> players)
     {
         match = parent;
@@ -38,13 +36,9 @@ public class HeroesCircleStage : IStage
     /// <summary>
     /// При входе в состояние
     /// </summary>
-    public void Enter()
+    public override void Enter()
     {
-        //инициализируем
-        Initialize();
-        //сообщаем о входе в состояние
-        EventManager.OnStageEnterEventInvoke(stageName);
-        Debug.Log($"Вход в стадию: {stageName}");
+        base.Enter();
         //запускаем таймер
         UtilsManager.StartRoutine(StageTimer());
         //запускаем распределение героев между AI игроками
@@ -138,31 +132,39 @@ public class HeroesCircleStage : IStage
     }
 
     /// <summary>
-    /// При выходе из состояния
-    /// </summary>
-    public void Exit()
-    {
-        EventManager.OnStageExitEventInvoke(stageName);
-        Debug.Log($"Выход из стадии: {stageName}");
-    }
-
-    /// <summary>
-    /// Инициализатор
-    /// </summary>
-    public void Initialize()
-    {
-        //создаем и получаем круг героев
-        HeroesCircle = SpawnHeroesCircle();
-        //создаем героев
-        HeroesCircle.CreateHeroes();
-    }
-
-    /// <summary>
     /// Создает круг героев и размещает его в сцене
     /// </summary>
     private HeroesCircle SpawnHeroesCircle()
     {
         GameObject heroesCircleGO = UtilsManager.Spawn(Resources.Load("TestObjects/HeroesCircle") as GameObject);
         return heroesCircleGO.GetComponent<HeroesCircle>();
+    }
+
+    /// <summary>
+    /// Инициализатор
+    /// </summary>
+    public override void Initialize()
+    {
+        StageName = "Круг героев";
+        //создаем и получаем круг героев
+        HeroesCircle = SpawnHeroesCircle();
+        //создаем героев
+        HeroesCircle.CreateHeroes();
+    }
+
+
+    /// <summary>
+    /// При выходе из состояния
+    /// </summary>
+    public override void Exit()
+    {
+        //удаляем двух оставшихся героев с круга
+        foreach (var item in GameObject.FindObjectsOfType<Hero>())
+        {
+            item.SelfDestruction();
+        }
+        //отключаем круг
+        HeroesCircle.gameObject.SetActive(false);
+        base.Exit();
     }
 }

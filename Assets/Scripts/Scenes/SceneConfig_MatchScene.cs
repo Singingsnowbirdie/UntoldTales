@@ -34,7 +34,6 @@ public class SceneConfig_MatchScene : SceneConfig
     {
         var allControllers = new Dictionary<Type, IController>();
         CreateController<MatchController>(allControllers);
-        CreateController<RoundController>(allControllers);
         CreateController<KeeperController>(allControllers);
         CreateController<SquadController>(allControllers);
         CreateController<InventoryController>(allControllers);

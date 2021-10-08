@@ -1,12 +1,12 @@
-﻿//этот интерфейс должны реализовывать все состояния
+﻿//состояние
 
 public interface IStage
 {
     /// <summary>
-    /// Инициализатор состояния
+    /// Название состояния
     /// </summary>
-    void Initialize(); 
-    
+    string StageName { get; set; }
+
     /// <summary>
     /// Вход в состояние
     /// </summary>

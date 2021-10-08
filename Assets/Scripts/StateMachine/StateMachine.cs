@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 public abstract class StateMachine
@@ -10,14 +9,19 @@ public abstract class StateMachine
     protected Dictionary<Type, IStage> Stages { get; set; }
 
     /// <summary>
+    /// Начальное состояние
+    /// </summary>
+    public IStage FirstStage { get; set; }
+
+    /// <summary>
     /// Текущее состояние
     /// </summary>
     protected IStage CurrentStage { get; set; }
 
     /// <summary>
-    /// Инициализатор состояний
+    /// Инициализатор
     /// </summary>
-    protected virtual void InitStages()
+    protected virtual void Initialize()
     {
         Stages = new Dictionary<Type, IStage>();
     }

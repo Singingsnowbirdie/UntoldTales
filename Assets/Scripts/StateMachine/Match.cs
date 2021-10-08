@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public class Match: StateMachine
 {
@@ -14,45 +13,22 @@ public class Match: StateMachine
     List<Player> players;
 
     /// <summary>
-    /// Инициализатор 
+    /// Создает список игроков
     /// </summary>
-    internal void Initialize()
+    /// <returns></returns>
+    private List<Player> CreatePlayers()
     {
-        //инициализируем игроков
-        InitPlayers();
-        //инициализируем состояния
-        InitStages();
-    }
-
-    /// <summary>
-    /// Инициализатор состояний
-    /// </summary>
-    protected override void InitStages()
-    {
-        base.InitStages();
-        //добавляем состояния
-        Stages[typeof(MatchStage_Initial)] = new MatchStage_Initial(players);
-        //Stages[typeof(MatchStage_Early)] = new MatchStage_Early();
-        //Stages[typeof(MatchStage_Late)] = new MatchStage_Late();
-        //Stages[typeof(MatchStage_Final)] = new MatchStage_Final();
-    }
-
-    /// <summary>
-    /// Инициализатор игроков
-    /// </summary>
-    void InitPlayers()
-    {
-        //определяем список игроков
-        players = new List<Player>
+        List<Player> players = new List<Player>
         {
-            //добавляем "живого" игрока
-            new Player(0)
+            new RealPlayer(0)
         };
         //добавляем AI игроков
         for (int i = 1; i < maxPlayers; i++)
         {
             players.Add(new AIPlayer(i));
         }
+        return players;
+
     }
 
     /// <summary>
@@ -60,7 +36,29 @@ public class Match: StateMachine
     /// </summary>
     internal void StartMatch()
     {
+        //инициализируем
+        Initialize();
         //устанавливаем начальное состояние
-        SetStage(GetStage<MatchStage_Initial>());
+        SetStage(FirstStage);
+    }
+
+    /// <summary>
+    /// Инициализатор 
+    /// </summary>
+    protected override void Initialize()
+    {
+        //инициализируем игроков
+        players = CreatePlayers();
+
+        base.Initialize();
+
+        //добавляем состояния
+        Stages[typeof(MatchStage_Initial)] = new MatchStage_Initial(players);
+        //Stages[typeof(MatchStage_Early)] = new MatchStage_Early();
+        //Stages[typeof(MatchStage_Late)] = new MatchStage_Late();
+        //Stages[typeof(MatchStage_Final)] = new MatchStage_Final();
+
+        //устанавливаем начальное
+        FirstStage = GetStage<MatchStage_Initial>();
     }
 }

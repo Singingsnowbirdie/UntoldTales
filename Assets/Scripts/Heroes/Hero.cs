@@ -142,4 +142,12 @@ public abstract class Hero : MonoBehaviour
     /// ID героя в отряде (присваивается при добавлении героя в отряд)
     /// </summary>
     public int ID { get; set; }
+
+    /// <summary>
+    /// Самоуничтожение
+    /// </summary>
+    internal void SelfDestruction()
+    {
+        Destroy(gameObject);
+    }
 }
