@@ -29,6 +29,7 @@ public class MatchStage_Initial : SMStage
     {
         base.Initialize();
         Stages[typeof(HeroesCircleStage)] = new HeroesCircleStage(this, players);
+        Stages[typeof(PvERound)] = new PvERound();
         FirstStage = GetStage<HeroesCircleStage>();
         StageName = "Начальная стадия матча";
         pveRoundsPlayed = 0;
@@ -41,7 +42,7 @@ public class MatchStage_Initial : SMStage
     {
         if (CurrentStage is HeroesCircleStage)
         {
-
+            SetStage(GetStage<PvERound>());
         }
     }
 }
