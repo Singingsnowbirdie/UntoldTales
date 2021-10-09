@@ -5,6 +5,7 @@ using UnityEngine;
 
 public abstract class Hero : MonoBehaviour
 {
+
     #region ПОКАЗАТЕЛИ (Начальное значение берется из карточки (инфо), потом меняется, под действием модификаторов)
     /// <summary>
     /// Максимальное здоровье (в единицах)
@@ -56,7 +57,7 @@ public abstract class Hero : MonoBehaviour
 
     /// <summary>
     /// Инициализатор
-    /// Все эти показатели не нужны герою на "Круге", но нужны в бою, поэтому запускаем инициализацию после покупки героя
+    /// Все эти показатели не нужны герою на "Круге", но нужны в бою, поэтому запускаем инициализацию после того, как героя перетащили из резерва на поле
     /// </summary>
     public virtual void Initialize()
     {
@@ -69,12 +70,21 @@ public abstract class Hero : MonoBehaviour
         attackPower = info.AttackPower;
         attackSpeed = info.AttackSpeed;
         attackRange = info.AttackRange;
+
+        heroStateMachine = new HeroStateMachine(this);
     }
+
+    /// </summary>
+    /// состояния
+    /// </summary>
+    public StateMachine heroStateMachine;  
 
     /// <summary>
     /// Текущая цель
     /// </summary>
-    public Hero CurrentTarget { get; set; }
+    
+    // public Hero CurrentTarget { private get =>throw new System.NotImplementedException(); set => this.CurrentTarget = CurrentTarget; }
+    public Hero CurrentTarget;
 
     /// <summary>
     /// Суммарная стоимость всех экипированных предметов (в единицах)

@@ -828,7 +828,7 @@ PrefabInstance:
     - target: {fileID: 7705347654157417328, guid: 6159f65b42887bf4885ab922750466d3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.95
+      value: 0.19
       objectReference: {fileID: 0}
     - target: {fileID: 7705347654157417328, guid: 6159f65b42887bf4885ab922750466d3,
         type: 3}
@@ -838,7 +838,7 @@ PrefabInstance:
     - target: {fileID: 7705347654157417328, guid: 6159f65b42887bf4885ab922750466d3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.81
+      value: 1.88
       objectReference: {fileID: 0}
     - target: {fileID: 7705347654157417328, guid: 6159f65b42887bf4885ab922750466d3,
         type: 3}
@@ -1020,7 +1020,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1705251284}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 675960c9f9a7f6f44b119e0a2a6531a9, type: 3}
   m_Name: 
@@ -1037,6 +1037,21 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8842880461051885870}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1705251288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1705251284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 445eb45eef27aa543812416ac5c72e1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentTarget: {fileID: 0}
+  info: {fileID: 11400000, guid: 91dcfeb9946e2f24880edef430c2c588, type: 2}
+  active: 1
 --- !u!114 &1705251289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1089,6 +1104,21 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1596551291}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1724291360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724291359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 445eb45eef27aa543812416ac5c72e1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentTarget: {fileID: 0}
+  info: {fileID: 11400000, guid: 91dcfeb9946e2f24880edef430c2c588, type: 2}
+  active: 0
 --- !u!4 &1724291363 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7705347654157417328, guid: 6159f65b42887bf4885ab922750466d3,

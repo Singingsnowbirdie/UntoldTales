@@ -6,7 +6,7 @@ public abstract class StateMachine
     /// <summary>
     /// Все состояния
     /// </summary>
-    protected Dictionary<Type, IStage> Stages { get; set; }
+    public Dictionary<Type, IStage> Stages { get; set; }
 
     /// <summary>
     /// Начальное состояние
@@ -29,7 +29,7 @@ public abstract class StateMachine
     /// <summary>
     /// Включаем новое состояние
     /// </summary>
-    protected void SetStage(IStage newStage)
+    public void SetStage(IStage newStage)
     {
         //если сейчас активна другая стадия
         if (CurrentStage != null)

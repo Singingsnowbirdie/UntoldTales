@@ -28,10 +28,15 @@ public class Pathfinding : MonoBehaviour
         board = FindObjectOfType<Board>();
     }
 
-    void Update()
+    public void GetPathToTarget()
     {
         pathToTarget = GetPath(target.transform.position);
     }
+
+    // void Update()
+    // {
+    //     pathToTarget = GetPath(target.transform.position);
+    // }
 
     public List<Vector3> GetPath(Vector3 myTarget)
     {
@@ -151,7 +156,6 @@ public class Pathfinding : MonoBehaviour
         //         Gizmos.color = Color.blue;
         //         Gizmos.DrawSphere(new Vector3(item.myPosition.x + offset, 0, item.myPosition.z + offset), 0.1f);
         //     }
-
         if(pathToTarget != null)
         foreach (var item in pathToTarget)
         {
