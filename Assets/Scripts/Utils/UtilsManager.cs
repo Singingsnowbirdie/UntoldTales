@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
 // Этот вспомогательный класс нужен для работы с функционалом MonoBehaviour из классов, которые от него не наследуются
@@ -34,6 +33,16 @@ public sealed class UtilsManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Все мобы с ближней атакой
+    /// </summary>
+    static List<Mob> meleeMobsDB;
+
+    /// <summary>
+    /// Все мобы с дальней атакой
+    /// </summary>
+    static List<Mob> rangeMobsDB;
+
+    /// <summary>
     /// Запускает корутину
     /// </summary>
     /// <param name="enumerator"></param>
@@ -41,6 +50,54 @@ public sealed class UtilsManager : MonoBehaviour
     public static Coroutine StartRoutine(IEnumerator enumerator)
     {
         return instance.StartCoroutine(enumerator);
+    }
+
+    /// <summary>
+    /// Возвращает список всех милишных мобов
+    /// </summary>
+    internal static List<Mob> GetMeleeMobsDB()
+    {
+        if (meleeMobsDB == null)
+        {
+            InitMobsDB();
+        }
+        return meleeMobsDB;
+    }
+
+    /// <summary>
+    /// Возвращает список всех дальних мобов
+    /// </summary>
+    internal static List<Mob> GetRangeMobsDB()
+    {
+        if (rangeMobsDB == null)
+        {
+            InitMobsDB();
+        }
+        return rangeMobsDB;
+    }
+
+    /// <summary>
+    /// Подгружает базу мобов
+    /// </summary>
+    private static void InitMobsDB()
+    {
+        //БД мобов
+        var mobsDB = Resources.LoadAll("TestObjects/Mobs");
+        meleeMobsDB = new List<Mob>();
+        rangeMobsDB = new List<Mob>();
+
+        //заполняем списки
+        foreach (var item in mobsDB)
+        {
+            if ((item as GameObject).GetComponent<Mob>().info.СombatType == CombatType.Melee)
+            {
+                meleeMobsDB.Add((item as GameObject).GetComponent<Mob>());
+            }
+            else
+            {
+                rangeMobsDB.Add((item as GameObject).GetComponent<Mob>());
+            }
+        }
     }
 
     /// <summary>

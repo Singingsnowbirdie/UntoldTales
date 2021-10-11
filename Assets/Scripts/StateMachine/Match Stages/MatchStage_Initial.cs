@@ -29,7 +29,7 @@ public class MatchStage_Initial : SMStage
     {
         base.Initialize();
         Stages[typeof(HeroesCircleStage)] = new HeroesCircleStage(this, players);
-        Stages[typeof(PvERound)] = new PvERound();
+        Stages[typeof(PvERoundStage)] = new PvERoundStage();
         FirstStage = GetStage<HeroesCircleStage>();
         StageName = "Начальная стадия матча";
         pveRoundsPlayed = 0;
@@ -40,9 +40,47 @@ public class MatchStage_Initial : SMStage
     /// </summary>
     internal void ChangeStage()
     {
+        //если завершаем круг героев
         if (CurrentStage is HeroesCircleStage)
         {
-            SetStage(GetStage<PvERound>());
+            //запускаем ПвЕ раунд 
+            SetStage(GetStage<PvERoundStage>());
+        }
+        //если завершаем ПвЕ раунд
+        else if (CurrentStage is PvERoundStage)
+        {
+            //нужно проверять, сколько их уже отыграно
+            if (pveRoundsPlayed == 0)
+            {
+                //запускаем ПвЕ раунд 
+                SetStage(GetStage<PvERoundStage>());
+                //собщаем раунду, какой он по счету в серии
+                (CurrentStage as PvERoundStage).Count = 1;
+                //увеличиваем счетчик
+                pveRoundsPlayed++;
+            }
+            else if (pveRoundsPlayed == 1)
+            {
+                //запускаем ПвЕ раунд 
+                SetStage(GetStage<PvERoundStage>());
+                //собщаем раунду, какой он по счету в серии
+                (CurrentStage as PvERoundStage).Count = 2;
+                //увеличиваем счетчик
+                pveRoundsPlayed++;
+            }
+            else if (pveRoundsPlayed == 2)
+            {
+                //запускаем ПвЕ раунд 
+                SetStage(GetStage<PvERoundStage>());
+                //собщаем раунду, какой он по счету в серии
+                (CurrentStage as PvERoundStage).Count = 3;
+                //увеличиваем счетчик
+                pveRoundsPlayed++;
+            }
+            else if (pveRoundsPlayed == 3)
+            {
+                //выходим из серии ПвЕ раундов
+            }
         }
     }
 }

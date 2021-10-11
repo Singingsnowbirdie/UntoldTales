@@ -3,14 +3,14 @@
     /// <summary>
     /// Текущий матч
     /// </summary>
-    public Match Match { get; set; }
+    public MatchStateMashine Match { get; set; }
 
     /// <summary>
     /// Инициализатор
     /// </summary>
     public void Initialize()
     {
-        Match = new Match();
+        Match = new MatchStateMashine();
         Match.StartMatch();
     }
 
