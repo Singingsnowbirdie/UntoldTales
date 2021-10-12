@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HeroAttackEnemy : IStage
 {
     private Hero hero;
+    public string StageName { get; set; }
+
 
     //отсчет времени
     private float attackCooldown = 0f;

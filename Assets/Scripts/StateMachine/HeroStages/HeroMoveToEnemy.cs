@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HeroMoveToEnemy : IStage
 {
@@ -13,9 +11,10 @@ public class HeroMoveToEnemy : IStage
 
     private Vector3 target2;
     private bool on = true;
+
     private Animator anim;
 
-    public string StageName { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public string StageName { get; set; }
 
     public HeroMoveToEnemy(Hero Hero)
     {

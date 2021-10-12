@@ -125,22 +125,6 @@ public abstract class Hero : MonoBehaviour
     }
 
     /// <summary>
-    /// Выбор цели
-    /// </summary>
-    public void SelectTarget()
-    {
-        Debug.Log("Цель выбрана");
-    }
-
-    /// <summary>
-    /// Двигает персонажа
-    /// </summary>
-    public void Move()
-    {
-        Debug.Log("Герой двигается");
-    }
-
-    /// <summary>
     /// Атака
     /// </summary>
     public virtual void Attack()

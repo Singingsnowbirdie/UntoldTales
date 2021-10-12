@@ -25,6 +25,8 @@ public class HeroSearchEnemy : IStage
         // Debug.Log("HeroSearchEnemy выход");
     }
 
+    public string StageName { get; set; }
+
     /// <summary>
     /// следующее состояние
     /// </summary>

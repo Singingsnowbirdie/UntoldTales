@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class Match: StateMachine
+public class MatchStateMashine: StateMachine
 {
     /// <summary>
     /// Максимальное кол-во игроков
