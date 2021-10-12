@@ -6,7 +6,7 @@ public class HeroMoveToEnemy : IStage
 {
 
     private Hero Hero;
-    private Pathfinding pathfinding;
+    public Pathfinding pathfinding;
 
     private float speed = 4.14f;
     private float offset = 0.5f;
@@ -14,6 +14,8 @@ public class HeroMoveToEnemy : IStage
     private Vector3 target2;
     private bool on = true;
     private Animator anim;
+
+    public string StageName { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
     public HeroMoveToEnemy(Hero Hero)
     {

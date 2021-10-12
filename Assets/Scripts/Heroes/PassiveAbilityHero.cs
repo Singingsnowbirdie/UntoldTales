@@ -11,6 +11,7 @@ public class PassiveAbilityHero : Hero
     {
         if (active)
         {
+            Initialize();
             heroStateMachine.SetStage(heroStateMachine.Stages[typeof(HeroSearchEnemy)]);
         }
     }

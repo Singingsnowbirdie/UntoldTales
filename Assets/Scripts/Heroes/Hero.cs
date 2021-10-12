@@ -5,12 +5,12 @@ using UnityEngine;
 
 public abstract class Hero : MonoBehaviour
 {
-
+    public Animator anim;
     #region ПОКАЗАТЕЛИ (Начальное значение берется из карточки (инфо), потом меняется, под действием модификаторов)
     /// <summary>
     /// Максимальное здоровье (в единицах)
     /// </summary>
-    int maxHealth;
+    public int maxHealth;
 
     /// <summary>
     /// Физическая защита: (количество поглощаемого физического урона)
@@ -30,7 +30,7 @@ public abstract class Hero : MonoBehaviour
     /// <summary>
     /// Скорость атаки: (количество атак в секунду)
     /// </summary>
-    int attackSpeed;
+    public float attackSpeed;
 
     /// <summary>
     /// Дальность атаки: (в количестве ячеек по прямой)
@@ -70,7 +70,12 @@ public abstract class Hero : MonoBehaviour
         attackPower = info.AttackPower;
         attackSpeed = info.AttackSpeed;
         attackRange = info.AttackRange;
-
+        anim = GetComponent<Animator>();
+        // heroStateMachine = new HeroStateMachine(this);
+    }
+    
+    private void Awake() 
+    {
         heroStateMachine = new HeroStateMachine(this);
     }
 

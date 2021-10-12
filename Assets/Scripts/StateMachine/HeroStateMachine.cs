@@ -11,9 +11,9 @@ public class HeroStateMachine : StateMachine
 
     private void InitStates(Hero hero)
     {
+        Initialize();        
         Stages.Add(typeof(HeroSearchEnemy),new HeroSearchEnemy(hero));
         Stages.Add(typeof(HeroMoveToEnemy),new HeroMoveToEnemy(hero));
         Stages.Add(typeof(HeroAttackEnemy),new HeroAttackEnemy(hero));
     }
-
 }

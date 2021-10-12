@@ -16,13 +16,13 @@ MonoBehaviour:
   rank: 1
   fraction: 0
   heroClass: 0
-  health: 0
+  health: 10
   mana: 0
   physicalProtection: 0
   magicProtection: 0
   attackType: 0
-  attackPower: 0
-  attackSpeed: 0
+  attackPower: 1
+  attackSpeed: 0.5
   attackRange: 0
   hasUltimateAbility: 0
   maxEnergy: 0

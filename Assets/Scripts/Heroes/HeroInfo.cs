@@ -49,8 +49,8 @@ public class HeroInfo : ScriptableObject
     public int AttackPower => this.attackPower;
 
     [Header("Скорость атаки: (количество атак в секунду)")]
-    [SerializeField] int attackSpeed;
-    public int AttackSpeed => this.attackSpeed;
+    [SerializeField] float attackSpeed;
+    public float AttackSpeed => this.attackSpeed;
 
     [Header("Дальность атаки: (в количестве ячеек по прямой)")]
     [SerializeField] int attackRange;

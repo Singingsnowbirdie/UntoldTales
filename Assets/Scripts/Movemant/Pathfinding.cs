@@ -48,7 +48,7 @@ public class Pathfinding : MonoBehaviour
         Vector3 startPosition = new Vector3(Mathf.Round(transform.position.x - offset),0, Mathf.Round(transform.position.z - offset));
         //точка, конечная позиция 
         Vector3 targetPosition = new Vector3(Mathf.Round(target.transform.position.x - offset),0, Mathf.Round(target.transform.position.z - offset));
-        
+
         //проверка пришли мы к цели или нет
         if(startPosition == targetPosition)return pathToTarget;
         
