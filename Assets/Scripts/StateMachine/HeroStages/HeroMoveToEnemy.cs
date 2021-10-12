@@ -3,7 +3,7 @@
 public class HeroMoveToEnemy : IStage
 {
 
-    private Hero Hero;
+    private Character character;
     public Pathfinding pathfinding;
 
     private float speed = 4.14f;
@@ -16,11 +16,11 @@ public class HeroMoveToEnemy : IStage
 
     public string StageName { get; set; }
 
-    public HeroMoveToEnemy(Hero Hero)
+    public HeroMoveToEnemy(Character character)
     {
-        this.Hero = Hero;
-        anim = Hero.transform.GetComponent<Animator>();
-        pathfinding = Hero.transform.GetComponent<Pathfinding>();
+        this.character = character;
+        anim = this.character.transform.GetComponent<Animator>();
+        pathfinding = this.character.transform.GetComponent<Pathfinding>();
     }
 
     public void Enter()
@@ -35,7 +35,7 @@ public class HeroMoveToEnemy : IStage
 
     private void SetNextState()
     {        
-        if (Hero.CurrentTarget) Hero.heroStateMachine.SetStage(Hero.heroStateMachine.Stages[typeof(HeroAttackEnemy)]);
+        if (character.CurrentTarget) character.heroStateMachine.SetStage(character.heroStateMachine.Stages[typeof(HeroAttackEnemy)]);
     }
     
     /// <summary>
@@ -56,13 +56,13 @@ public class HeroMoveToEnemy : IStage
                 on = false;
             }
 
-            if (Hero.transform.position == new Vector3(target2.x + offset, 0, target2.z + offset))
+            if (character.transform.position == new Vector3(target2.x + offset, 0, target2.z + offset))
             {
                 on = true;
             }
 
             if (pathfinding.pathToTarget.Count > 1 &&
-                Vector3.Distance(Hero.transform.position, new Vector3(target2.x + offset, 0, target2.z + offset)) > 0.2f)
+                Vector3.Distance(character.transform.position, new Vector3(target2.x + offset, 0, target2.z + offset)) > 0.2f)
             {
                 Debug.Log("иду к цели");
                 RotateToTarget(new Vector3(target2.x + offset, 0, target2.z + offset), 20);
@@ -76,8 +76,8 @@ public class HeroMoveToEnemy : IStage
             }
 
             Vector3 actualTargetPositint = new Vector3(target2.x + offset, 0, target2.z + offset);
-            Hero.transform.position = 
-            Vector3.MoveTowards(Hero.transform.position, actualTargetPositint, Time.deltaTime * speed);
+            character.transform.position = 
+            Vector3.MoveTowards(character.transform.position, actualTargetPositint, Time.deltaTime * speed);
         }
     }
     
@@ -87,8 +87,8 @@ public class HeroMoveToEnemy : IStage
     /// </summary>
     public void RotateToTarget(Vector3 target, float speed)
     {
-        Vector3 direction = (target - Hero.transform.position).normalized;
+        Vector3 direction = (target - character.transform.position).normalized;
         Quaternion locrot = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        Hero.transform.rotation = Quaternion.Slerp(Hero.transform.rotation, locrot, Time.deltaTime * speed);
+        character.transform.rotation = Quaternion.Slerp(character.transform.rotation, locrot, Time.deltaTime * speed);
     }
 }

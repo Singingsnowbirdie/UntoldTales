@@ -206,7 +206,7 @@ PrefabInstance:
     - target: {fileID: 7705347654157417328, guid: 6159f65b42887bf4885ab922750466d3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.65
+      value: 1.414
       objectReference: {fileID: 0}
     - target: {fileID: 7705347654157417328, guid: 6159f65b42887bf4885ab922750466d3,
         type: 3}
@@ -1237,7 +1237,6 @@ MonoBehaviour:
   anim: {fileID: 0}
   maxHealth: 0
   attackSpeed: 0
-  CurrentTarget: {fileID: 0}
   info: {fileID: 11400000, guid: 91dcfeb9946e2f24880edef430c2c588, type: 2}
   active: 1
 --- !u!114 &1705251289
@@ -1286,6 +1285,18 @@ CapsuleCollider:
   m_Height: 1.8033743
   m_Direction: 1
   m_Center: {x: -0.043649673, y: 0.910491, z: 0}
+--- !u!114 &1705251293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1705251284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 520ee1bf9e2722f41b5b3d9d97264667, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1724291359 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7705347654157417332, guid: 6159f65b42887bf4885ab922750466d3,
@@ -1307,7 +1318,6 @@ MonoBehaviour:
   anim: {fileID: 0}
   maxHealth: 0
   attackSpeed: 0
-  CurrentTarget: {fileID: 0}
   info: {fileID: 11400000, guid: 91dcfeb9946e2f24880edef430c2c588, type: 2}
   active: 0
 --- !u!4 &1724291363 stripped
@@ -1588,7 +1598,6 @@ MonoBehaviour:
   anim: {fileID: 0}
   maxHealth: 0
   attackSpeed: 0
-  CurrentTarget: {fileID: 0}
   info: {fileID: 11400000, guid: 91dcfeb9946e2f24880edef430c2c588, type: 2}
   active: 0
 --- !u!1001 &8842880461051885870

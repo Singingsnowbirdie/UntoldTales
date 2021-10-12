@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class HeroStateMachine : StateMachine 
 {
-    public HeroStateMachine(Hero hero)
+    public HeroStateMachine(Character character)
     {
-        InitStates(hero);
+        InitStates(character);
     }
 
-    private void InitStates(Hero hero)
+    private void InitStates(Character character)
     {
         Initialize();        
-        Stages.Add(typeof(HeroSearchEnemy),new HeroSearchEnemy(hero));
-        Stages.Add(typeof(HeroMoveToEnemy),new HeroMoveToEnemy(hero));
-        Stages.Add(typeof(HeroAttackEnemy),new HeroAttackEnemy(hero));
+        Stages.Add(typeof(HeroSearchEnemy),new HeroSearchEnemy(character));
+        Stages.Add(typeof(HeroMoveToEnemy),new HeroMoveToEnemy(character));
+        Stages.Add(typeof(HeroAttackEnemy),new HeroAttackEnemy(character));
     }
 }

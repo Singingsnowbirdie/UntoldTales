@@ -5,14 +5,12 @@
 /// </summary>
 public class HeroSearchEnemy : IStage
 {
-    private Hero hero;
+    private Character character;
     private FindTarget findTarget;
 
-    public string StageName { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-
-    public HeroSearchEnemy(Hero hero)
+    public HeroSearchEnemy(Character character)
     {
-        this.hero = hero;
+        this.character = character;
     }
 
     public void Enter()
@@ -32,12 +30,12 @@ public class HeroSearchEnemy : IStage
     /// </summary>
     private void SetNextState()
     {
-        if (hero.CurrentTarget)
+        if (character.CurrentTarget)
         {
                
-            HeroMoveToEnemy aa = hero.heroStateMachine.Stages[typeof(HeroMoveToEnemy)] as HeroMoveToEnemy;
-            aa.pathfinding.target = hero.CurrentTarget.gameObject;
-            hero.heroStateMachine.SetStage(hero.heroStateMachine.Stages[typeof(HeroMoveToEnemy)]);
+            HeroMoveToEnemy aa = character.heroStateMachine.Stages[typeof(HeroMoveToEnemy)] as HeroMoveToEnemy;
+            aa.pathfinding.target = character.CurrentTarget.gameObject;
+            character.heroStateMachine.SetStage(character.heroStateMachine.Stages[typeof(HeroMoveToEnemy)]);
         } 
     }
 
@@ -46,11 +44,11 @@ public class HeroSearchEnemy : IStage
     /// </summary>
     private void SearchEnemy()
     {
-        if (hero.CurrentTarget) {SetNextState(); return;} else Exit();
+        if (character.CurrentTarget) {SetNextState(); return;} else Exit();
 
         Debug.Log("ищу цель");
         
         findTarget = new FindTarget();
-        findTarget.FindNearestTarget(hero);
+        findTarget.FindNearestTarget(character);
     }
 }

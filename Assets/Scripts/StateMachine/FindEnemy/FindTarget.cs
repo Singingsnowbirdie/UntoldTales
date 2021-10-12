@@ -6,31 +6,31 @@
 public class FindTarget 
 {
     //поиск ближайшего противника
-    public void FindNearestTarget(Hero hero)
+    public void FindNearestTarget(Character character)
     {
-        Transform enemyPos = Findmyself(hero);
+        Transform enemyPos = Findmyself(character);
 
         foreach (var item in TestBankHeroes.EnemiesOnAren)
         {
-            if (item.Value.transform.gameObject != hero.transform.gameObject)
+            if (item.Value.transform.gameObject != character.transform.gameObject)
             {
-                if (Vector3.Distance(enemyPos.position, hero.transform.position) > 
-                    Vector3.Distance(item.Value.transform.position, hero.transform.position))
+                if (Vector3.Distance(enemyPos.position, character.transform.position) > 
+                    Vector3.Distance(item.Value.transform.position, character.transform.position))
                 {
                     enemyPos = item.Value.transform;
                 }
             }
         }
-        hero.CurrentTarget = enemyPos.GetComponent<Hero>();
+        character.CurrentTarget = enemyPos.GetComponent<Hero>();
     }
 
     //метод исключает себя из списка целей
-    private Transform Findmyself(Hero hero)
+    private Transform Findmyself(Character character)
     {
-        Hero[] HeroTrans = GameObject.FindObjectsOfType<Hero>() ;
+        Character[] HeroTrans = GameObject.FindObjectsOfType<Hero>() ;
         foreach (var item in HeroTrans)
         {
-            if(item.transform.gameObject != hero.transform.gameObject)
+            if(item.transform.gameObject != character.transform.gameObject)
             {
                 return item.transform;
             }

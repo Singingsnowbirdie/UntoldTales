@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PassiveAbilityHero : Hero
 {
-   
     public bool active = true;
 
     private void Update() 

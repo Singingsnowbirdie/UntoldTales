@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="mgcd5vxj7Ai942f27eH_" name="Страница 1">
-        <mxGraphModel dx="5490" dy="4467" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="#EEEEEE" math="0" shadow="0">
+        <mxGraphModel dx="4324" dy="3833" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="#EEEEEE" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -211,7 +211,7 @@
                         <mxPoint x="-1944.9411764705883" y="-990" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="99" style="rounded=1;sketch=0;orthogonalLoop=1;jettySize=auto;html=1;fontColor=#1A1A1A;startArrow=none;startFill=0;endArrow=open;endFill=0;startSize=30;endSize=20;targetPerimeterSpacing=0;strokeColor=#182E3E;strokeWidth=3;" parent="1" source="63" target="84" edge="1">
+                <mxCell id="99" style="rounded=1;sketch=0;orthogonalLoop=1;jettySize=auto;html=1;fontColor=#1A1A1A;startArrow=none;startFill=0;endArrow=open;endFill=0;startSize=30;endSize=20;targetPerimeterSpacing=0;strokeColor=#182E3E;strokeWidth=3;dashed=1;" parent="1" source="63" target="84" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="-1955" y="-950" as="sourcePoint"/>
                         <mxPoint x="-1770" y="-1090" as="targetPoint"/>
@@ -268,7 +268,7 @@
                         <mxPoint x="-1120" y="-1160" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="113" value="&lt;font color=&quot;#000000&quot;&gt;Movemant&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=60;fillColor=none;dashed=1;strokeWidth=6;align=right;horizontal=1;verticalAlign=bottom;fontStyle=1;labelPosition=center;verticalLabelPosition=top;imageAspect=1;editable=1;movable=1;backgroundOutline=0;strokeColor=#0066CC;connectable=0;allowArrows=0;snapToPoint=0;perimeter=rectanglePerimeter;fixDash=0;autosize=0;container=1;dropTarget=0;collapsible=0;recursiveResize=1;absoluteArcSize=0;noLabel=0;portConstraintRotation=0;comic=0;moveCells=0;rotatable=0;pointerEvents=0;" parent="1" vertex="1">
+                <mxCell id="113" value="&lt;font color=&quot;#000000&quot;&gt;Movement&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=60;fillColor=none;dashed=1;strokeWidth=6;align=right;horizontal=1;verticalAlign=bottom;fontStyle=1;labelPosition=center;verticalLabelPosition=top;imageAspect=1;editable=1;movable=1;backgroundOutline=0;strokeColor=#0066CC;connectable=0;allowArrows=0;snapToPoint=0;perimeter=rectanglePerimeter;fixDash=0;autosize=0;container=1;dropTarget=0;collapsible=0;recursiveResize=1;absoluteArcSize=0;noLabel=0;portConstraintRotation=0;comic=0;moveCells=0;rotatable=0;pointerEvents=0;" parent="1" vertex="1">
                     <mxGeometry x="-350" y="-1210" width="580" height="280" as="geometry"/>
                 </mxCell>
                 <mxCell id="114" value="пока не пашет" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#6F0000;fillColor=#a20025;fontColor=#ffffff;fontSize=16;" parent="1" vertex="1">
@@ -304,8 +304,26 @@
                         <mxPoint x="-280" y="-1020" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="126" value="#AttackEnemy" style="whiteSpace=wrap;fillColor=#647687;labelBackgroundColor=none;strokeWidth=3;strokeColor=#314354;fontSize=20;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+                <mxCell id="126" value="#AttackEnemy" style="whiteSpace=wrap;fillColor=#647687;labelBackgroundColor=none;strokeWidth=3;strokeColor=#314354;fontSize=20;fontStyle=1;fontColor=#ffffff;" parent="1" vertex="1">
                     <mxGeometry x="-310" y="-750" width="200" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="130" value="#CharacterStateMachine" style="whiteSpace=wrap;fillColor=#647687;labelBackgroundColor=none;strokeWidth=3;strokeColor=#314354;fontSize=20;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="-1460" y="-960" width="250" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="131" value="#Character" style="whiteSpace=wrap;fillColor=#0050ef;labelBackgroundColor=none;strokeWidth=3;strokeColor=#001DBC;fontSize=20;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="-2050" y="-1200" width="190" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="132" style="rounded=1;sketch=0;orthogonalLoop=1;jettySize=auto;html=1;fontColor=#1A1A1A;startArrow=none;startFill=0;endArrow=block;endFill=0;startSize=30;endSize=20;targetPerimeterSpacing=0;strokeColor=#182E3E;strokeWidth=3;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="63" target="131">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-2130" y="-1075" as="sourcePoint"/>
+                        <mxPoint x="-2130" y="-1145" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="133" style="rounded=1;sketch=0;orthogonalLoop=1;jettySize=auto;html=1;fontColor=#1A1A1A;startArrow=none;startFill=0;endArrow=open;endFill=0;startSize=30;endSize=20;targetPerimeterSpacing=0;strokeColor=#182E3E;strokeWidth=3;dashed=1;" edge="1" parent="1" source="131" target="84">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-1850" y="-1030" as="sourcePoint"/>
+                        <mxPoint x="-1450" y="-1030" as="targetPoint"/>
+                    </mxGeometry>
                 </mxCell>
             </root>
         </mxGraphModel>

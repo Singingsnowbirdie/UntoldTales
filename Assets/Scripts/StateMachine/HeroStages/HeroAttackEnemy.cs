@@ -2,19 +2,17 @@
 
 public class HeroAttackEnemy : IStage
 {
-    private Hero hero;
+    private Character character;
     public string StageName { get; set; }
 
 
     //отсчет времени
     private float attackCooldown = 0f;
 
-    public HeroAttackEnemy(Hero hero)
+    public HeroAttackEnemy(Character character)
     {
-        this.hero = hero;
+        this.character = character;
     }
-
-    public string StageName { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
     public void Enter()
     {
@@ -36,14 +34,14 @@ public class HeroAttackEnemy : IStage
             Debug.Log("атакую цель");
             // HitTarget();
 
-            hero.anim.SetTrigger("Attack");
-            attackCooldown = 1f/ hero.attackSpeed;
+            character.anim.SetTrigger("Attack");
+            attackCooldown = 1f/ character.attackSpeed;
         }
     }
 
     public void HitTarget()
     {
-        hero.CurrentTarget.maxHealth--;
+        character.CurrentTarget.maxHealth--;
         Debug.Log("HitTarget");
     }
 }
