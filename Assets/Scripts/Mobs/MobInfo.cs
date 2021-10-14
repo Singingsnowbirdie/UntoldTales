@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+//Карточка моба
+
 public class MobInfo : ScriptableObject
 {
     [Header("Название")]
