@@ -48,7 +48,7 @@ public class EventManager
     #endregion
 
     #region КЛИК ПО ГЕРОЮ (используется на круге героев)
-    internal static void OnHeroPointedEventInvoke(Hero hero) { OnHeroPointed?.Invoke(hero); }
-    public static event Action<Hero> OnHeroPointed;
+    internal static void OnHeroSelectedEventInvoke(string heroName) { OnHeroSelected?.Invoke(heroName); }
+    public static event Action<string> OnHeroSelected;
     #endregion
 }

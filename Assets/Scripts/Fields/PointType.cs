@@ -5,7 +5,7 @@ public enum PointType
 {
     HeroesCirclePoint,
     FriendlyPoint,
-    EmemyPoint,
+    EnemyPoint,
     NeutralPoint,
     ReservePoint,
     EnemyReservePoint,

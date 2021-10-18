@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bdd48fe0058f2946bfd250793ba5e02, type: 3}
   m_Name: PassiveAbilityHero
   m_EditorClassIdentifier: 
-  heroName: 
+  heroName: Passive Ability Hero
   rank: 1
   fraction: 0
   heroClass: 0

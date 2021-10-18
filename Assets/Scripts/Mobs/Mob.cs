@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Mob : MonoBehaviour
 {
@@ -11,33 +12,43 @@ public class Mob : MonoBehaviour
     /// <summary>
     /// Текущее здоровье
     /// </summary>
-    int health;
+    readonly int health;
 
     /// </summary>
     /// состояния
     /// </summary>
-    public StateMachine stateMachine;
+    StateMachine stateMachine;
 
     /// <summary>
     /// Текущая цель (герой)
     /// </summary>
-    [HideInInspector]
-    public Hero CurrentTarget;
+    Hero currentTarget;
+
+    /// <summary>
+    /// Точка, на которой стоит моб (?)
+    /// </summary>
+    Point point;
 
     /// <summary>
     /// Инициализатор
     /// </summary>
-    public virtual void Initialize()
+    public virtual void Initialize(Point point)
     {
-        stateMachine = new MobStateMashine(this);
+        stateMachine = new MobStateMachine(this);
+        this.point = point;
     }
 
     /// <summary>
-    /// Смена состояний 
+    /// Есть цель
     /// </summary>
-    internal static void ChangeStage()
+    /// <returns></returns>
+    internal bool HasTarget()
     {
-
+        if (currentTarget != null)
+        {
+            return true;
+        }
+        return false;
     }
 
     /// <summary>

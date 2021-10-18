@@ -61,30 +61,28 @@ public abstract class Hero : MonoBehaviour
     /// </summary>
     public virtual void Initialize()
     {
-        maxHealth = info.Health;
+        maxHealth = Info.Health;
         health = maxHealth;
-        maxMana = info.Mana;
+        maxMana = Info.Mana;
         mana = maxMana;
-        physicalProtection = info.PhysicalProtection;
-        magicProtection = info.MagicProtection;
-        attackPower = info.AttackPower;
-        attackSpeed = info.AttackSpeed;
-        attackRange = info.AttackRange;
+        physicalProtection = Info.PhysicalProtection;
+        magicProtection = Info.MagicProtection;
+        attackPower = Info.AttackPower;
+        attackSpeed = Info.AttackSpeed;
+        attackRange = Info.AttackRange;
 
-        heroStateMachine = new HeroStateMachine(this);
+        HeroStateMachine = new HeroStateMachine(this);
     }
 
     /// </summary>
     /// состояния
     /// </summary>
-    public StateMachine heroStateMachine;  
+    public StateMachine HeroStateMachine { get; set; }
 
     /// <summary>
     /// Текущая цель
     /// </summary>
-    
-    // public Hero CurrentTarget { private get =>throw new System.NotImplementedException(); set => this.CurrentTarget = CurrentTarget; }
-    public Hero CurrentTarget;
+    public Hero CurrentTarget { get; set; }
 
     /// <summary>
     /// Суммарная стоимость всех экипированных предметов (в единицах)
@@ -130,12 +128,15 @@ public abstract class Hero : MonoBehaviour
     /// <summary>
     /// Информация о герое
     /// </summary>
-    public HeroInfo info;
+    [SerializeField]
+    HeroInfo info;
+    public HeroInfo Info => info;
 
     /// <summary>
     /// ID героя в отряде (присваивается при добавлении героя в отряд)
     /// </summary>
     public int ID { get; set; }
+
 
     /// <summary>
     /// Самоуничтожение

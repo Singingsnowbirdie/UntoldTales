@@ -29,7 +29,7 @@ public class HeroSearchEnemy : IStage
     /// </summary>
     private void SetNextState()
     {
-        if (Hero.CurrentTarget) Hero.heroStateMachine.SetStage(Hero.heroStateMachine.Stages[typeof(HeroMoveToEnemy)]);
+        if (Hero.CurrentTarget) Hero.HeroStateMachine.SetStage(Hero.HeroStateMachine.Stages[typeof(HeroMoveToEnemy)]);
     }
 
     /// <summary>

@@ -1,24 +1,24 @@
-﻿public class MatchController : IController
+﻿using UnityEngine;
+
+public class MatchController : IController
 {
     /// <summary>
-    /// Текущий матч
+    /// Матч
     /// </summary>
-    public MatchStateMashine Match { get; set; }
+    public Match match;
 
     /// <summary>
     /// Инициализатор
     /// </summary>
     public void Initialize()
     {
-        Match = new MatchStateMashine();
-        Match.StartMatch();
+        match = new Match();
     }
 
     /// <summary>
     /// При создании
     /// </summary>
     public void OnCreate() { }
-
 
     /// <summary>
     /// При выходе
@@ -28,5 +28,9 @@
     /// <summary>
     /// При старте
     /// </summary>
-    public void OnStart() { }
+    public void OnStart() 
+    {
+        Debug.Log("Начало матча");
+        match.StartMatch();
+    }
 }

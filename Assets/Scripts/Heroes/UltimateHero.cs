@@ -76,8 +76,8 @@ public class UltimateHero : Hero
     public override void Initialize()
     {
         base.Initialize();
-        maxEnergy = info.MaxEnergy;
+        maxEnergy = Info.MaxEnergy;
         energy = 0;
-        energyStorageRate = info.EnergyStorageRate;
+        energyStorageRate = Info.EnergyStorageRate;
     }
 }

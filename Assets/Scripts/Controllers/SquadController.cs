@@ -94,7 +94,7 @@ public class SquadController : IController
         //ищем таких же героев на поле
         foreach (var item in squad.heroesOnTheField)
         {
-            if (item.info.Name == hero.info.Name && item.info.Rank == hero.info.Rank)
+            if (item.Info.Name == hero.Info.Name && item.Info.Rank == hero.Info.Rank)
             {
                 trine.Add(item);
                 if (trine.Count == 3)
@@ -107,7 +107,7 @@ public class SquadController : IController
         //затем ищем таких же героев в резерве
         foreach (var item in squad.heroesInReserve)
         {
-            if (item.info.Name == hero.info.Name && item.info.Rank == hero.info.Rank)
+            if (item.Info.Name == hero.Info.Name && item.Info.Rank == hero.Info.Rank)
             {
                 trine.Add(item);
                 if (trine.Count == 3)

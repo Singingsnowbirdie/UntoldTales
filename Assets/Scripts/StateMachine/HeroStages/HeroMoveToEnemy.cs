@@ -34,7 +34,7 @@ public class HeroMoveToEnemy : IStage
 
     private void SetNextState()
     {        
-        if (Hero.CurrentTarget) Hero.heroStateMachine.SetStage(Hero.heroStateMachine.Stages[typeof(HeroAttackEnemy)]);
+        if (Hero.CurrentTarget) Hero.HeroStateMachine.SetStage(Hero.HeroStateMachine.Stages[typeof(HeroAttackEnemy)]);
     }
     
     /// <summary>

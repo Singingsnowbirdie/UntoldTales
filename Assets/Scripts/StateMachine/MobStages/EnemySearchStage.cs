@@ -38,10 +38,9 @@ public class EnemySearchStage : IStage
     private void EnemySearch()
     {
         //если уже есть цель
-        if (mob.CurrentTarget)
+        if (mob.HasTarget())
         {
             //переходим к следующему состоянию
-            Mob.ChangeStage();
         }
         //ищем подходящую цель
     }

@@ -1,10 +1,9 @@
 ﻿//машина состояний для моба
 
-public class MobStateMashine : StateMachine
+public class MobStateMachine : StateMachine
 {
-    public MobStateMashine(Mob mob)
+    public MobStateMachine(Mob mob)
     {
-        Initialize();
         InitStates(mob);
     }
     void InitStates(Mob mob)

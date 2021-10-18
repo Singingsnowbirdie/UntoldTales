@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 7691741128482094241}
   - component: {fileID: 5804292522218599728}
   - component: {fileID: 8756577610562272660}
-  - component: {fileID: -1272488706701543650}
-  - component: {fileID: 4603816753919489610}
+  - component: {fileID: 7287600390044517991}
+  - component: {fileID: -8622096010487611828}
   m_Layer: 0
-  m_Name: UltimateHero
+  m_Name: Ultimate Hero
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,20 +96,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-1272488706701543650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 358561688726662319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0cfc36396eb4264baaba56c915d737d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  info: {fileID: 0}
---- !u!114 &4603816753919489610
+--- !u!114 &7287600390044517991
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,3 +108,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 520ee1bf9e2722f41b5b3d9d97264667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-8622096010487611828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358561688726662319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0cfc36396eb4264baaba56c915d737d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  info: {fileID: 11400000, guid: 91dcfeb9946e2f24880edef430c2c588, type: 2}

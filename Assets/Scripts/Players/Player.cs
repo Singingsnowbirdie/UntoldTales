@@ -19,7 +19,7 @@ public abstract class Player
     /// <summary>
     /// Герой, выбранный на круге героев
     /// </summary>
-    public Hero SelectedHero { get; set; }
+    public string SelectedHeroName { get; set; }
 
     /// <summary>
     /// При входе в состояние

@@ -16,7 +16,7 @@ public class RealPlayer : Player
         if (stage == "Круг героев")
         {
             //подписываемся на выбор героя
-            EventManager.OnHeroPointed += OnHeroPointed;
+            EventManager.OnHeroSelected += OnHeroSelected;
         }
     }
 
@@ -24,13 +24,11 @@ public class RealPlayer : Player
     /// При клике на героя
     /// </summary>
     /// <param name="obj"></param>
-    private void OnHeroPointed(Hero hero)
+    private void OnHeroSelected(string heroName)
     {
-        //запоминаем героя
-        SelectedHero = hero;
-        //отключаем его
-        SelectedHero.gameObject.SetActive(false);
+        //запоминаем имя героя
+        SelectedHeroName = heroName;
         //отписываемся
-        EventManager.OnHeroPointed -= OnHeroPointed;
+        EventManager.OnHeroSelected -= OnHeroSelected;
     }
 }

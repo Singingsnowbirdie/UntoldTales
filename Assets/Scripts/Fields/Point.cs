@@ -3,5 +3,10 @@
 public class Point : MonoBehaviour
 {
     //тип точки
-    public PointType type;
+    [SerializeField]
+    PointType type;
+    public PointType Type { get => type;}
+
+    //моб или герой, стоящий на этой точке
+    public GameObject ChildrenCharacter { get; set; }
 }
