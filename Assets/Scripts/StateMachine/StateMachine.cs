@@ -31,16 +31,10 @@ public abstract class StateMachine
     /// </summary>
     public void SetStage(IStage newStage)
     {
-        //если сейчас активна другая стадия
-        //if (CurrentStage != null)
-        //{
-        //выходим из нее
-        //CurrentStage.Exit();
-        //}
-        //устанавливаем текущую стадию
+        //запоминаем текущую стадию
         CurrentStage = newStage;
-        //запускаем стадию
-        CurrentStage.Enter();
+        //запускаем ее
+        CurrentStage.EnterStage();
     }
 
     /// <summary>

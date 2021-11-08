@@ -11,12 +11,12 @@ public class HeroAttackEnemy : IStage
         this.hero = hero;
     }
 
-    public void Enter()
+    public void EnterStage()
     {
         Attack();
     }
 
-    public void Exit()
+    public void ExitStage()
     {
         // Debug.Log("HeroAttackEnemy выход");
     }

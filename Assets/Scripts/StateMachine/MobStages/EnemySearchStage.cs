@@ -20,7 +20,7 @@ public class EnemySearchStage : IStage
     /// <summary>
     /// Вход в состояние
     /// </summary>
-    public void Enter()
+    public void EnterStage()
     {
         EnemySearch();
     }
@@ -28,7 +28,7 @@ public class EnemySearchStage : IStage
     /// <summary>
     /// Выход
     /// </summary>
-    public void Exit() { }
+    public void ExitStage() { }
 
     public string StageName { get; set; }
 

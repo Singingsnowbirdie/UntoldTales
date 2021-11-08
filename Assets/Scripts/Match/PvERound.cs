@@ -1,12 +1,13 @@
-﻿public class PvERound : Round
+﻿using System;
+
+public class PvERound : Round
 {
     /// <summary>
     /// Конструктор
     /// </summary>
-    /// <param name="pveRoundsCounter"></param>
-    public PvERound(int pveRoundsCounter)
+    public PvERound(int pveRoundsFinished)
     {
-        mobs = new Mobs(pveRoundsCounter, field.GetEnemyPoints());
+        this.pveRoundsFinished = pveRoundsFinished;
     }
 
     /// <summary>
@@ -14,4 +15,24 @@
     /// </summary>
     Mobs mobs;
 
+    /// <summary>
+    /// Количество сыгранных ПвЕ раундов
+    /// </summary>
+    private int pveRoundsFinished;
+
+    public override void StartRound()
+    {
+        //создаем поле
+        base.StartRound();
+        //создаем мобов
+        CreateMobs();
+    }
+
+    /// <summary>
+    /// Создает мобов и размещает на поле
+    /// </summary>
+    private void CreateMobs()
+    {
+        mobs = new Mobs(pveRoundsFinished, field.GetEnemyPoints());
+    }
 }

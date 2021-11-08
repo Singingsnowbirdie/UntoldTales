@@ -22,11 +22,10 @@ public class Field : MonoBehaviour
         reservePoints = new List<Point>();
         friendlyPoints = new List<Point>();
         fieldPoints = new List<Point>();
+        enemyPoints = new List<Point>();
 
         //находим все точки
         Point[] points = gameObject.GetComponentsInChildren<Point>();
-
-        Debug.Log($"AllPoints = {points.Length}");
 
         //получаем точки резерва (своего)
         foreach (var item in points)
@@ -36,8 +35,6 @@ public class Field : MonoBehaviour
                 reservePoints.Add(item);
             }
         }
-        Debug.Log($"reservePoints = {reservePoints.Count}");
-
 
         //получаем все точки со своей половины поля
         foreach (var item in points)
@@ -47,7 +44,6 @@ public class Field : MonoBehaviour
                 friendlyPoints.Add(item);
             }
         }
-        Debug.Log($"friendlyPoints = {friendlyPoints.Count}");
 
         //получаем все точки с вражеской половины поля
         foreach (var item in points)
@@ -57,7 +53,6 @@ public class Field : MonoBehaviour
                 enemyPoints.Add(item);
             }
         }
-        Debug.Log($"enemyPoints = {enemyPoints.Count}");
 
         //получаем все точки поля
         fieldPoints.AddRange(friendlyPoints);
@@ -69,7 +64,7 @@ public class Field : MonoBehaviour
                 fieldPoints.Add(item);
             }
         }
-        Debug.Log($"fieldPoints = {fieldPoints.Count}");
+
     }
 
     /// <summary>

@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 5804292522218599728}
   - component: {fileID: 8756577610562272660}
   - component: {fileID: -1158633833502366952}
-  - component: {fileID: 7287600390044517991}
   m_Layer: 0
   m_Name: PassiveAbilityHero
   m_TagString: Untagged
@@ -110,15 +109,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 11400000, guid: b1704c177d2aeec44a31f4817b2141a7, type: 2}
   isActive: 0
---- !u!114 &7287600390044517991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 358561688726662319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 520ee1bf9e2722f41b5b3d9d97264667, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

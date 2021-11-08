@@ -3,27 +3,17 @@
 public class MatchController : IController
 {
     /// <summary>
-    /// Матч
+    /// Конструтор
     /// </summary>
-    public Match match;
-
-    /// <summary>
-    /// Инициализатор
-    /// </summary>
-    public void Initialize()
+    public MatchController()
     {
         match = new Match();
     }
 
     /// <summary>
-    /// При создании
+    /// Матч
     /// </summary>
-    public void OnCreate() { }
-
-    /// <summary>
-    /// При выходе
-    /// </summary>
-    public void OnExit() { }
+    public Match match;
 
     /// <summary>
     /// При старте
@@ -33,4 +23,9 @@ public class MatchController : IController
         Debug.Log("Начало матча");
         match.StartMatch();
     }
+
+    /// <summary>
+    /// При выходе
+    /// </summary>
+    public void OnExit() { }
 }

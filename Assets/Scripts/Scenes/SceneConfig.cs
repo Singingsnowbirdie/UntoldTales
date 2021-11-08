@@ -6,21 +6,15 @@ using System.Collections.Generic;
 public abstract class SceneConfig
 {
     /// <summary>
-    /// Словарь репозиториев
+    /// Создает и возвращает коллекцию репозиториев
     /// </summary>
-    /// <returns></returns>
-    public abstract Dictionary<Type, Repository> CreateAllRepositories();
+    public abstract Dictionary<Type, Repository> CreateRepositories();
 
     /// <summary>
-    /// Словарь контроллеров
+    /// Создает и возвращает коллекцию контроллеров
     /// </summary>
     /// <returns></returns>
-    public abstract Dictionary<Type, IController> CreateAllControllers();
-
-    /// <summary>
-    /// Название сцены
-    /// </summary>
-    public abstract string SceneName { get; }
+    public abstract Dictionary<Type, IController> CreateControllers();
 
     /// <summary>
     /// Создание одного контроллера
@@ -29,7 +23,6 @@ public abstract class SceneConfig
     {
         var controller = new T();
         var type = typeof(T);
-
         controllersMap[type] = controller;
     }
 
@@ -40,17 +33,11 @@ public abstract class SceneConfig
     {
         var repository = new T();
         var type = typeof(T);
-
         repositoriesMap[type] = repository;
     }
 
-    /// <summary>
-    /// Инициализатор
-    /// </summary>
-    public abstract void Initialize();
-
-    /// <summary>
-    /// Старт сцены
-    /// </summary>
-    public abstract void OnStart();
+    public virtual void OnStart()
+    {
+        //действия, которые нужно произвозить при старте сцены (таких может и не быть)
+    }
 }

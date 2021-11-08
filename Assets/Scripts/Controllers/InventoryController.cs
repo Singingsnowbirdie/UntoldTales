@@ -3,11 +3,11 @@
     /// <summary>
     /// Инвентарь
     /// </summary>
-    Inventory inventory;
+    HeroInventory inventory;
 
     public void Initialize()
     {
-        inventory = new Inventory();
+        inventory = new HeroInventory();
     }
 
     public void OnCreate()

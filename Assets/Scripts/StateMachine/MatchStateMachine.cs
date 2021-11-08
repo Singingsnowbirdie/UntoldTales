@@ -1,39 +1,37 @@
-﻿using System;
-
-public class MatchStateMachine : StateMachine
+﻿public class MatchStateMachine : StateMachine
 {
     /// <summary>
     /// Конструктор
     /// </summary>
-    /// <param name="match"></param>
     public MatchStateMachine(Match match)
     {
-        InitStages(match);
-    }
-
-    /// <summary>
-    /// Инициализация состояний
-    /// </summary>
-    private void InitStages(Match match)
-    {
-        //добавляем состояния
+        //состояния
         Stages[typeof(HeroesCircleStage)] = new HeroesCircleStage(match);
         Stages[typeof(PlanningStage)] = new PlanningStage(match);
     }
-    
+
     /// <summary>
     /// Запускает Круг Героев
     /// </summary>
-    public void StartHeroesCircleStage()
+    public void StartHeroesCircleStage(bool isTiming)
     {
-        SetStage(GetStage<HeroesCircleStage>());
+        HeroesCircleStage stage = GetStage<HeroesCircleStage>() as HeroesCircleStage;
+        //уточняем режим круга
+        stage.IsTiming = isTiming;
+        //Запускаем
+        SetStage(stage);
     }
 
     /// <summary>
     /// Запускает фазу планирования
     /// </summary>
-    internal void StartPlanningStage()
+    internal void StartPlanningStage(bool isPvE, int pveRoundsFinished)
     {
-        SetStage(GetStage<HeroesCircleStage>());
+        //выбираем стадию
+        PlanningStage stage = GetStage<PlanningStage>() as PlanningStage;
+        //передаем нужные значения
+        stage.CreateRound(isPvE, pveRoundsFinished);
+        //Запускаем
+        SetStage(stage);
     }
 }

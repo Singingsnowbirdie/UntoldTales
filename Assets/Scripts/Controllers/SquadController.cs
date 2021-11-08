@@ -14,9 +14,10 @@ public class SquadController : IController
     /// при выходе из состояния
     /// </summary>
     /// <param name="obj"></param>
-    private void OnStageExit(string stage)
+    private void OnStageExit(IStage stage)
     {
-        if (stage == "Фаза раунда: планирование")
+
+        if (stage is PlanningStage)
         {
             TransferHeroesToBattle();
         }
@@ -94,28 +95,28 @@ public class SquadController : IController
         //ищем таких же героев на поле
         foreach (var item in squad.heroesOnTheField)
         {
-            if (item.Info.Name == hero.Info.Name && item.Info.Rank == hero.Info.Rank)
-            {
-                trine.Add(item);
-                if (trine.Count == 3)
-                {
-                    Merge(trine);
-                    return true;
-                }
-            }
+            //if (item.Info.Name == hero.Info.Name && item.Info.Rank == hero.Info.Rank)
+            //{
+            //    trine.Add(item);
+            //    if (trine.Count == 3)
+            //    {
+            //        Merge(trine);
+            //        return true;
+            //    }
+            //}
         }
         //затем ищем таких же героев в резерве
         foreach (var item in squad.heroesInReserve)
         {
-            if (item.Info.Name == hero.Info.Name && item.Info.Rank == hero.Info.Rank)
-            {
-                trine.Add(item);
-                if (trine.Count == 3)
-                {
-                    Merge(trine);
-                    return true;
-                }
-            }
+            //if (item.Info.Name == hero.Info.Name && item.Info.Rank == hero.Info.Rank)
+            //{
+            //    trine.Add(item);
+            //    if (trine.Count == 3)
+            //    {
+            //        Merge(trine);
+            //        return true;
+            //    }
+            //}
         }
         return false;
     }
@@ -132,11 +133,11 @@ public class SquadController : IController
         //Если такой есть, то улучшать будем его.
         //Проверяем только первого и второго героев, потому что "нулевой", это тот, которого мы только что купили.
         //Само собой, на нем ничего еще не надето, и он не размещен на поле
-        if (trine[1].EquipmentСost > trine[2].EquipmentСost)
+        if (trine[1].GetEquipmentСost() > trine[2].GetEquipmentСost())
         {
             newHero = trine[1];
         }
-        else if (trine[2].EquipmentСost > trine[1].EquipmentСost)
+        else if (trine[2].GetEquipmentСost() > trine[1].GetEquipmentСost())
         {
             newHero = trine[2];
         }

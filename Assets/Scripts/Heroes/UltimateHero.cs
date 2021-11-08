@@ -1,33 +1,17 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 //Этот герой умеет накапливать энергию, имеет ульту
 
 public class UltimateHero : Hero
 {
     /// <summary>
-    /// Максимальное значение энергии
-    /// (Начальное значение берется из карточки (инфо), потом меняется, под действием модификаторов)
-    /// </summary>
-    int maxEnergy;
-
-    /// <summary>
-    /// Текущее значение энергии
-    /// </summary>
-    int energy;
-
-    /// <summary>
-    /// Сколько энергии герой получает за одну атаку по цели
-    /// </summary>
-    int energyStorageRate;
-
-    /// <summary>
     /// Следующая атака - ульта?
     /// </summary>
     bool IsUltimateAttack;
 
+    /// <summary>
+    /// Атака
+    /// </summary>
     public override void Attack()
     {
         base.Attack();
@@ -39,7 +23,7 @@ public class UltimateHero : Hero
         {
             OrdinaryAttack();
         }
-        AddEnergy();
+        IsUltimateAttack = stats.AddEnergy();
     }
 
     /// <summary>
@@ -59,25 +43,5 @@ public class UltimateHero : Hero
         Debug.Log("UltimateAttack");
     }
 
-    /// <summary>
-    /// Пополняет энергию
-    /// Проверяет, достаточно ли энергии для проведения ульты
-    /// </summary>
-    void AddEnergy()
-    {
-        energy += energyStorageRate;
-        if (energy >= maxEnergy)
-        {
-            energy -= maxEnergy;
-            IsUltimateAttack = true;
-        }
-    }
 
-    public override void Initialize()
-    {
-        base.Initialize();
-        maxEnergy = Info.MaxEnergy;
-        energy = 0;
-        energyStorageRate = Info.EnergyStorageRate;
-    }
 }

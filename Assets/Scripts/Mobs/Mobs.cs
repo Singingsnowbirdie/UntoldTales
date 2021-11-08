@@ -6,8 +6,7 @@ class Mobs
     public Mobs(int pveRoundsCounter, List<Point> points)
     {
         InitMobsDB();
-        mobs = CreateMobs(points);
-        this.pveRoundsCounter = pveRoundsCounter;
+        mobs = CreateMobs(points, pveRoundsCounter);
     }
 
     /// <summary>
@@ -24,11 +23,6 @@ class Mobs
     /// Список мобов, управлямых этим скриптом 
     /// </summary>
     List<Mob> mobs;
-
-    /// <summary>
-    /// Счетчик сыгранных ПвЕ раундов
-    /// </summary>
-    private readonly int pveRoundsCounter;
 
     /// <summary>
     /// Подгружает базу мобов
@@ -57,23 +51,23 @@ class Mobs
     /// <summary>
     /// Спавним мобов
     /// </summary>
-    private List<Mob> CreateMobs(List<Point> enemyPoints)
+    private List<Mob> CreateMobs(List<Point> enemyPoints, int pveRoundsCounter)
     {
-        //список мобов
-        List<Mob> list = new List<Mob>();
-
-        //временный список точек, на которых могут быть размещены мобы
+        //список точек, на которых могут быть размещены мобы
         List<Point> freePoints = new List<Point>();
         freePoints.AddRange(enemyPoints);
 
+        //список мобов
+        List<Mob> list = new List<Mob>();
+
         //расставляем мобов
-        foreach (var item in SelectMobs())
+        foreach (var item in SelectMobs(pveRoundsCounter))
         {
             //выбираем точку на поле
             Point point = freePoints[Random.Range(0, freePoints.Count - 1)];
             //спавним моба на точку
             list.Add(UtilsManager.Spawn(item, point.transform.position).GetComponent<Mob>());
-            //сообщаем точке, что на ней стоит моб
+            //сообщаем точке, что на ней стоит моб (?)
             point.ChildrenCharacter = item;
             //сообщаем мобу, на какой точке он стоит (?)
             item.GetComponent<Mob>().Initialize(point);
@@ -87,13 +81,16 @@ class Mobs
     /// <summary>
     /// Выбираем мобов, которых будем спавнить
     /// </summary>
-    private List<GameObject> SelectMobs()
+    private List<GameObject> SelectMobs(int pveRoundsCounter)
     {
         //создаем новый список мобов
         List<GameObject> temp = new List<GameObject>();
 
         //добавляем трех ближников
-        temp.Add(meleeMobsPrefabs[Random.Range(0, meleeMobsPrefabs.Count)]);
+        for (int i = 0; i < 3; i++)
+        {
+            temp.Add(meleeMobsPrefabs[Random.Range(0, meleeMobsPrefabs.Count)]);
+        }
 
         //если это второй из трех ПвЕ раундов
         if (pveRoundsCounter == 2)

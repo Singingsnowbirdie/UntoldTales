@@ -12,12 +12,12 @@ public class HeroSearchEnemy : IStage
         Hero = hero;
     }
 
-    public void Enter()
+    public void EnterStage()
     {
         SearchEnemy();
     }
 
-    public void Exit()
+    public void ExitStage()
     {
         // Debug.Log("HeroSearchEnemy выход");
     }
@@ -38,7 +38,7 @@ public class HeroSearchEnemy : IStage
     private void SearchEnemy()
     {
        
-        if (Hero.CurrentTarget) {SetNextState(); return;} else Exit();
+        if (Hero.CurrentTarget) {SetNextState(); return;} else ExitStage();
         Debug.Log("ищу цель");
         Hero.CurrentTarget = GameObject.Find("target").GetComponent<PassiveAbilityHero>();
     }

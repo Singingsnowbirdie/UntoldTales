@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 
 public class 
-    ControllersDB : MonoBehaviour
+    Controllers : MonoBehaviour
 {
     /// <summary>
     /// Карта контроллеров
@@ -22,7 +22,7 @@ public class
     /// <summary>
     /// Конструктор
     /// </summary>
-    public ControllersDB(SceneConfig sceneConfig)
+    public Controllers(SceneConfig sceneConfig)
     {
         this.sceneConfig = sceneConfig;
     }
@@ -32,31 +32,7 @@ public class
     /// </summary>
     public void CreateAllControllers()
     {
-        controllersMap =  sceneConfig.CreateAllControllers();
-    }
-
-    /// <summary>
-    /// Вызываем OnCreate на всех контроллерах
-    /// </summary>
-    public void SendOnCreateToAllControllers()
-    {
-        var allControllers = this.controllersMap.Values;
-        foreach (var controller in allControllers)
-        {
-            controller.OnCreate();
-        }
-    }
-
-    /// <summary>
-    /// Вызываем Initialize на всех контроллерах
-    /// </summary>
-    public void InitializeAllControllers()
-    {
-        var allControllers = this.controllersMap.Values;
-        foreach (var controller in allControllers)
-        {
-            controller.Initialize();
-        }
+        controllersMap =  sceneConfig.CreateControllers();
     }
 
     /// <summary>

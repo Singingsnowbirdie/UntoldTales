@@ -5,9 +5,9 @@ public abstract class Player
     public Player(int id)
     {
         ID = id;
-        //подписываемся на вход игры  в состояние
+        //подписываемся на вход в состояние
         EventManager.OnStageEnter += OnStageEnter;
-        //подписываемся на выход игры из состояния
+        //подписываемся на выход из состояния
         EventManager.OnStageExit += OnStageExit;
     }
 
@@ -24,11 +24,11 @@ public abstract class Player
     /// <summary>
     /// При входе в состояние
     /// </summary>
-    protected virtual void OnStageEnter(string stage) { }
+    protected virtual void OnStageEnter(IStage stage) { }
 
     /// <summary>
     /// При выходе из состояния
     /// </summary>
     /// <param name="obj"></param>
-    protected virtual void OnStageExit(string stage) { }
+    protected virtual void OnStageExit(IStage stage) { }
 }

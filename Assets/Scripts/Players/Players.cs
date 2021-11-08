@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 
-internal class Players
+public class Players
 {
     /// <summary>
     /// Конструктор
@@ -18,7 +18,6 @@ internal class Players
     /// Все игроки
     /// </summary>
     private List<Player> players;
-
 
     /// <summary>
     /// Максимальное кол-во игроков

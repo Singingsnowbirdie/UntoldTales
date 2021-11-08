@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Round : MonoBehaviour
 {
@@ -10,10 +8,19 @@ public class Round : MonoBehaviour
     protected Field field;
 
     /// <summary>
-    /// Конструктор
+    /// Создает поле
     /// </summary>
-    public Round()
+    public void CreateField()
     {
         field = UtilsManager.Spawn("TestObjects/PlayingField").GetComponent<Field>();
+    }
+
+    /// <summary>
+    /// Запускает матч
+    /// </summary>
+    public virtual void StartRound()
+    {
+        //создаем поле
+        CreateField();
     }
 }

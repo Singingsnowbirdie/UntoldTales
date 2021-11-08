@@ -9,11 +9,11 @@ public class RealPlayer : Player
     /// <summary>
     /// При входе в состояние
     /// </summary>
-    protected override void OnStageEnter(string stage)
+    protected override void OnStageEnter(IStage stage)
     {
         base.OnStageEnter(stage);
         //Круг героев
-        if (stage == "Круг героев")
+        if (stage is HeroesCircleStage)
         {
             //подписываемся на выбор героя
             EventManager.OnHeroSelected += OnHeroSelected;

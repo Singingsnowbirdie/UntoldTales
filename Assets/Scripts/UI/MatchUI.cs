@@ -12,21 +12,37 @@ public class MatchUI : MonoBehaviour
     [SerializeField] Text currentStageText;
 
     /// <summary>
+    /// "защитная" панель (не дает игроку кликать по объектам сцены)
+    /// </summary>
+    [SerializeField] GameObject protectionPanel;
+
+    /// <summary>
     /// При активации
     /// </summary>
     private void OnEnable()
     {
-        //Подписка на смену стадии
+        //Подписки
         EventManager.OnStageEnter += ShowCurrentStage;
+        EventManager.OnHeroSelected += EnableProtectionPanel;
+    }
+
+    /// <summary>
+    /// Включает защитную панель после выбора персонажа на Круге Героев
+    /// </summary>
+    /// <param name="obj"></param>
+    private void EnableProtectionPanel(string obj)
+    {
+        protectionPanel.SetActive(true);
+        EventManager.OnHeroSelected -= EnableProtectionPanel;
     }
 
     /// <summary>
     /// Показывает текущую стадию
     /// </summary>
     /// <param name="obj"></param>
-    private void ShowCurrentStage(string stage)
+    private void ShowCurrentStage(IStage stage)
     {
-        currentStageText.text = stage;
+        currentStageText.text = stage.ToString();
     }
 
     /// <summary>

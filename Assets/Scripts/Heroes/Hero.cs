@@ -5,77 +5,23 @@ using UnityEngine;
 
 public abstract class Hero : MonoBehaviour
 {
-
-    #region ПОКАЗАТЕЛИ (Начальное значение берется из карточки (инфо), потом меняется, под действием модификаторов)
     /// <summary>
-    /// Максимальное здоровье (в единицах)
+    /// Информация о герое (скриптабл обдж.)
     /// </summary>
-    int maxHealth;
+    [SerializeField] HeroInfo info;
 
     /// <summary>
-    /// Физическая защита: (количество поглощаемого физического урона)
+    /// Статы героя
     /// </summary>
-    int physicalProtection;
+    protected HeroStats stats;
 
     /// <summary>
-    /// Магическая защита: (количество поглощаемого магического урона)
+    /// Инвентарь
     /// </summary>
-    int magicProtection;
-
-    /// <summary>
-    /// Сила атаки: (количество ед. урона за одну атаку)
-    /// </summary>
-    int attackPower;
-
-    /// <summary>
-    /// Скорость атаки: (количество атак в секунду)
-    /// </summary>
-    int attackSpeed;
-
-    /// <summary>
-    /// Дальность атаки: (в количестве ячеек по прямой)
-    /// </summary>
-    int attackRange;
-
-    /// <summary>
-    /// Максимальное количество маны
-    /// </summary>
-    int maxMana;
-    #endregion
-
-    #region РЕСУРСЫ (здоровье, мана)
-    /// <summary>
-    /// Текущее здоровье
-    /// </summary>
-    int health;
-
-    /// <summary>
-    /// Текущее значение маны
-    /// </summary>
-    int mana;
-    #endregion
-
-    /// <summary>
-    /// Инициализатор
-    /// Все эти показатели не нужны герою на "Круге", но нужны в бою, поэтому запускаем инициализацию после того, как героя перетащили из резерва на поле
-    /// </summary>
-    public virtual void Initialize()
-    {
-        maxHealth = Info.Health;
-        health = maxHealth;
-        maxMana = Info.Mana;
-        mana = maxMana;
-        physicalProtection = Info.PhysicalProtection;
-        magicProtection = Info.MagicProtection;
-        attackPower = Info.AttackPower;
-        attackSpeed = Info.AttackSpeed;
-        attackRange = Info.AttackRange;
-
-        HeroStateMachine = new HeroStateMachine(this);
-    }
+    HeroInventory inventory;
 
     /// </summary>
-    /// состояния
+    /// Стейт-машина
     /// </summary>
     public StateMachine HeroStateMachine { get; set; }
 
@@ -83,11 +29,6 @@ public abstract class Hero : MonoBehaviour
     /// Текущая цель
     /// </summary>
     public Hero CurrentTarget { get; set; }
-
-    /// <summary>
-    /// Суммарная стоимость всех экипированных предметов (в единицах)
-    /// </summary>
-    public int EquipmentСost { get; set; }
 
     /// <summary>
     /// Жизненный цикл героя (после активации = после помещения на поле боя)
@@ -126,23 +67,36 @@ public abstract class Hero : MonoBehaviour
     }
 
     /// <summary>
-    /// Информация о герое
-    /// </summary>
-    [SerializeField]
-    HeroInfo info;
-    public HeroInfo Info => info;
-
-    /// <summary>
     /// ID героя в отряде (присваивается при добавлении героя в отряд)
     /// </summary>
     public int ID { get; set; }
 
+    /// <summary>
+    /// Вызывается при размещении героя на поле
+    /// </summary>
+    void PrepareToBattle()
+    {
+        //Определяем начальные характеристики героя
+        stats = new HeroStats(info);
+        //определяем инвентарь героя
+        inventory = new HeroInventory();
+    }
 
     /// <summary>
-    /// Самоуничтожение
+    /// Возвращает имя героя
     /// </summary>
-    internal void SelfDestruction()
+    /// <returns></returns>
+    public string GetName()
     {
-        Destroy(gameObject);
+        return info.Name;
+    }
+
+    /// <summary>
+    /// Возвращает условную стоимость всех надетых на героя предметов
+    /// </summary>
+    /// <returns></returns>
+    internal int GetEquipmentСost()
+    {
+        return inventory.EquipmentСost;
     }
 }

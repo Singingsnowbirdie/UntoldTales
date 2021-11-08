@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HeroesCircleStage : MatchStage
@@ -10,9 +9,9 @@ public class HeroesCircleStage : MatchStage
     public HeroesCircleStage(Match match)
     {
         this.match = match;
-        players = match.Players;
-        heroesCircle = match.HeroesCircle;
-        StageName = "Круг Героев (на время)";
+        heroesCircle = UtilsManager.Spawn("TestObjects/HeroesCircle").GetComponent<HeroesCircle>();
+        match.HeroesCircle = heroesCircle;
+        StageName = "Круг Героев";
     }
 
     /// <summary>
@@ -21,68 +20,55 @@ public class HeroesCircleStage : MatchStage
     HeroesCircle heroesCircle;
 
     /// <summary>
+    /// Режим: на время
+    /// </summary>
+    public bool IsTiming { get; set; }
+
+    /// <summary>
     /// Матч
     /// </summary>
-    readonly Match match;
-
-    /// <summary>
-    /// Все игроки
-    /// </summary>
-    Players players;
-
-    /// <summary>
-    /// Таймер окончания Круга Героев
-    /// </summary>
-    Coroutine timer;
+    private readonly Match match;
 
     /// <summary>
     /// При входе в состояние
     /// </summary>
-    public override void Enter()
+    public override void EnterStage()
     {
-        base.Enter();
-        //запускаем таймер
-        timer = UtilsManager.StartRoutine(StageTimer());
-        //запускаем распределение героев между AI игроками
-        UtilsManager.StartRoutine(HeroesDistribution());
+        //спавним героев
+        heroesCircle.CreateRandomHeroes();
+        //если круг на время
+        if (IsTiming)
+        {
+            //запускаем распределение героев между AI игроками
+            UtilsManager.StartRoutine(HeroesDistribution(UtilsManager.StartRoutine(StageTimer())));
+        }
+        //вызываем событие
+        base.EnterStage();
     }
 
     /// <summary>
     /// Распределяет героев между AI
     /// </summary>
     /// <returns></returns>
-    private IEnumerator HeroesDistribution()
+    private IEnumerator HeroesDistribution(Coroutine timer)
     {
-        //создаем временный список
-        List<AIPlayer> AIPlayers = players.GetAIPlayers();
-
         //раздаем всем AI по герою
-        foreach (var item in AIPlayers)
+        foreach (var item in match.Players.GetAIPlayers())
         {
             //делаем паузу
-            float pause = Random.Range(0f, 3f);
-            yield return new WaitForSeconds(pause);
+            yield return new WaitForSeconds(Random.Range(0f, 3f));
             //отдаем случайного героя AI
-            item.SelectedHeroName = heroesCircle.GetRandomHeroName();
+            item.SelectedHeroName = heroesCircle.GetRandomHero();
         }
 
         //проверяем, все ли герои розданы
-        if (heroesCircle.AllHeroesDistributed())
+        if (heroesCircle.AllHeroesIsSelected())
         {
             //отключаем таймер
             UtilsManager.StopRoutine(timer);
             //завершаем стадию
-            Exit();
+            ExitStage();
         }
-    }
-
-    private IEnumerator StageCompletion()
-    {
-        //отключаем круг героев
-        heroesCircle.gameObject.SetActive(false);
-        yield return null;
-        //завершаем стадию
-        UtilsManager.StartRoutine(StageCompletion());
     }
 
     /// <summary>
@@ -94,13 +80,10 @@ public class HeroesCircleStage : MatchStage
         //ждем 15 секунд
         yield return new WaitForSeconds(15f);
         //проверяем, все ли герои розданы
-        if (!heroesCircle.AllHeroesDistributed())
+        if (!heroesCircle.AllHeroesIsSelected())
         {
             ForcedHeroesDistribution();
         }
-        yield return null;
-        //завершаем стадию
-        UtilsManager.StartRoutine(StageCompletion());
     }
 
     /// <summary>
@@ -108,31 +91,13 @@ public class HeroesCircleStage : MatchStage
     /// </summary>
     private void ForcedHeroesDistribution()
     {
-        foreach (var item in players.GetPlayers())
+        foreach (var item in match.Players.GetPlayers())
         {
             if (string.IsNullOrEmpty(item.SelectedHeroName))
             {
-                item.SelectedHeroName = heroesCircle.GetRandomHeroName();
+                item.SelectedHeroName = heroesCircle.GetRandomHero();
             }
         }
+        ExitStage();
     }
-
-    /// <summary>
-    /// При выходе из состояния
-    /// </summary>
-    public override void Exit()
-    {
-        //удаляем оставшихся героев
-        heroesCircle.DestroyHeroes();
-
-        //выключаем круг
-        heroesCircle.gameObject.SetActive(false);
-
-        //отрабатываем код из родительского скрипта
-        base.Exit();
-
-        //меняем состояние
-        match.ChangeStage();
-    }
-
 }

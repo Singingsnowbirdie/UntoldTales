@@ -5,66 +5,55 @@
     /// </summary>
     public Match()
     {
-        //создаем игроков
-        players = new Players();
-        //создаем круг героев
-        heroesCircle = UtilsManager.Spawn("TestObjects/HeroesCircle").GetComponent<HeroesCircle>();
-        //создаем экземпляр машины состояний
+        Players = new Players();
         stateMachine = new MatchStateMachine(this);
+        EventManager.OnStageExit += StageExit;
     }
 
     /// </summary>
-    /// состояния
+    /// Стейт-машина
     /// </summary>
     MatchStateMachine stateMachine;
 
     /// <summary>
+    /// Круг героев 
+    /// </summary>
+    public HeroesCircle HeroesCircle { get; internal set; }
+
+    /// <summary>
     /// Все игроки матча
     /// </summary>
-    Players players;
-    internal Players Players { get => players; }
+    public Players Players { get; private set; }
 
     /// <summary>
     /// Сыграно PvE раундов
     /// </summary>
-    private int pveRoundsCounter;
+    int pveRoundsFinished;
 
     /// <summary>
     /// Текущий раунд
     /// </summary>
-    Round currentRound;
-
-    /// <summary>
-    /// Кгуг героев
-    /// </summary>
-    private HeroesCircle heroesCircle;
-    public HeroesCircle HeroesCircle { get => heroesCircle;}
-
-    public Round CurrentRound { get => currentRound; }
+    public Round CurrentRound { get; internal set; }
 
     /// <summary>
     /// Начинает матч
     /// </summary>
     internal void StartMatch()
     {
-        //запускаем первый круг героев
-        stateMachine.StartHeroesCircleStage();
+        stateMachine.StartHeroesCircleStage(true);
     }
 
     /// <summary>
-    /// Меняет состояние на следующее
+    /// При выходе из состояния
     /// </summary>
-    public void ChangeStage()
+    /// <param name="stage"></param>
+    private void StageExit(IStage stage)
     {
-        //если завершается Круг Героев
-        if (stateMachine.CurrentStage is HeroesCircleStage)
+        //при выходе из круга героев
+        if (stage is HeroesCircleStage)
         {
-            //создаем новый раунд
-            currentRound = new PvERound(pveRoundsCounter);
-            //увеличиваем счетчик
-            pveRoundsCounter++;
             //запускаем стадию планирования
-            stateMachine.StartPlanningStage();
+            stateMachine.StartPlanningStage(true, pveRoundsFinished);
         }
     }
 }
