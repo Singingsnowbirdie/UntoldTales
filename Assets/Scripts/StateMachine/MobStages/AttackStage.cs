@@ -23,7 +23,7 @@ public class AttackStage : IStage
     /// <summary>
     /// Вход в состояние
     /// </summary>
-    public void Enter()
+    public void EnterStage()
     {
         Attack();
     }
@@ -31,7 +31,7 @@ public class AttackStage : IStage
     /// <summary>
     /// Выход из состояния
     /// </summary>
-    public void Exit() { }
+    public void ExitStage() { }
 
     /// <summary>
     /// Атака

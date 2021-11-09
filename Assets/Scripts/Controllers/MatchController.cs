@@ -1,32 +1,31 @@
-﻿public class MatchController : IController
+﻿using UnityEngine;
+
+public class MatchController : IController
 {
     /// <summary>
-    /// Текущий матч
+    /// Конструтор
     /// </summary>
-    public MatchStateMashine Match { get; set; }
-
-    /// <summary>
-    /// Инициализатор
-    /// </summary>
-    public void Initialize()
+    public MatchController()
     {
-        Match = new MatchStateMashine();
-        Match.StartMatch();
+        match = new Match();
     }
 
     /// <summary>
-    /// При создании
+    /// Матч
     /// </summary>
-    public void OnCreate() { }
+    public Match match;
 
+    /// <summary>
+    /// При старте
+    /// </summary>
+    public void OnStart() 
+    {
+        Debug.Log("Начало матча");
+        match.StartMatch();
+    }
 
     /// <summary>
     /// При выходе
     /// </summary>
     public void OnExit() { }
-
-    /// <summary>
-    /// При старте
-    /// </summary>
-    public void OnStart() { }
 }

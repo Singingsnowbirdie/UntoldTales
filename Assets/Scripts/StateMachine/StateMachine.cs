@@ -4,6 +4,14 @@ using System.Collections.Generic;
 public abstract class StateMachine
 {
     /// <summary>
+    /// Конструктор
+    /// </summary>
+    protected StateMachine()
+    {
+        Stages = new Dictionary<Type, IStage>();
+    }
+
+    /// <summary>
     /// Все состояния
     /// </summary>
     public Dictionary<Type, IStage> Stages { get; set; }
@@ -16,31 +24,17 @@ public abstract class StateMachine
     /// <summary>
     /// Текущее состояние
     /// </summary>
-    protected IStage CurrentStage { get; set; }
-
-    /// <summary>
-    /// Инициализатор
-    /// </summary>
-    protected virtual void Initialize()
-    {
-        Stages = new Dictionary<Type, IStage>();
-    }
+    public IStage CurrentStage { get; set; }
 
     /// <summary>
     /// Включаем новое состояние
     /// </summary>
     public void SetStage(IStage newStage)
     {
-        //если сейчас активна другая стадия
-        if (CurrentStage != null)
-        {
-            //выходим из нее
-            CurrentStage.Exit();
-        }
-        //устанавливаем текущую стадию
+        //запоминаем текущую стадию
         CurrentStage = newStage;
-        //запускаем стадию
-        CurrentStage.Enter();
+        //запускаем ее
+        CurrentStage.EnterStage();
     }
 
     /// <summary>

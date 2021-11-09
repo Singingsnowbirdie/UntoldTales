@@ -24,12 +24,12 @@ public class ConvergenceStage : IStage
     /// <summary>
     /// вход в состояние
     /// </summary>
-    public void Enter() { }
+    public void EnterStage() { }
 
     /// <summary>
     /// выход из состояния
     /// </summary>
-    public void Exit() { }
+    public void ExitStage() { }
 
 }
 

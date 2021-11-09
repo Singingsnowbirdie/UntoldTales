@@ -17,14 +17,20 @@ public class EventManager
         }
     }
 
+
+    #region ЗАГРУЗКА СЦЕНЫ
+    internal static void LoadScene(string sceneName) { OnSceneLoad?.Invoke(sceneName); }
+    public static event Action<string> OnSceneLoad;
+    #endregion
+
     #region ВХОД В СОСТОЯНИЕ
-    internal static void OnStageEnterEventInvoke(string stage) { OnStageEnter?.Invoke(stage); }
-    public static event Action<string> OnStageEnter;
+    internal static void OnStageEnterEventInvoke(IStage stage) { OnStageEnter?.Invoke(stage); }
+    public static event Action<IStage> OnStageEnter;
     #endregion
 
     #region ВЫХОД ИЗ СОСТОЯНИЯ
-    internal static void OnStageExitEventInvoke(string stage) { OnStageExit?.Invoke(stage); }
-    public static event Action<string> OnStageExit;
+    internal static void OnStageExitEventInvoke(IStage stage) { OnStageExit?.Invoke(stage); }
+    public static event Action<IStage> OnStageExit;
     #endregion
 
     #region КУПЛЕНО ЧТО-ТО (передаем сколько и чего)
@@ -48,7 +54,7 @@ public class EventManager
     #endregion
 
     #region КЛИК ПО ГЕРОЮ (используется на круге героев)
-    internal static void OnHeroPointedEventInvoke(Hero hero) { OnHeroPointed?.Invoke(hero); }
-    public static event Action<Hero> OnHeroPointed;
+    internal static void OnHeroSelectedEventInvoke(string heroName) { OnHeroSelected?.Invoke(heroName); }
+    public static event Action<string> OnHeroSelected;
     #endregion
 }

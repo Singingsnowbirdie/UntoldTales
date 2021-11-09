@@ -71,5 +71,6 @@ public class HeroInfo : ScriptableObject
     [Header("Префаб")]
     [SerializeField] GameObject pref;
     public GameObject Pref => this.pref;
+
 }
 

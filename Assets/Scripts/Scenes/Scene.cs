@@ -1,34 +1,17 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 
 public class Scene
 {
     /// <summary>
-    /// База контроллеров
+    /// Конструктор
     /// </summary>
-    ControllersDB controllersBase;
-
-    /// <summary>
-    /// База репозиториев
-    /// </summary>
-    RepositoriesDB repositoriesBase;
-
-    /// <summary>
-    /// Возвращает репозиторий
-    /// </summary>
-    internal T GetRepository<T>() where T : Repository
+    /// <param name="config"></param>
+    public Scene(SceneConfig config)
     {
-        return repositoriesBase.GetRepository<T>();
-    }
-    
-    /// <summary>
-    /// Возвращает контроллер
-    /// </summary>
-    internal T GetController<T>() where T : IController
-    {
-        return controllersBase.GetController<T>();
+        SceneConfig = config;
+        controllers = new Controllers(config);
+        repositories = new Repositories(config);
     }
 
     /// <summary>
@@ -37,14 +20,29 @@ public class Scene
     public SceneConfig SceneConfig { get; set; }
 
     /// <summary>
-    /// Конструктор
+    /// Контроллеры сцены
     /// </summary>
-    /// <param name="config"></param>
-    public Scene(SceneConfig config)
+    Controllers controllers;
+
+    /// <summary>
+    /// Репозитории сцены
+    /// </summary>
+    Repositories repositories;
+
+    /// <summary>
+    /// Возвращает репозиторий
+    /// </summary>
+    internal T GetRepository<T>() where T : Repository
     {
-        SceneConfig = config;
-        controllersBase = new ControllersDB(config);
-        repositoriesBase = new RepositoriesDB(config);
+        return repositories.GetRepository<T>();
+    }
+    
+    /// <summary>
+    /// Возвращает контроллер
+    /// </summary>
+    internal T GetController<T>() where T : IController
+    {
+        return controllers.GetController<T>();
     }
 
     /// <summary>
@@ -62,27 +60,20 @@ public class Scene
     /// <returns></returns>
     public IEnumerator InitializeRoutine()
     {
-        repositoriesBase.CreateAllRepositories();
-        controllersBase.CreateAllControllers();
+        //Создаем все репопзитории и контроллеры
+        repositories.CreateAllRepositories();
+        controllers.CreateAllControllers();
         yield return null;
 
-        repositoriesBase.SendOnCreateToAllRepositories();
-        controllersBase.SendOnCreateToAllControllers();
-        yield return null;
-
-        repositoriesBase.InitializeAllRepositories();
-        controllersBase.InitializeAllControllers();
-        SceneConfig.Initialize();
-        yield return null;
-
-        repositoriesBase.SendOnStartToAllRepositories();
-        controllersBase.SendOnStartToAllControllers();
+        //стартуем все репозитории и контроллеры
+        repositories.SendOnStartToAllRepositories();
+        controllers.SendOnStartToAllControllers();
     }
 
     /// <summary>
     /// Старт
     /// </summary>
-    internal void OnStart()
+    internal void StartScene()
     {
         SceneConfig.OnStart();
     }
@@ -90,9 +81,9 @@ public class Scene
     /// <summary>
     /// Выход
     /// </summary>
-    internal void OnExit()
+    internal void UnsubscribeAll()
     {
         //вызываем на всех контроллерах, чтобы отписаться от всех тамошних событий
-        controllersBase.SendOnExitToAllControllers();
+        controllers.SendOnExitToAllControllers();
     }
 }

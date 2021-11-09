@@ -1,5 +1,4 @@
-﻿﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,128 +8,89 @@ using UnityEngine.SceneManagement;
 public class SceneLoader
 {
     /// <summary>
-    /// Событие: сцена загружена
-    /// </summary>
-    public event Action<Scene> OnSceneLoadedEvent;
-
-    /// <summary>
-    /// Текущая сцена
-    /// </summary>
-    public Scene CurrentScene { get; private set; }
-
-    /// <summary>
-    /// Происходит загрузка
-    /// </summary>
-    public bool IsLoading { get; private set; }
-
-    /// <summary>
-    /// Конфиги всех сцен
-    /// </summary>
-    Dictionary<string, SceneConfig> ScenesConfigsMap;
-
-    /// <summary>
     /// Конструктор
     /// </summary>
     public SceneLoader()
     {
-        //инициализируем менеджер ввода
+        ScenesConfigs = new Dictionary<string, SceneConfig>();
 
-        //создаем карту сцен
-        ScenesConfigsMap = new Dictionary<string, SceneConfig>();
-        //инициалиируем ее
-        InitScenesMap();
+        //инициализируем все сцены
+        ScenesConfigs["MatchScene"] = new MatchScene();
+
+        //подписываемся
+        EventManager.OnSceneLoad += LoadScene;
     }
 
     /// <summary>
-    /// Инициализатор карты сцен
-    /// </summary>
-    public void InitScenesMap()
-    {
-        //интро
-        ScenesConfigsMap[SceneConfig_IntroScene.SCENENAME] = new SceneConfig_IntroScene();
-        //сцена раунда
-        ScenesConfigsMap[SceneConfig_MatchScene.SCENENAME] = new SceneConfig_MatchScene();
-    }
-
-    /// <summary>
-    /// Метод доступа (загрузка текущей сцены)
-    /// </summary>
-    public Coroutine LoadCurrentSceneAsync()
-    {
-        //на всякий пожарный
-        if (IsLoading)
-        {
-            throw new Exception("Scene is loading now");
-        }
-
-        //спрашиваем имя текущей сцены у юнити
-        var sceneName = SceneManager.GetActiveScene().name;
-        var config = ScenesConfigsMap[sceneName];
-        return UtilsManager.StartRoutine(LoadCurrentSceneRoutine(config));
-    }
-
-    /// <summary>
-    /// Обертка над загрузчиком и инициализатором (текущая сцена)
-    /// </summary>
-    /// <param name="sceneConfig"></param>
-    /// <returns></returns>
-    IEnumerator LoadCurrentSceneRoutine(SceneConfig sceneConfig)
-    {
-        IsLoading = true;
-        //уже загружена, поэтому только инициализируем
-        yield return UtilsManager.StartRoutine(InitializeSceneRoutine(sceneConfig));
-        IsLoading = false;
-        OnSceneLoadedEvent?.Invoke(CurrentScene);
-    }
-
-    /// <summary>
-    /// Обертка над загрузчиком и инициализатором (новая сцена)
-    /// </summary>
-    /// <param name="sceneConfig"></param>
-    /// <returns></returns>
-    IEnumerator LoadNewSceneRoutine(SceneConfig sceneConfig)
-    {
-        IsLoading = true;
-        yield return UtilsManager.StartRoutine(LoadSceneRoutine(sceneConfig));
-        yield return UtilsManager.StartRoutine(InitializeSceneRoutine(sceneConfig));
-        IsLoading = false;
-        OnSceneLoadedEvent?.Invoke(CurrentScene);
-    }
-
-    /// <summary>
-    /// Метод доступа (загрузка новой сцены)
+    /// Загружает сцену по событию
     /// </summary>
     /// <param name="sceneName"></param>
-    /// <returns></returns>
-    public Coroutine LoadNewSceneAsync(string sceneName)
+    private void LoadScene(string sceneName)
     {
-        //на всякий пожарный
-        if (IsLoading)
-        {
-            throw new Exception("Scene is loading now");
-        }
+        LoadSceneAsync(sceneName);
+    }
 
+    /// <summary>
+    /// Конфиги всех сцен
+    /// </summary>
+    Dictionary<string, SceneConfig> ScenesConfigs;
+
+    /// <summary>
+    /// Текущая сцена
+    /// </summary>
+    Scene currentScene;
+
+    /// <summary>
+    /// Загрузка открытой сцены
+    /// </summary>
+    public Coroutine LoadSceneAsync()
+    {
+        //получаем конфиг открытой сейчас сцены
+        var config = ScenesConfigs[SceneManager.GetActiveScene().name];
+        //запускаем загрузку
+        return UtilsManager.StartRoutine(LoadSceneRoutine(config, false));
+    }
+
+    /// <summary>
+    /// Загрузка новой сцены
+    /// </summary>
+    public Coroutine LoadSceneAsync(string sceneName)
+    {
         //освобождаемся от всех ненужных подписок
-        CurrentScene.OnExit();
+        currentScene.UnsubscribeAll();
+        //получаем конфиг новой сцены
+        var config = ScenesConfigs[sceneName];
+        //запускаем загрузку
+        return UtilsManager.StartRoutine(LoadSceneRoutine(config, true));
+    }
 
-        var config = ScenesConfigsMap[sceneName];
-        return UtilsManager.StartRoutine(LoadNewSceneRoutine(config));
+    /// <summary>
+    /// Загрузка сцены (корутина)
+    /// </summary>
+    IEnumerator LoadSceneRoutine(SceneConfig sceneConfig, bool isNew)
+    {
+        //если новая сцена, сначала загружаем ее
+        if (isNew) yield return UtilsManager.StartRoutine(LoadSceneRoutine(sceneConfig));
+        //инициализируем
+        yield return UtilsManager.StartRoutine(InitializeSceneRoutine(sceneConfig));
     }
 
     /// <summary>
     /// Загрузчик сцены
     /// </summary>
-    /// <param name="sceneConfig"></param>
-    /// <returns></returns>
     IEnumerator LoadSceneRoutine(SceneConfig sceneConfig)
     {
-        var async = SceneManager.LoadSceneAsync(sceneConfig.SceneName);
+        //загружаем сцену
+        var async = SceneManager.LoadSceneAsync(sceneConfig.ToString());
+        //запрещаем автоматическую активацию сцены на время загрузки (чтоб не забаговался показ заставки)
         async.allowSceneActivation = false;
+        //пока идет процесс загрузки, показываем заставку
         while (async.progress < 0.9f)
         {
             //здесь будем показывать заставку
             yield return null;
         }
+        //запускаем сцену
         async.allowSceneActivation = true;
     }
 
@@ -141,28 +101,11 @@ public class SceneLoader
     /// <returns></returns>
     IEnumerator InitializeSceneRoutine(SceneConfig sceneConfig)
     {
-        CurrentScene = new Scene(sceneConfig);
-        yield return CurrentScene.InitializeAsync();
-        CurrentScene.OnStart();
-    }
-
-    /// <summary>
-    /// Возвращает репозиторий
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    public T GetRepository<T>() where T : Repository
-    {
-        return CurrentScene.GetRepository<T>();
-    }
-
-    /// <summary>
-    /// Возвращает контроллер
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    public T GetController<T>() where T : IController
-    {
-        return CurrentScene.GetController<T>();
+        //запоминаем текущую сцену
+        currentScene = new Scene(sceneConfig);
+        //инициализируем ее
+        yield return currentScene.InitializeAsync();
+        //стартуем
+        currentScene.StartScene();
     }
 }

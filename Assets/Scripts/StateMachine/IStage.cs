@@ -14,10 +14,10 @@ public interface IStage
     /// <summary>
     /// Вход в состояние
     /// </summary>
-    void Enter();
+    void EnterStage();
 
     /// <summary>
     /// Выход из состояния
     /// </summary>
-    void Exit();
+    void ExitStage();
 }

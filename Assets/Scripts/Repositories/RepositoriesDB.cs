@@ -6,7 +6,7 @@ using UnityEngine;
 /// База репозиториев
 /// </summary>
 
-public class RepositoriesDB : MonoBehaviour
+public class Repositories : MonoBehaviour
 {
     /// <summary>
     /// Карта репозиториев
@@ -21,7 +21,7 @@ public class RepositoriesDB : MonoBehaviour
     /// <summary>
     /// Конструктор
     /// </summary>
-    public RepositoriesDB(SceneConfig sceneConfig)
+    public Repositories(SceneConfig sceneConfig)
     {
         this.sceneConfig = sceneConfig;
     }
@@ -31,7 +31,7 @@ public class RepositoriesDB : MonoBehaviour
     /// </summary>
     public void CreateAllRepositories()
     {
-        repositoriesMap = sceneConfig.CreateAllRepositories();
+        repositoriesMap = sceneConfig.CreateRepositories();
     }
 
     /// <summary>

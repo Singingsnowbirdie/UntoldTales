@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/IntroScene.unity
     guid: a745b7fae422022479069298624e7435
   - enabled: 1
-    path: Assets/Scenes/RoundScene.unity
+    path: Assets/Scenes/MatchScene.unity
     guid: bf06beef7b33e0542ba1712170150e17
   m_configObjects: {}

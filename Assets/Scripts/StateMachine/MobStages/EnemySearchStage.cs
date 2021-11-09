@@ -20,7 +20,7 @@ public class EnemySearchStage : IStage
     /// <summary>
     /// Вход в состояние
     /// </summary>
-    public void Enter()
+    public void EnterStage()
     {
         EnemySearch();
     }
@@ -28,7 +28,7 @@ public class EnemySearchStage : IStage
     /// <summary>
     /// Выход
     /// </summary>
-    public void Exit() { }
+    public void ExitStage() { }
 
     public string StageName { get; set; }
 
@@ -38,10 +38,9 @@ public class EnemySearchStage : IStage
     private void EnemySearch()
     {
         //если уже есть цель
-        if (mob.CurrentTarget)
+        if (mob.HasTarget())
         {
             //переходим к следующему состоянию
-            Mob.ChangeStage();
         }
         //ищем подходящую цель
     }
