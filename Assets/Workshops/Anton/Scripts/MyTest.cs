@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MyTest : MonoBehaviour
 {
-    public Transform target;
+    public GameObject target;
     public Board board;
     public LayerMask solidLayer;
 
@@ -22,12 +22,11 @@ public class MyTest : MonoBehaviour
     private void Awake() 
     {
         board = FindObjectOfType<Board>();
-        pathToTarget = GetPath();
     }
 
-    void Update()
+    public void GetPathToTarget()
     {
-        pathToTarget = GetPath();
+        pathToTarget = GetPath(target.transform.position);
     }
 
     private void Pathfindind()
@@ -53,13 +52,13 @@ public class MyTest : MonoBehaviour
         return true;
     }
 
-    private Vector3 Get_Position(Transform person)
+    private Vector3 Get_Position(GameObject person)
     {
         return new Vector3(Mathf.Round(person.transform.position.x - 0.5f) + board.transform.position.x, 0
         , Mathf.Round(person.transform.position.z - 0.5f) + board.transform.position.z);
     }
 
-    private List<Vector3> GetPath()
+    private List<Vector3> GetPath(Vector3 myTarget)
     {
         pathToTarget = new List<Vector3>();
         checkedNodes = new List<Noddde>();
@@ -70,7 +69,7 @@ public class MyTest : MonoBehaviour
         // Vector3 startPosition = new Vector3(Mathf.Round(transform.position.x - 0.5f) + board.transform.position.x, 0, Mathf.Round(transform.position.z - 0.5f) + board.transform.position.z);
         // // //точка, конечная позиция 
         // Vector3 targetPosition = new Vector3(Mathf.Round(target.transform.position.x - 0.5f) + board.transform.position.x, 0, Mathf.Round(target.transform.position.z - 0.5f) + board.transform.position.z);
-        Vector3 startPosition = Get_Position(transform);
+        Vector3 startPosition = Get_Position(transform.gameObject);
         Vector3 targetPosition = Get_Position(target);
         // Debug.Log(Mathf.Round(transform.position.x - 0.5f) + board.transform.position.x + " " + board.transform.localPosition.x);
 
