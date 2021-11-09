@@ -5,78 +5,15 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     public Animator anim;
-    #region ПОКАЗАТЕЛИ (Начальное значение берется из карточки (инфо), потом меняется, под действием модификаторов)
     /// <summary>
-    /// Максимальное здоровье (в единицах)
+    /// Статы героя
     /// </summary>
-    public int maxHealth;
+    protected CharacterModel characterModel;
 
     /// <summary>
-    /// Физическая защита: (количество поглощаемого физического урона)
+    /// Информация о герое (скриптабл обдж.)
     /// </summary>
-    int physicalProtection;
-
-    /// <summary>
-    /// Магическая защита: (количество поглощаемого магического урона)
-    /// </summary>
-    int magicProtection;
-
-    /// <summary>
-    /// Сила атаки: (количество ед. урона за одну атаку)
-    /// </summary>
-    int attackPower;
-
-    /// <summary>
-    /// Скорость атаки: (количество атак в секунду)
-    /// </summary>
-    public float attackSpeed;
-
-    /// <summary>
-    /// Дальность атаки: (в количестве ячеек по прямой)
-    /// </summary>
-    int attackRange;
-
-    /// <summary>
-    /// Максимальное количество маны
-    /// </summary>
-    int maxMana;
-    #endregion
-
-    #region РЕСУРСЫ (здоровье, мана)
-    /// <summary>
-    /// Текущее здоровье
-    /// </summary>
-    float health;
-
-    /// <summary>
-    /// Текущее значение маны
-    /// </summary>
-    int mana;
-    #endregion
-
-    /// <summary>
-    /// Инициализатор
-    /// Все эти показатели не нужны герою на "Круге", но нужны в бою, поэтому запускаем инициализацию после того, как героя перетащили из резерва на поле
-    /// </summary>
-    public virtual void Initialize()
-    {
-        maxHealth = info.Health;
-        health = maxHealth;
-        maxMana = info.Mana;
-        mana = maxMana;
-        physicalProtection = info.PhysicalProtection;
-        magicProtection = info.MagicProtection;
-        attackPower = info.AttackPower;
-        attackSpeed = info.AttackSpeed;
-        attackRange = info.AttackRange;
-        anim = GetComponent<Animator>();
-        // heroStateMachine = new HeroStateMachine(this);
-    }
-
-    private void Awake()
-    {
-        heroStateMachine = new HeroStateMachine(this);
-    }
+    [SerializeField] CharacterInfo characterInfo;
 
     /// </summary>
     /// состояния
@@ -93,6 +30,11 @@ public class Character : MonoBehaviour
     /// Суммарная стоимость всех экипированных предметов (в единицах)
     /// </summary>
     public int EquipmentСost { get; set; }
+
+    private void Awake()
+    {
+        heroStateMachine = new HeroStateMachine(this);
+    }
 
     /// <summary>
     /// Жизненный цикл героя (после активации = после помещения на поле боя)
@@ -179,5 +121,13 @@ public class Character : MonoBehaviour
     private float GetProtection()
     {
         return 1;
+    }
+
+    /// <summary>
+    /// Инициализация
+    /// </summary>
+    private void Init()
+    {
+        characterModel = new CharacterModel(characterInfo);
     }
 }

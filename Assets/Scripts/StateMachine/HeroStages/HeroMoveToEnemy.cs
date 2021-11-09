@@ -23,12 +23,12 @@ public class HeroMoveToEnemy : IStage
         pathfinding = this.character.transform.GetComponent<Pathfinding>();
     }
 
-    public void Enter()
+    public void EnterStage()
     {
         MoveToEnemy();
     }
 
-    public void Exit()
+    public void ExitStage()
     {
         // Debug.Log("HeroMoveToEnemy выход");
     }

@@ -13,12 +13,12 @@ public class HeroSearchEnemy : IStage
         this.character = character;
     }
 
-    public void Enter()
+    public void EnterStage()
     {
         SearchEnemy();
     }
 
-    public void Exit()
+    public void ExitStage()
     {
         // Debug.Log("HeroSearchEnemy выход");
     }
@@ -44,7 +44,7 @@ public class HeroSearchEnemy : IStage
     /// </summary>
     private void SearchEnemy()
     {
-        if (character.CurrentTarget) {SetNextState(); return;} else Exit();
+        if (character.CurrentTarget) {SetNextState(); return;} else ExitStage();
 
         Debug.Log("ищу цель");
         

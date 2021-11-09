@@ -6,11 +6,6 @@ using UnityEngine;
 public abstract class Hero : MonoBehaviour
 {
     /// <summary>
-    /// Информация о герое (скриптабл обдж.)
-    /// </summary>
-    [SerializeField] HeroInfo info;
-
-    /// <summary>
     /// Статы героя
     /// </summary>
     protected HeroStats stats;
