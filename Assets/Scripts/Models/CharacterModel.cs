@@ -1,5 +1,5 @@
 ﻿
-public class CharacterModel 
+public class CharacterModel
 {
     /// <summary>
     /// Максимальное здоровье (в единицах)
@@ -9,7 +9,7 @@ public class CharacterModel
     /// <summary>
     /// Текущее здоровье
     /// </summary>
-    protected float health;
+    public float Health { get; set; }
 
     /// <summary>
     /// Физическая защита: (количество поглощаемого физического урона)
@@ -29,7 +29,12 @@ public class CharacterModel
     /// <summary>
     /// Скорость атаки: (количество атак в секунду)
     /// </summary>
-    protected float attackSpeed;
+    public float AttackSpeed { get; set; }
+
+    /// <summary>
+    /// Тип атаки по дальности (ближняя, дальняя)
+    /// </summary>
+    public CombatType СombatType { get; set; }
 
     /// <summary>
     /// Дальность атаки: (в количестве ячеек по прямой)
@@ -38,12 +43,13 @@ public class CharacterModel
 
     public CharacterModel(CharacterInfo info)
     {
-        this.maxHealth = info.Health;
-        this.physicalProtection = info.PhysicalProtection;
-        this.magicProtection = info.MagicProtection;
-        this.attackPower = info.AttackPower;
-        this.attackSpeed = info.AttackSpeed;
-        this.attackRange = info.AttackRange;
-        this.health = info.Health;
+        maxHealth = info.Health;
+        physicalProtection = info.PhysicalProtection;
+        magicProtection = info.MagicProtection;
+        attackPower = info.AttackPower;
+        AttackSpeed = info.AttackSpeed;
+        СombatType = info.CombatType;
+        attackRange = info.AttackRange;
+        Health = maxHealth;
     }
 }

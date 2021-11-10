@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class Round : MonoBehaviour
+public class Round
 {
     /// <summary>
     /// Поле
@@ -8,12 +9,9 @@ public class Round : MonoBehaviour
     protected Field field;
 
     /// <summary>
-    /// Создает поле
+    /// Контроллер отряда
     /// </summary>
-    public void CreateField()
-    {
-        field = UtilsManager.Spawn("TestObjects/PlayingField").GetComponent<Field>();
-    }
+    SquadController squadController;
 
     /// <summary>
     /// Запускает матч
@@ -21,6 +19,8 @@ public class Round : MonoBehaviour
     public virtual void StartRound()
     {
         //создаем поле
-        CreateField();
+        field = UtilsManager.Spawn("TestObjects/PlayingField").GetComponent<Field>();
+        //создаем отряд
+        squadController = new SquadController();
     }
 }

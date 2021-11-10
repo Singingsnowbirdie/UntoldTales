@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HeroModel : CharacterModel
 {
@@ -12,27 +10,27 @@ public class HeroModel : CharacterModel
     /// <summary>
     /// Фракция
     /// </summary>
-    private int fraction;
+    private Fraction fraction;
 
     /// <summary>
     /// Класс
     /// </summary>
-    private int heroClass;
+    private Class heroClass;
 
     /// <summary>
-    /// маны
+    /// Мана
     /// </summary>
     private int mana;
 
     /// <summary>
-    /// Максимум маны"
+    /// Максимальное значение маны
     /// </summary>
     private int maxMana;
 
     /// <summary>
-    /// Имет ульту?
+    /// Имет ульту
     /// </summary>
-    private int hasUltimateAbility;
+    private bool hasUltimateAbility;
 
     /// <summary>
     /// Максимальное значение энергии
@@ -40,18 +38,30 @@ public class HeroModel : CharacterModel
     private int maxEnergy;
 
     /// <summary>
-    /// Сколько энергии герой получает за одну атаку по цели (для героев, имеющих ульту
+    /// Энергия
     /// </summary>
-    private int energyStorageRate;
+    public int Energy { get; set; }
+
+    /// <summary>
+    /// Сколько энергии герой получает за одну атаку по цели (для героев, имеющих ульту)
+    /// </summary>
+    public int EnergyStorageRate { get; set; }
 
     /// <summary>
     /// Иконка
     /// </summary>
-    private int sprite;
-
+    private Sprite sprite;
 
     public HeroModel(CharacterInfo info) : base(info)
     {
-
+        rank = info.Rank;
+        fraction = info.Fraction;
+        heroClass = info.Class;
+        maxMana = info.Mana;
+        mana = 0;
+        hasUltimateAbility = info.HasUltimateAbility;
+        maxEnergy = info.Energy;
+        Energy = 0;
+        EnergyStorageRate = info.EnergyStorageRate;
     }
 }

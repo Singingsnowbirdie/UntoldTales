@@ -44,8 +44,8 @@ public class EventManager
     #endregion
 
     #region КУПЛЕН ГЕРОЙ
-    internal static void OnHeroPurchasedEventInvoke(Hero hero) { OnHeroPurchased?.Invoke(hero); }
-    public static event Action<Hero> OnHeroPurchased;
+    internal static void OnHeroPurchasedEventInvoke(string heroName) { OnHeroPurchased?.Invoke(heroName); }
+    public static event Action<string> OnHeroPurchased;
     #endregion
 
     #region НАЖАТА КНОПКА

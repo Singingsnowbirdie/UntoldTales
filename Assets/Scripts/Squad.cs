@@ -1,10 +1,20 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Squad : MonoBehaviour
 {
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    public Squad()
+    {
+        temporaryStorage = new List<Hero>();
+        heroesInReserve = new List<Hero>();
+        heroesOnTheField = new List<Hero>();
+        heroesInBattle = new List<Hero>();
+        MaxHeroesOnTheFieldAmount = startHeroesOnTheFieldAmount;
+    }
+
     /// <summary>
     /// Максимальное количество героев в резерве
     /// </summary>
@@ -47,18 +57,6 @@ public class Squad : MonoBehaviour
     /// Когда начинается фаза боя, сюда переносятся все герои, которые находятся на поле (не в резерве)
     /// </summary>
     public List<Hero> heroesInBattle;
-
-    /// <summary>
-    /// Конструктор
-    /// </summary>
-    public Squad()
-    {
-        temporaryStorage = new List<Hero>();
-        heroesInReserve = new List<Hero>();
-        heroesOnTheField = new List<Hero>();
-        heroesInBattle = new List<Hero>();
-        MaxHeroesOnTheFieldAmount = startHeroesOnTheFieldAmount;
-    }
 
     /// <summary>
     /// Проверяет, находится ли герой в соответствующем списке

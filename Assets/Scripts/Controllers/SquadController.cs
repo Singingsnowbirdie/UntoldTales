@@ -1,41 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 //Контроллер отряда героев (Не путать с контроллером одного героя!)
 
 public class SquadController : IController
 {
-    public void Initialize()
+    public SquadController()
     {
         squad = new Squad();
-    }
+        trine = new List<Hero>();
 
-    /// <summary>
-    /// при выходе из состояния
-    /// </summary>
-    /// <param name="obj"></param>
-    private void OnStageExit(IStage stage)
-    {
-
-        if (stage is PlanningStage)
-        {
-            TransferHeroesToBattle();
-        }
+        //подписываемся на событие "приобретен герой"
+        EventManager.OnHeroPurchased += DistributeHero;
+        //подписываемся на событие "выход из состояния"
+        EventManager.OnStageExit += OnStageExit;
     }
 
     /// <summary>
     /// Отряд
     /// </summary>
-    Squad squad;
+    readonly Squad squad;
 
     /// <summary>
-    /// Изменяет максимальное количество героев на поле
+    /// Три одинаковых героя для слияния
     /// </summary>
-    /// <param name="amount"></param>
-    private void ChangeMaxHeroesAmount(int experience, int leadership)
-    {
-        squad.MaxHeroesOnTheFieldAmount = leadership;
-    }
+    List<Hero> trine;
 
     /// <summary>
     /// Определяет купленного гороя в резерв или во временное хранилище
@@ -57,7 +46,6 @@ public class SquadController : IController
             squad.temporaryStorage.Add(hero);
             //оповещаем об изменении количества героев в хранилище
             EventManager.OnSomethingChangedEventInvoke(squad.temporaryStorage.Count, Changeable.Storage);
-
         }
         else
         {
@@ -69,54 +57,69 @@ public class SquadController : IController
     /// Решает, что делать с купленным героем
     /// </summary>
     /// <param name="obj"></param>
-    private void DistributeHero(Hero hero)
+    private void DistributeHero(string heroName)
     {
+        //находим в бд нужного героя
+        GameObject hero = SelectHeroFromDB(heroName);
         //присваиваем герою ID (и сразу увеличиваем счетчик)
-        hero.ID = squad.LastID++;
+        hero.GetComponent<Hero>().ID = squad.LastID++;
         //проверяем, есть ли у игрока еще два таких же героя
-        //если нет, добавляем героя в отряд
         if (!ThereAreThree(hero))
         {
-            AddHero(hero);
+            //если нет, добавляем героя в отряд
+            AddHero(hero.GetComponent<Hero>());
         }
+    }
+
+    /// <summary>
+    /// Возвращает из бд героя по имени
+    /// </summary>
+    /// <returns></returns>
+    private GameObject SelectHeroFromDB(string heroName)
+    {
+        foreach (var item in Resources.LoadAll("TestObjects/Heroes") as GameObject[])
+        {
+            if (item.GetComponent<Hero>().Info.Name == heroName)
+            {
+                return item;
+            }
+        }
+        return null;
     }
 
     /// <summary>
     /// Проверяет, имеется ли у игрока три одинаковых героя
     /// </summary>
-    private bool ThereAreThree(Hero hero)
+    private bool ThereAreThree(GameObject heroGO)
     {
-        //массив одинаковых героев
-        List<Hero> trine = new List<Hero>();
+        //добавляем в трин
+        trine.Add(heroGO.GetComponent<Hero>());
+        //если есть еще два таких же на поле, мерджим
+        if (FindTheSame(squad.heroesOnTheField)) return true;
+        //иначе продолжаем поиск в резерве
+        else if (FindTheSame(squad.heroesInReserve)) return true;
+        //иначе очищаем трин
+        trine.Clear();
+        return false;
+    }
 
-        //добавляем в коллекцию только что купленного героя
-        trine.Add(hero);
-
-        //ищем таких же героев на поле
-        foreach (var item in squad.heroesOnTheField)
+    /// <summary>
+    /// Ищет одинаковых героев в коллекции
+    /// Добавляет их в трин
+    /// </summary>
+    private bool FindTheSame(List<Hero> heroesList)
+    {
+        foreach (var item in heroesList)
         {
-            //if (item.Info.Name == hero.Info.Name && item.Info.Rank == hero.Info.Rank)
-            //{
-            //    trine.Add(item);
-            //    if (trine.Count == 3)
-            //    {
-            //        Merge(trine);
-            //        return true;
-            //    }
-            //}
-        }
-        //затем ищем таких же героев в резерве
-        foreach (var item in squad.heroesInReserve)
-        {
-            //if (item.Info.Name == hero.Info.Name && item.Info.Rank == hero.Info.Rank)
-            //{
-            //    trine.Add(item);
-            //    if (trine.Count == 3)
-            //    {
-            //        Merge(trine);
-            //        return true;
-            //    }
-            //}
+            if (item.Info.Name == trine[0].Info.Name && item.Info.Rank == trine[0].Info.Rank)
+            {
+                trine.Add(item);
+                if (trine.Count == 3)
+                {
+                    Merge();
+                    return true;
+                }
+            }
         }
         return false;
     }
@@ -124,44 +127,41 @@ public class SquadController : IController
     /// <summary>
     /// Производит слияние трех героев
     /// </summary>
-    private void Merge(List<Hero> trine)
+    private void Merge()
     {
         //герой, которого будем улучшать
-        Hero newHero;
+        Hero newHero = trine[0];
+        //стоимость экипировки
+        int equipmentCost = trine[0].Inventory.EquipmentСost;
+        //выбираем героя, который экипирован богаче
+        foreach (var item in trine)
+        {
+            if (item.Inventory.EquipmentСost > equipmentCost)
+            {
+                equipmentCost = item.Inventory.EquipmentСost;
+                newHero = item;
+            }
+        }
+        //если герои не экипированы
+        if (equipmentCost == 0)
+        {
+            //выбираем героя, который стоит на поле
+            foreach (var item in trine)
+            {
+                if (true)
+                {
 
-        //Проверяем, какой из ранее купленных героев экипирован "богаче".
-        //Если такой есть, то улучшать будем его.
-        //Проверяем только первого и второго героев, потому что "нулевой", это тот, которого мы только что купили.
-        //Само собой, на нем ничего еще не надето, и он не размещен на поле
-        if (trine[1].GetEquipmentСost() > trine[2].GetEquipmentСost())
-        {
-            newHero = trine[1];
-        }
-        else if (trine[2].GetEquipmentСost() > trine[1].GetEquipmentСost())
-        {
-            newHero = trine[2];
-        }
-        //если оба героя экипированы равными (по суммарной стоимости) предметами, или не экипированы вообще
-        else
-        {
-            //если второй герой выставлен на поле, то будем улучшать его
-            if (squad.IsInList(trine[2], squad.heroesOnTheField))
-            {
-                newHero = trine[2];
-            }
-            //иначе будем улучшать первого героя
-            else
-            {
-                newHero = trine[1];
+                }
             }
         }
+
 
         //создаем временный "рюкзак" для хранения всего, что было надето на героях
         List<Item> backpack = new List<Item>();
         //снимаем с героев все, что на них надето, и складываем в "рюкзак"
         foreach (var item in trine)
         {
-            backpack.AddRange(item.TakeOffAllItems());
+            backpack.AddRange(item.Inventory.TakeOffAllItems());
         }
 
         //улучшаем выбранного героя
@@ -187,6 +187,24 @@ public class SquadController : IController
         }
     }
 
+    public void OnStart()
+    {
+
+    }
+
+    /// <summary>
+    /// При выходе из состояния
+    /// </summary>
+    /// <param name="obj"></param>
+    private void OnStageExit(IStage stage)
+    {
+
+        if (stage is PlanningStage)
+        {
+            TransferHeroesToBattle();
+        }
+    }
+
     /// <summary>
     /// Переносит всех героев из коллекции "на поле" в коллекцию "в бою"
     /// </summary>
@@ -201,29 +219,18 @@ public class SquadController : IController
 
     public void OnExit()
     {
-        EventManager.OnSomethingChanged -= SomethingChanged;
         EventManager.OnHeroPurchased -= DistributeHero;
         EventManager.OnStageExit -= OnStageExit;
     }
 
-    public void OnCreate()
+    /// <summary>
+    /// Изменяет максимальное количество героев на поле
+    /// </summary>
+    /// <param name="amount"></param>
+    private void ChangeMaxHeroesAmount(int experience, int leadership)
     {
-        //подписываемся на изменение какого-либо показателя
-        EventManager.OnSomethingChanged += SomethingChanged;
-        //подписываемся на событие "куплен герой"
-        EventManager.OnHeroPurchased += DistributeHero;
-        //подписываемся на событие "выход из состояния"
-        EventManager.OnStageExit += OnStageExit;
+        squad.MaxHeroesOnTheFieldAmount = leadership;
     }
 
-    //что-то поменялось (сколько стало и чего)
-    private void SomethingChanged(int amount, Changeable value)
-    {
 
-    }
-
-    public void OnStart()
-    {
-        //throw new System.NotImplementedException();
-    }
 }

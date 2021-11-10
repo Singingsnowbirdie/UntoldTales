@@ -18,10 +18,18 @@ public class RealPlayer : Player
             //подписываемся на выбор героя
             EventManager.OnHeroSelected += OnHeroSelected;
         }
+        //Стадия планирования
+        else if (stage is PlanningStage)
+        {
+            //сообщаем о приобретении героя (которого мы выбрали на круге)
+            EventManager.OnHeroPurchasedEventInvoke(SelectedHeroName);
+            //и забываем о нем
+            SelectedHeroName = "";
+        }
     }
 
     /// <summary>
-    /// При клике на героя
+    /// При клике на героя (на круге)
     /// </summary>
     /// <param name="obj"></param>
     private void OnHeroSelected(string heroName)
