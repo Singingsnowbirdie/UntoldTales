@@ -1,4 +1,5 @@
 ﻿using UnityEditor;
+using UnityEngine;
 //управляет отображением класса CharacterInfo в инспекторе
 [CustomEditor(typeof(CharacterInfo))]
 
@@ -43,8 +44,14 @@ public class CharacterInfoEditor : Editor
         }
         else
         {
-            info.CombatType = (CombatType)EditorGUILayout.EnumPopup("Стиль боя", info.CombatType);
-
+            info.СombatType = (CombatType)EditorGUILayout.EnumPopup("Стиль боя", info.СombatType);
         }
+
+        if (GUI.changed)
+        {
+            Undo.RecordObject(info, "Test Scriptable Editor Modify");
+            EditorUtility.SetDirty(info);
+        }
+
     }
 }

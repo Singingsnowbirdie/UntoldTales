@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e63f60fb2d47a1446a57d11860cee19b, type: 3}
-  m_Name: CharacterInfo
+  m_Name: SomeHero
   m_EditorClassIdentifier: 
-  IsHero: 0
-  Name: 
+  IsHero: 1
+  Name: Some Hero
   Rank: 0
   Fraction: 0
   Class: 0
@@ -25,7 +25,7 @@ MonoBehaviour:
   PhysicalProtection: 0
   MagicProtection: 0
   AttackType: 0
-  CombatType: 0
+  "\u0421ombatType": 0
   AttackPower: 0
   AttackSpeed: 0
   AttackRange: 0

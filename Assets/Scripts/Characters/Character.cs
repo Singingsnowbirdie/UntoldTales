@@ -23,7 +23,7 @@ public class Character : MonoBehaviour
     /// <summary>
     /// стейт-машина
     /// </summary>
-    public StateMachine stateMachine { get; set; }
+    public StateMachine StateMachine { get; set; }
 
     /// <summary>
     /// текущая цель
@@ -42,7 +42,7 @@ public class Character : MonoBehaviour
     protected virtual void OnCharacterEnable()
     {
         Model = new CharacterModel(Info);
-        stateMachine = new CharacterStateMachine(this);
+        StateMachine = new CharacterStateMachine(this);
     }
 
     /// <summary>
@@ -78,9 +78,9 @@ public class Character : MonoBehaviour
     /// </summary>
     public void TakeDamage(float potentialDamage)
     {
-        Debug.Log($"Health = {Model.Health}");
+        Debug.Log($"Health = {Info.Health}");
         Model.Health -= potentialDamage - Protection();
-        Debug.Log(transform.name + " " + Model.Health);
+        Debug.Log(transform.name + " " + Info.Health);
     }
 
     /// <summary>

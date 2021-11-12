@@ -21,6 +21,6 @@ public class Round
         //создаем поле
         field = UtilsManager.Spawn("TestObjects/PlayingField").GetComponent<Field>();
         //создаем отряд
-        squadController = new SquadController();
+        squadController = new SquadController(field);
     }
 }

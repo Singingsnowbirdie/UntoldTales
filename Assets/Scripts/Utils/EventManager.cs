@@ -43,7 +43,7 @@ public class EventManager
     public static event Action<int, Changeable> OnSomethingChanged;
     #endregion
 
-    #region КУПЛЕН ГЕРОЙ
+    #region ПРИОБРЕТЕН ГЕРОЙ (куплен или получен иначе)
     internal static void OnHeroPurchasedEventInvoke(string heroName) { OnHeroPurchased?.Invoke(heroName); }
     public static event Action<string> OnHeroPurchased;
     #endregion

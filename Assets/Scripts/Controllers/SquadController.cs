@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-//Контроллер отряда героев (Не путать с контроллером одного героя!)
+//Контроллер отряда героев
 
 public class SquadController : IController
 {
-    public SquadController()
+    public SquadController(Field field)
     {
+        this.field = field;
         squad = new Squad();
-        trine = new List<Hero>();
+        merger = new Merger(squad);
 
         //подписываемся на событие "приобретен герой"
         EventManager.OnHeroPurchased += DistributeHero;
@@ -22,36 +23,14 @@ public class SquadController : IController
     readonly Squad squad;
 
     /// <summary>
-    /// Три одинаковых героя для слияния
+    /// Класс, производящий слияние (повышение ранга)
     /// </summary>
-    List<Hero> trine;
+    Merger merger;
 
     /// <summary>
-    /// Определяет купленного гороя в резерв или во временное хранилище
+    /// Поле
     /// </summary>
-    void AddHero(Hero hero)
-    {
-        //если есть место в резерве
-        if (squad.heroesInReserve.Count < squad.maxHeroesInReserveAndTemp)
-        {
-            //добавляем героя в резерв
-            squad.heroesInReserve.Add(hero);
-            //оповещаем об изменении количества героев в резерве
-            EventManager.OnSomethingChangedEventInvoke(squad.heroesInReserve.Count, Changeable.Reserve);
-        }
-        //если герой не помещается в резерве, проверяем, есть ли место во временном хранилище
-        else if (squad.temporaryStorage.Count < squad.maxHeroesInReserveAndTemp)
-        {
-            //добавляем героя во временное хранилище
-            squad.temporaryStorage.Add(hero);
-            //оповещаем об изменении количества героев в хранилище
-            EventManager.OnSomethingChangedEventInvoke(squad.temporaryStorage.Count, Changeable.Storage);
-        }
-        else
-        {
-            //продаем героя по его "закупочной" стоимости
-        }
-    }
+    private Field field;
 
     /// <summary>
     /// Решает, что делать с купленным героем
@@ -64,11 +43,74 @@ public class SquadController : IController
         //присваиваем герою ID (и сразу увеличиваем счетчик)
         hero.GetComponent<Hero>().ID = squad.LastID++;
         //проверяем, есть ли у игрока еще два таких же героя
-        if (!ThereAreThree(hero))
+        if (!merger.ThereAreThree(hero))
         {
             //если нет, добавляем героя в отряд
-            AddHero(hero.GetComponent<Hero>());
+            AddHero(hero);
         }
+    }
+
+    /// <summary>
+    /// Определяет купленного героя в резерв или во временное хранилище
+    /// </summary>
+    void AddHero(GameObject hero)
+    {
+        //если есть место в резерве
+        if (squad.heroesInReserve.Count < squad.maxHeroesInReserveAndTemp)
+        {
+            //добавляем героя в резерв
+            AddToReserve(hero);
+        }
+        //если герой не помещается в резерве, проверяем, есть ли место во временном хранилище
+        else if (squad.temporaryStorage.Count < squad.maxHeroesInReserveAndTemp)
+        {
+            //добавляем героя во временное хранилище
+            AddToTemporaryStorage(hero);
+        }
+        else
+        {
+            //продаем героя по его "закупочной" стоимости
+        }
+    }
+
+    /// <summary>
+    /// Добавляет героя во временное хранилище
+    /// </summary>
+    /// <param name="hero"></param>
+    private void AddToTemporaryStorage(GameObject hero)
+    {
+        squad.temporaryStorage.Add(hero.GetComponent<Hero>());
+        //оповещаем об изменении количества героев в хранилище
+        EventManager.OnSomethingChangedEventInvoke(squad.temporaryStorage.Count, Changeable.Storage);
+    }
+
+    /// <summary>
+    /// Добавляет героя в резерв
+    /// </summary>
+    private void AddToReserve(GameObject hero)
+    {
+        //спавним героя и запоминаем его 
+        squad.heroesInReserve.Add(UtilsManager.Spawn(hero, FindFreePointInReserve()).GetComponent<Hero>());
+        //оповещаем об изменении количества героев в резерве
+        EventManager.OnSomethingChangedEventInvoke(squad.heroesInReserve.Count, Changeable.Reserve);
+    }
+
+    /// <summary>
+    /// Находит свободную ячейку в резерве
+    /// </summary>
+    /// <returns></returns>
+    private Vector3 FindFreePointInReserve()
+    {
+        foreach (var item in field.GetReservePoints())
+        {
+            //если на этой точке никто не стоит
+            if (item.ChildrenCharacter == null)
+            {
+                return item.transform.position;
+            }
+        }
+
+        return new Vector3();
     }
 
     /// <summary>
@@ -77,114 +119,15 @@ public class SquadController : IController
     /// <returns></returns>
     private GameObject SelectHeroFromDB(string heroName)
     {
-        foreach (var item in Resources.LoadAll("TestObjects/Heroes") as GameObject[])
+        Object[] heroes = Resources.LoadAll("TestObjects/Heroes");
+        foreach (var item in heroes)
         {
-            if (item.GetComponent<Hero>().Info.Name == heroName)
+            if ((item as GameObject).GetComponent<Hero>().Info.Name == heroName)
             {
-                return item;
+                return item as GameObject;
             }
         }
         return null;
-    }
-
-    /// <summary>
-    /// Проверяет, имеется ли у игрока три одинаковых героя
-    /// </summary>
-    private bool ThereAreThree(GameObject heroGO)
-    {
-        //добавляем в трин
-        trine.Add(heroGO.GetComponent<Hero>());
-        //если есть еще два таких же на поле, мерджим
-        if (FindTheSame(squad.heroesOnTheField)) return true;
-        //иначе продолжаем поиск в резерве
-        else if (FindTheSame(squad.heroesInReserve)) return true;
-        //иначе очищаем трин
-        trine.Clear();
-        return false;
-    }
-
-    /// <summary>
-    /// Ищет одинаковых героев в коллекции
-    /// Добавляет их в трин
-    /// </summary>
-    private bool FindTheSame(List<Hero> heroesList)
-    {
-        foreach (var item in heroesList)
-        {
-            if (item.Info.Name == trine[0].Info.Name && item.Info.Rank == trine[0].Info.Rank)
-            {
-                trine.Add(item);
-                if (trine.Count == 3)
-                {
-                    Merge();
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    /// <summary>
-    /// Производит слияние трех героев
-    /// </summary>
-    private void Merge()
-    {
-        //герой, которого будем улучшать
-        Hero newHero = trine[0];
-        //стоимость экипировки
-        int equipmentCost = trine[0].Inventory.EquipmentСost;
-        //выбираем героя, который экипирован богаче
-        foreach (var item in trine)
-        {
-            if (item.Inventory.EquipmentСost > equipmentCost)
-            {
-                equipmentCost = item.Inventory.EquipmentСost;
-                newHero = item;
-            }
-        }
-        //если герои не экипированы
-        if (equipmentCost == 0)
-        {
-            //выбираем героя, который стоит на поле
-            foreach (var item in trine)
-            {
-                if (true)
-                {
-
-                }
-            }
-        }
-
-
-        //создаем временный "рюкзак" для хранения всего, что было надето на героях
-        List<Item> backpack = new List<Item>();
-        //снимаем с героев все, что на них надето, и складываем в "рюкзак"
-        foreach (var item in trine)
-        {
-            backpack.AddRange(item.Inventory.TakeOffAllItems());
-        }
-
-        //улучшаем выбранного героя
-        newHero.Raise();
-
-        //удаляем двух оставшихся героев
-        foreach (var item in trine)
-        {
-            if (item.ID != newHero.ID)
-            {
-                //пробуем удалить с поля
-                if (squad.RemoveHeroFromList(item, squad.heroesOnTheField))
-                {
-                    EventManager.OnSomethingChangedEventInvoke(squad.heroesOnTheField.Count, Changeable.Field);
-                }
-                //если герой не нашелся на поле, значит он был в резерве
-                //удаляем оттуда
-                else if (squad.RemoveHeroFromList(item, squad.heroesInReserve))
-                {
-                    EventManager.OnSomethingChangedEventInvoke(squad.heroesInReserve.Count, Changeable.Reserve);
-                }
-            }
-        }
     }
 
     public void OnStart()
@@ -231,6 +174,4 @@ public class SquadController : IController
     {
         squad.MaxHeroesOnTheFieldAmount = leadership;
     }
-
-
 }

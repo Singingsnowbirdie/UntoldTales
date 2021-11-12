@@ -8,13 +8,13 @@ public abstract class MatchStage : IStage
 
     public virtual void EnterStage()
     {
-        EventManager.OnStageEnterEventInvoke(this);
         Debug.Log($"Вход в стадию: {this}");
+        EventManager.OnStageEnterEventInvoke(this);
     }
 
     public virtual void ExitStage()
     {
-        EventManager.OnStageExitEventInvoke(this);
         Debug.Log($"Выход из стадии: {this}");
+        EventManager.OnStageExitEventInvoke(this);
     }
 }

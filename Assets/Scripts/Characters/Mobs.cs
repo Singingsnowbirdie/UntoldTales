@@ -31,13 +31,14 @@ class Mobs
     {
         //БД мобов
         var mobsDB = Resources.LoadAll("TestObjects/Mobs");
+
         meleeMobsPrefabs = new List<GameObject>();
         rangeMobsPrefabs = new List<GameObject>();
 
         //заполняем списки
         foreach (var item in mobsDB)
         {
-            if ((item as GameObject).GetComponent<Character>().Model.СombatType == CombatType.Melee)
+            if ((item as GameObject).GetComponent<Character>().Info.СombatType == CombatType.Melee)
             {
                 meleeMobsPrefabs.Add((item as GameObject));
             }

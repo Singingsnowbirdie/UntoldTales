@@ -51,7 +51,7 @@ public class AttackStage : IStage
             // HitTarget();
 
             character.Anim.SetTrigger("Attack");
-            attackCooldown = 1f/ character.Model.AttackSpeed;
+            attackCooldown = 1f/ character.Info.AttackSpeed;
         }
     }
 
@@ -60,7 +60,7 @@ public class AttackStage : IStage
     /// </summary>
     public void HitTarget()
     {
-        character.CurrentTarget.Model.Health--;
+        character.CurrentTarget.Info.Health--;
         Debug.Log("HitTarget");
     }
 }

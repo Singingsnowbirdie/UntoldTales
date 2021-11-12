@@ -69,7 +69,7 @@ public class EnemyApproachingStage : IStage
     /// </summary>
     private void SetNextState()
     {        
-        if (character.CurrentTarget) character.stateMachine.SetStage(character.stateMachine.Stages[typeof(AttackStage)]);
+        if (character.CurrentTarget) character.StateMachine.SetStage(character.StateMachine.Stages[typeof(AttackStage)]);
     }
     
     /// <summary>

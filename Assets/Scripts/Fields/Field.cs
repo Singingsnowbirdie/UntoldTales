@@ -79,4 +79,17 @@ public class Field : MonoBehaviour
         }
         return enemyPoints;
     }
+    
+    /// <summary>
+    /// Возвращает точки резерва
+    /// </summary>
+    /// <returns></returns>
+    public List<Point> GetReservePoints()
+    {
+        if (enemyPoints == null)
+        {
+            CreatePoints();
+        }
+        return reservePoints;
+    }
 }

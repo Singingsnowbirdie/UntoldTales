@@ -45,7 +45,7 @@ public class CharacterInfo : ScriptableObject
     public int EnergyStorageRate;
 
     [HideInInspector]
-    //Физическая защита3ES
+    //Физическая защита
     public int PhysicalProtection;
 
     [HideInInspector]
@@ -58,7 +58,7 @@ public class CharacterInfo : ScriptableObject
 
     [HideInInspector]
     //Стиль боя (ближний, дальний) (моб)
-    public CombatType CombatType;
+    public CombatType СombatType;
 
     [HideInInspector]
     //Сила атаки: (количество ед. урона за одну атаку)
@@ -71,4 +71,5 @@ public class CharacterInfo : ScriptableObject
     [HideInInspector]
     //Дальность атаки: (в количестве ячеек по прямой)
     public int AttackRange;
+
 }

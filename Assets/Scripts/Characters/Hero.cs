@@ -1,5 +1,8 @@
 ﻿//герой
 
+using System.Collections.Generic;
+using UnityEngine;
+
 public class Hero : Character
 {
     /// ID героя в отряде (присваивается при добавлении героя в отряд)
@@ -11,18 +14,59 @@ public class Hero : Character
     /// </summary>
     public HeroInventory Inventory { get; set; }
 
-    protected override void OnCharacterEnable()
-    {
-        Model = new HeroModel(Info);
-        stateMachine = new CharacterStateMachine(this);
-    }
-
     /// <summary>
     /// Повышает ранг героя
     /// </summary>
-    internal void Raise()
+    internal void Raise(List<Item> items)
     {
         //ищем инфо героя с таким же именем, но выше рангом, "наклеиваем" его на этого героя
+        //не забываем заново одеть его
+    }
+
+    /// <summary>
+    /// Следующая атака - ульта?
+    /// </summary>
+    bool IsUltimateAttack;
+
+    /// <summary>
+    /// Атака
+    /// </summary>
+    public override void Attack()
+    {
+        base.Attack();
+        if (IsUltimateAttack)
+        {
+            UltimateAttack();
+        }
+        else
+        {
+            OrdinaryAttack();
+        }
+        IsUltimateAttack = AddEnergy();
+    }
+
+    //добавляет энергию
+    private bool AddEnergy()
+    {
+        //дописать
+        return false;
+    }
+
+    /// <summary>
+    /// Обычная атака
+    /// </summary>
+    void OrdinaryAttack()
+    {
+        Debug.Log("OrdinaryAttack");
+    }
+
+    /// <summary>
+    /// Атака ультой
+    /// </summary>
+    void UltimateAttack()
+    {
+        IsUltimateAttack = false;
+        Debug.Log("UltimateAttack");
     }
 }
 

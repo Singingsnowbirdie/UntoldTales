@@ -43,9 +43,9 @@ public class EnemySearchStage : IStage
     {
         if (character.CurrentTarget)
         {
-            EnemyApproachingStage aa = character.stateMachine.Stages[typeof(EnemyApproachingStage)] as EnemyApproachingStage;
+            EnemyApproachingStage aa = character.StateMachine.Stages[typeof(EnemyApproachingStage)] as EnemyApproachingStage;
             aa.pathfinding.target = character.CurrentTarget.gameObject;
-            character.stateMachine.SetStage(character.stateMachine.Stages[typeof(EnemyApproachingStage)]);
+            character.StateMachine.SetStage(character.StateMachine.Stages[typeof(EnemyApproachingStage)]);
         } 
     }
 
