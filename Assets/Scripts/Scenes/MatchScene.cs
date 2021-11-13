@@ -21,10 +21,10 @@ public class MatchScene : SceneConfig
         var conrollers = new Dictionary<Type, IController>();
 
         CreateController<MatchController>(conrollers);
+        CreateController<MarketController>(conrollers);
         //CreateController<KeeperController>(conrollers);
         //CreateController<SquadController>(conrollers);
         //CreateController<InventoryController>(conrollers);
-        //CreateController<MarketController>(conrollers);
 
         return conrollers;
     }

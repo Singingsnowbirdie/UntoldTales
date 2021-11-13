@@ -1,10 +1,16 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 // UI раунда (тест) 
 
 public class RoundUI : MonoBehaviour
 {
+    /// <summary>
+    /// Магазин героев
+    /// </summary>
+    [SerializeField] GameObject heroesMarketPanel;
+
     /// <summary>
     /// Текст: очки опыта Хранителя
     /// </summary>
@@ -38,7 +44,7 @@ public class RoundUI : MonoBehaviour
     /// <summary>
     /// Текст: количество монет
     /// </summary>
-    [SerializeField] Text coinsCounter;
+    [SerializeField] TextMeshProUGUI coinsCounter;
 
     /// <summary>
     /// При активации
@@ -57,7 +63,7 @@ public class RoundUI : MonoBehaviour
         if (value == Changeable.Experience) leadershipCounter.text = $"Уровень лидерства: {amount}";
         else if (value == Changeable.Leadership) { experienceCounter.text = $"Очки опыта Хранителя: {amount}"; }
         else if (value == Changeable.Health) { keeperHealthCounter.text = $"Очков здоровья: {amount}"; }
-        else if (value == Changeable.Coins) { coinsCounter.text = $"Монет: {amount}"; }
+        else if (value == Changeable.Coins) { coinsCounter.text = $"{amount}"; }
         else if (value == Changeable.Reserve) { heroesInReserveCounter.text = $"Героев в резерве: {amount}"; }
         else if (value == Changeable.Storage) { heroesInTemporaryStorageCounter.text = $"Героев во временном хранилище: {amount}"; }
         else if (value == Changeable.Field) { heroesOnTheFieldCounter.text = $"Героев на поле: {amount}"; }
@@ -90,5 +96,13 @@ public class RoundUI : MonoBehaviour
         //EventManager.OnHeroPurchasedEventInvoke(hero);
     }
     #endregion
+
+    /// <summary>
+    /// Показывает и скрывает панель магазина
+    /// </summary>
+    public void ShowHideMarket()
+    {
+        heroesMarketPanel.SetActive(!heroesMarketPanel.activeSelf);
+    }
 
 }

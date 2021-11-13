@@ -1,4 +1,5 @@
 ﻿public enum Bttn
 {
-    BuyExperienceBttn
+    BuyExperienceBttn,
+    RefreshMarketBttn
 }

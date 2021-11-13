@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class MarketController : IController
 {
+    public MarketController()
+    {
+        bank = new Bank();
+    }
+
     /// <summary>
     /// Банк (хранит монеты)
     /// </summary>
@@ -16,15 +18,14 @@ public class MarketController : IController
     readonly int ExperienceСost = 1;
 
     /// <summary>
+    /// Стоимость обновления ассортимента в магазине
+    /// </summary>
+    int MarketRefreshingCost = 2;
+
+    /// <summary>
     /// Количество единиц опыта, приобретаемых за 1 раз
-    /// Пока ридонли, потом возможно это количеество сможет меняться, тогда уберем этот модификатор
     /// </summary>
     readonly int ExperiencePurchasedForOnce = 2;
-
-    public void Initialize()
-    {
-        bank = new Bank();
-    }
 
     /// <summary>
     /// Покупка опыта Хранителя
@@ -48,17 +49,34 @@ public class MarketController : IController
     public void OnStart()
     {
         bank.SetStartCoinsAmount();
+        EventManager.OnBttnPressed += BttnPressed;
+        EventManager.OnStageEnter += StageEnter;
     }
 
+    /// <summary>
+    /// При выходе
+    /// </summary>
     public void OnExit()
     {
-        EventManager.OnBttnPressed += BttnPressed;
+        EventManager.OnBttnPressed -= BttnPressed;
+        EventManager.OnStageEnter -= StageEnter;
     }
 
-    public void OnCreate()
+    private void StageEnter(IStage stage)
     {
-        //подписываемся на нажатие кнопок
-        EventManager.OnBttnPressed += BttnPressed;
+        //в начале стадии планирования
+        if (stage is PlanningStage)
+        {
+            RefreshMarket();
+        }
+    }
+
+    /// <summary>
+    /// Выбирает героев для показа в магазине
+    /// </summary>
+    private void RefreshMarket()
+    {
+
     }
 
     /// <summary>
@@ -67,9 +85,17 @@ public class MarketController : IController
     /// <param name="obj"></param>
     private void BttnPressed(Bttn bttn)
     {
-        if (true)
+        //нажата кнопка обновления ассортимента магазина
+        if (bttn == Bttn.RefreshMarketBttn)
         {
-
+            //если хватает денег
+            if (bank.IfEnoughCoins(MarketRefreshingCost))
+            {
+                //тратим монетки
+                bank.SpendCoins(MarketRefreshingCost);
+                //обновляем ассортимент
+                RefreshMarket();
+            }
         }
     }
 }

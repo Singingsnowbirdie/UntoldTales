@@ -72,4 +72,7 @@ public class CharacterInfo : ScriptableObject
     //Дальность атаки: (в количестве ячеек по прямой)
     public int AttackRange;
 
+    [HideInInspector]
+    //стоимость персонажа (только для героя)
+    public int Cost;
 }

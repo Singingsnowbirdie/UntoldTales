@@ -1,6 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 // UI Матча
 
@@ -15,6 +15,11 @@ public class MatchUI : MonoBehaviour
     /// "защитная" панель (не дает игроку кликать по объектам сцены)
     /// </summary>
     [SerializeField] GameObject protectionPanel;
+
+    /// <summary>
+    /// интерфейс раунда
+    /// </summary>
+    [SerializeField] GameObject roundPanel;
 
     /// <summary>
     /// При активации
@@ -33,7 +38,6 @@ public class MatchUI : MonoBehaviour
     private void EnableProtectionPanel(string obj)
     {
         protectionPanel.SetActive(true);
-        EventManager.OnHeroSelected -= EnableProtectionPanel;
     }
 
     /// <summary>
@@ -43,6 +47,14 @@ public class MatchUI : MonoBehaviour
     private void ShowCurrentStage(IStage stage)
     {
         currentStageText.text = stage.ToString();
+        //при входе в стадию планирования
+        if (stage is PlanningStage)
+        {
+            //выключаем защитную панель
+            protectionPanel.SetActive(false);
+            //показываем интерфейс раунда
+            roundPanel.SetActive(true);
+        }
     }
 
     /// <summary>
@@ -52,5 +64,6 @@ public class MatchUI : MonoBehaviour
     {
         //отписываемся от всего
         EventManager.OnStageEnter -= ShowCurrentStage;
+        EventManager.OnHeroSelected -= EnableProtectionPanel;
     }
 }

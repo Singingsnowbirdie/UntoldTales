@@ -35,6 +35,7 @@ public class CharacterInfoEditor : Editor
             info.HasUltimateAbility = EditorGUILayout.Toggle("Имеет ульту", info.HasUltimateAbility);
             info.AttackType = (AttackType)EditorGUILayout.EnumPopup("Тип атаки", info.AttackType);
             info.Mana = EditorGUILayout.IntField("Запас маны", info.Mana);
+            info.Cost = EditorGUILayout.IntField("Стоимость", info.Cost);
 
             if (info.HasUltimateAbility)
             {
