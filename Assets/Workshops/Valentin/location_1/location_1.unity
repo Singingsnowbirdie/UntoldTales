@@ -7026,6 +7026,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: water
       objectReference: {fileID: 0}
+    - target: {fileID: 1102135705115777268, guid: e945b1106f879cc499758a9d2c5f7296,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 656fde119942645aa8e062e04c119aa1, type: 2}
+    - target: {fileID: 6028299987346417584, guid: e945b1106f879cc499758a9d2c5f7296,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 656fde119942645aa8e062e04c119aa1, type: 2}
     - target: {fileID: 6877425310448049340, guid: e945b1106f879cc499758a9d2c5f7296,
         type: 3}
       propertyPath: m_LocalPosition.y
