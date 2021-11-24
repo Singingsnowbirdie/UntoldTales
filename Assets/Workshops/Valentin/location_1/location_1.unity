@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17650817, g: 0.22092631, b: 0.30323818, a: 1}
+  m_IndirectSpecularColor: {r: 0.17650789, g: 0.22092596, b: 0.303238, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1710,7 +1710,7 @@ PrefabInstance:
     - target: {fileID: 3587788796799408565, guid: 83fa8b9a07e3c8e4c8f5028ebf97837d,
         type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3679482911319549549, guid: 83fa8b9a07e3c8e4c8f5028ebf97837d,
         type: 3}
@@ -4519,6 +4519,51 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1473044260}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1547423169
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1547423171}
+  - component: {fileID: 1547423170}
+  m_Layer: 0
+  m_Name: WindZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!182 &1547423170
+WindZone:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547423169}
+  m_Enabled: 1
+  m_Mode: 0
+  m_Radius: 20
+  m_WindMain: 0.2
+  m_WindTurbulence: 0.5
+  m_WindPulseMagnitude: 0.15
+  m_WindPulseFrequency: 0.01
+--- !u!4 &1547423171
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547423169}
+  m_LocalRotation: {x: -0, y: -0.9150415, z: -0, w: 0.40335968}
+  m_LocalPosition: {x: 15.46, y: 4.35, z: 10.99}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: -132.423, z: 0}
 --- !u!1001 &1566638759
 PrefabInstance:
   m_ObjectHideFlags: 0
