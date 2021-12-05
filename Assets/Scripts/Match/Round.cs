@@ -1,17 +1,9 @@
-﻿using System;
-using UnityEngine;
-
-public class Round
+﻿public class Round
 {
     /// <summary>
     /// Поле
     /// </summary>
     protected Field field;
-
-    /// <summary>
-    /// Контроллер отряда
-    /// </summary>
-    SquadController squadController;
 
     /// <summary>
     /// Запускает матч
@@ -20,7 +12,5 @@ public class Round
     {
         //создаем поле
         field = UtilsManager.Spawn("TestObjects/PlayingField").GetComponent<Field>();
-        //создаем отряд
-        squadController = new SquadController(field);
     }
 }

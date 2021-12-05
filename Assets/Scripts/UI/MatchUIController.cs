@@ -1,20 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 // UI Матча
 
-public class MatchUI : MonoBehaviour
+public class MatchUIController : MonoBehaviour
 {
     /// <summary>
     /// Текст: текущая стадия
     /// </summary>
     [SerializeField] Text currentStageText;
-
-    /// <summary>
-    /// "защитная" панель (не дает игроку кликать по объектам сцены)
-    /// </summary>
-    [SerializeField] GameObject protectionPanel;
 
     /// <summary>
     /// интерфейс раунда
@@ -28,16 +22,6 @@ public class MatchUI : MonoBehaviour
     {
         //Подписки
         EventManager.OnStageEnter += ShowCurrentStage;
-        EventManager.OnHeroSelected += EnableProtectionPanel;
-    }
-
-    /// <summary>
-    /// Включает защитную панель после выбора персонажа на Круге Героев
-    /// </summary>
-    /// <param name="obj"></param>
-    private void EnableProtectionPanel(string obj)
-    {
-        protectionPanel.SetActive(true);
     }
 
     /// <summary>
@@ -50,8 +34,6 @@ public class MatchUI : MonoBehaviour
         //при входе в стадию планирования
         if (stage is PlanningStage)
         {
-            //выключаем защитную панель
-            protectionPanel.SetActive(false);
             //показываем интерфейс раунда
             roundPanel.SetActive(true);
         }
@@ -64,6 +46,5 @@ public class MatchUI : MonoBehaviour
     {
         //отписываемся от всего
         EventManager.OnStageEnter -= ShowCurrentStage;
-        EventManager.OnHeroSelected -= EnableProtectionPanel;
     }
 }

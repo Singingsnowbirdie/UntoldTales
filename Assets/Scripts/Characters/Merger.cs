@@ -1,8 +1,8 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-//класс, производящий слияние трех одинаковых героев, с повышением ранга
+//класс, производящий слияние одинаковых героев, с повышением ранга
 
 public class Merger : MonoBehaviour
 {
@@ -10,133 +10,102 @@ public class Merger : MonoBehaviour
     private Squad squad;
 
     /// <summary>
-    /// Три одинаковых героя для слияния
-    /// </summary>
-    List<Hero> trine;
-
-    /// <summary>
     /// Конструктор
     /// </summary>
     public Merger(Squad squad)
     {
         this.squad = squad;
-        trine = new List<Hero>();
     }
 
     /// <summary>
-    /// Проверяет, имеется ли у игрока три одинаковых героя
+    /// Объединяет двух одинаковых героев (после покупки третьего такого же)
     /// </summary>
-    public bool ThereAreThree(GameObject heroGO)
+    internal void MergeTwo(int heroID)
     {
-        //добавляем в трин
-        trine.Add(heroGO.GetComponent<Hero>());
-        //если есть еще два таких же на поле, мерджим
-        if (FindTheSame(squad.heroesOnTheField)) return true;
-        //иначе продолжаем поиск в резерве
-        else if (FindTheSame(squad.heroesInReserve)) return true;
-        //иначе очищаем трин
-        trine.Clear();
-        return false;
-    }
+        //двух героев ищем, один "в уме" (помним, что он был куплен (получен), но его экземпляр не был создан)
 
-    /// <summary>
-    /// Ищет одинаковых героев в коллекции
-    /// Добавляет их в трин
-    /// </summary>
-    private bool FindTheSame(List<Hero> heroesList)
-    {
-        foreach (var item in heroesList)
+        //сначала ищем героев на поле и в резерве
+        List<Hero> heroes = GetHeroesToMerge(heroID);
+
+        //если найдены оба героя
+        if (heroes.Count == 2)
         {
-            if (item.Info.Name == trine[0].Info.Name && item.Info.Rank == trine[0].Info.Rank)
+            //выбираем героя, которого будем улучшать
+            int heroToRaise = HeroToRaise(heroes);
+
+            //раздеваем обоих героев
+            List<Item> temporaryBackpack = Undress(heroes);
+
+            //улучшаем нужного, второго удаляем
+            for (int i = 0; i < heroes.Count; i++)
             {
-                trine.Add(item);
-                if (trine.Count == 3)
-                {
-                    Merge();
-                    return true;
-                }
+                if (i == heroToRaise) heroes[i].RaiseAndEquip(temporaryBackpack);
+                else squad.RemoveHero(heroes[i]);
             }
         }
-        return false;
     }
 
     /// <summary>
-    /// Производит слияние трех героев
+    /// Раздевает обоих героев, помещая их вещи во временный рюкзак
     /// </summary>
-    private void Merge()
-    {
-        //герой, которого будем улучшать
-        Hero heroToMerge = HeroToMerge();
-        //улучшаем выбранного героя и удаляем двух оставшихся
-        foreach (var item in trine)
-        {
-            if (item == heroToMerge)
-            {
-                heroToMerge.Raise(CreateBackpack());
-            }
-            else
-            {
-                //пробуем удалить с поля
-                if (squad.RemoveHeroFromList(item, squad.heroesOnTheField))
-                {
-                    EventManager.OnSomethingChangedEventInvoke(squad.heroesOnTheField.Count, Changeable.Field);
-                }
-                //если герой не нашелся на поле, значит он был в резерве
-                else if (squad.RemoveHeroFromList(item, squad.heroesInReserve))
-                {
-                    EventManager.OnSomethingChangedEventInvoke(squad.heroesInReserve.Count, Changeable.Reserve);
-                }
-            }
-        }
-        trine.Clear();
-    }
-
-    /// <summary>
-    /// Создает временный "рюкзак" и помещает в него все, что надето на героях, которые будут объединены
-    /// </summary>
-    /// <returns></returns>
-    private List<Item> CreateBackpack()
+    private List<Item> Undress(List<Hero> heroes)
     {
         List<Item> backpack = new List<Item>();
         //снимаем с героев все, что на них надето, и складываем в "рюкзак"
-        foreach (var item in trine)
+        foreach (var item in heroes)
         {
-            backpack.AddRange(item.Inventory.TakeOffAllItems());
+            backpack.AddRange(item.Inventory.Undress());
         }
         return backpack;
     }
 
     /// <summary>
-    /// Определяет наиболее актуального героя для слияния
+    /// Собираем героев для мерджа
     /// </summary>
-    /// <returns></returns>
-    private Hero HeroToMerge()
+    private List<Hero> GetHeroesToMerge(int heroID)
     {
-        Hero heroToMerge = trine[0];
-        //стоимость экипировки
-        int equipmentCost = trine[0].Inventory.EquipmentСost;
-        //выбираем героя, который экипирован богаче
-        foreach (var item in trine)
+        //создаем пустую коллекцию
+        List<Hero> heroesToMerge = new List<Hero>();
+
+        //сначала ищем на поле
+        foreach (var item in squad.heroesOnTheField)
         {
-            if (item.Inventory.EquipmentСost > equipmentCost)
+            if (item.Info.ID == heroID)
             {
-                equipmentCost = item.Inventory.EquipmentСost;
-                heroToMerge = item;
-            }
-        }
-        //если герои не экипированы
-        if (equipmentCost == 0)
-        {
-            //Если один из героев стоит на поле, то выбираем для улучшения его
-            foreach (var item in trine)
-            {
-                if (item.StateMachine.CurrentStage is IdleStage)
+                heroesToMerge.Add(item);
+                if (heroesToMerge.Count == 2)
                 {
-                    heroToMerge = item;
+                    return heroesToMerge;
                 }
             }
         }
-        return heroToMerge;
+
+        //теперь ищем в резерве
+        foreach (var item in squad.heroesInReserve)
+        {
+            if (item.Info.ID == heroID)
+            {
+                heroesToMerge.Add(item);
+                if (heroesToMerge.Count == 2)
+                {
+                    return heroesToMerge;
+                }
+            }
+        }
+
+        return heroesToMerge;
+    }
+
+    /// <summary>
+    /// Определяет наиболее актуального героя для улучшения
+    /// </summary>
+    /// <returns></returns>
+    private int HeroToRaise(List<Hero> heroes)
+    {
+        //если стоимость экипировки второго героя больше, то улучшать будем его
+        if (heroes[1].Inventory.EquipmentСost > heroes[0].Inventory.EquipmentСost) return 1;
+        //во всех остальных случаях, улучшать будем первого
+        else return 0;
     }
 
 }

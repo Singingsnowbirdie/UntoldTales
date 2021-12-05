@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 //менеджер событий
 
@@ -16,7 +15,6 @@ public class EventManager
             return _instance;
         }
     }
-
 
     #region ЗАГРУЗКА СЦЕНЫ
     internal static void LoadScene(string sceneName) { OnSceneLoad?.Invoke(sceneName); }
@@ -43,18 +41,26 @@ public class EventManager
     public static event Action<int, Changeable> OnSomethingChanged;
     #endregion
 
-    #region ПРИОБРЕТЕН ГЕРОЙ (куплен или получен иначе)
-    internal static void OnHeroPurchasedEventInvoke(string heroName) { OnHeroPurchased?.Invoke(heroName); }
-    public static event Action<string> OnHeroPurchased;
-    #endregion
-
-    #region НАЖАТА КНОПКА
+    #region НАЖАТА КАКАЯ-ТО КНОПКА
     internal static void OnBttnPressedEventInvoke(Bttn bttn) { OnBttnPressed?.Invoke(bttn); }
     public static event Action<Bttn> OnBttnPressed;
     #endregion
 
-    #region КЛИК ПО ГЕРОЮ (используется на круге героев)
-    internal static void OnHeroSelectedEventInvoke(string heroName) { OnHeroSelected?.Invoke(heroName); }
-    public static event Action<string> OnHeroSelected;
+    #region ОБНОВЛЕНИЕ АССОРТИМЕНТА МАГАЗИНА
+    internal static void OnMarketAssortmentChangedEventInvoke(List<CharacterInfo> heroes) { OnMarketAssortmentChanged?.Invoke(heroes); }
+    public static event Action<List<CharacterInfo>> OnMarketAssortmentChanged;
     #endregion
+
+    #region ПРИОБРЕТЕН ГЕРОЙ (куплен или получен иначе)
+    internal static void OnHeroPurchasedEventInvoke(int heroID) { OnHeroPurchased?.Invoke(heroID); }
+    public static event Action<int> OnHeroPurchased;
+    #endregion
+
+    #region НЕОБХОДИМО СОЗДАТЬ ЭКЗЕМПЛЯР ГЕРОЯ
+    internal static void OnHeroReadyToSpawnEventInvoke(Hero hero) { OnHeroReadyToSpawn?.Invoke(hero); }
+    public static event Action<Hero> OnHeroReadyToSpawn;
+    #endregion
+
+
+
 }

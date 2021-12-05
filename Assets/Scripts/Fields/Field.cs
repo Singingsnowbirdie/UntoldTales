@@ -92,4 +92,22 @@ public class Field : MonoBehaviour
         }
         return reservePoints;
     }
+
+    /// <summary>
+    /// Находит свободную ячейку в резерве
+    /// </summary>
+    /// <returns></returns>
+    private Vector3 FindFreePointInReserve()
+    {
+        foreach (var item in GetReservePoints())
+        {
+            //если на этой точке никто не стоит
+            if (item.ChildrenCharacter == null)
+            {
+                return item.transform.position;
+            }
+        }
+
+        return new Vector3();
+    }
 }

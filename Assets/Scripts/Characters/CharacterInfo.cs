@@ -75,4 +75,11 @@ public class CharacterInfo : ScriptableObject
     [HideInInspector]
     //стоимость персонажа (только для героя)
     public int Cost;
+
+    //префаб персонажа
+    public GameObject Prefab;
+
+    //уникальный идентификатор персонажа
+    [HideInInspector]
+    public int ID;
 }

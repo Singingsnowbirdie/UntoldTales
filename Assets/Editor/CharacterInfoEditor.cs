@@ -17,6 +17,7 @@ public class CharacterInfoEditor : Editor
         info.IsHero = EditorGUILayout.Toggle("Герой", info.IsHero);
 
         info.Name = EditorGUILayout.TextField("Имя", info.Name);
+        info.ID = EditorGUILayout.IntField("ID", info.ID);
         info.Rank = EditorGUILayout.IntField("Ранг", info.Rank);
 
         info.Health = EditorGUILayout.IntField("Запас здоровья", info.Health);

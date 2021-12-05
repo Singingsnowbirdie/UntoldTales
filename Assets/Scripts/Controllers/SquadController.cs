@@ -5,16 +5,21 @@ using UnityEngine;
 
 public class SquadController : IController
 {
-    public SquadController(Field field)
+    //конструктор
+    public SquadController()
     {
-        this.field = field;
         squad = new Squad();
         merger = new Merger(squad);
 
-        //подписываемся на событие "приобретен герой"
+        //подписываемся на события
         EventManager.OnHeroPurchased += DistributeHero;
-        //подписываемся на событие "выход из состояния"
         EventManager.OnStageExit += OnStageExit;
+    }
+
+    //Возвращает коллекцию героев из временного хранилища
+    internal List<Hero> GetHeroesInTemporaryStorage()
+    {
+        return squad.temporaryStorage;
     }
 
     /// <summary>
@@ -25,47 +30,43 @@ public class SquadController : IController
     /// <summary>
     /// Класс, производящий слияние (повышение ранга)
     /// </summary>
-    Merger merger;
+    readonly Merger merger;
 
     /// <summary>
-    /// Поле
+    /// Сцена
     /// </summary>
-    private Field field;
+    public static MatchScene Scene { get; internal set; }
+
+    public void OnStart() { }
 
     /// <summary>
     /// Решает, что делать с купленным героем
     /// </summary>
     /// <param name="obj"></param>
-    private void DistributeHero(string heroName)
+    private void DistributeHero(int heroID)
     {
-        //находим в бд нужного героя
-        GameObject hero = SelectHeroFromDB(heroName);
-        //присваиваем герою ID (и сразу увеличиваем счетчик)
-        hero.GetComponent<Hero>().ID = squad.LastID++;
-        //проверяем, есть ли у игрока еще два таких же героя
-        if (!merger.ThereAreThree(hero))
-        {
-            //если нет, добавляем героя в отряд
-            AddHero(hero);
-        }
+        //если у игрока есть еще два таких же героя
+        if (squad.FindTheSameHeroes(heroID) >= 2) merger.MergeTwo(heroID);
+        //если нет, добавляем героя в отряд
+        else AddHero(heroID);
     }
 
     /// <summary>
     /// Определяет купленного героя в резерв или во временное хранилище
     /// </summary>
-    void AddHero(GameObject hero)
+    void AddHero(int heroID)
     {
         //если есть место в резерве
         if (squad.heroesInReserve.Count < squad.maxHeroesInReserveAndTemp)
         {
             //добавляем героя в резерв
-            AddToReserve(hero);
+            AddToReserve(heroID);
         }
         //если герой не помещается в резерве, проверяем, есть ли место во временном хранилище
         else if (squad.temporaryStorage.Count < squad.maxHeroesInReserveAndTemp)
         {
             //добавляем героя во временное хранилище
-            AddToTemporaryStorage(hero);
+            AddToTemporaryStorage(heroID);
         }
         else
         {
@@ -77,9 +78,12 @@ public class SquadController : IController
     /// Добавляет героя во временное хранилище
     /// </summary>
     /// <param name="hero"></param>
-    private void AddToTemporaryStorage(GameObject hero)
+    private void AddToTemporaryStorage(int heroID)
     {
-        squad.temporaryStorage.Add(hero.GetComponent<Hero>());
+        //создаем нового героя
+        Hero hero = new Hero(Scene.GetHeroInfo(heroID));
+        //помещаем его в коллекцию
+        squad.temporaryStorage.Add(hero);
         //оповещаем об изменении количества героев в хранилище
         EventManager.OnSomethingChangedEventInvoke(squad.temporaryStorage.Count, Changeable.Storage);
     }
@@ -87,30 +91,16 @@ public class SquadController : IController
     /// <summary>
     /// Добавляет героя в резерв
     /// </summary>
-    private void AddToReserve(GameObject hero)
+    private void AddToReserve(int heroID)
     {
-        //спавним героя и запоминаем его 
-        squad.heroesInReserve.Add(UtilsManager.Spawn(hero, FindFreePointInReserve()).GetComponent<Hero>());
+        //создаем нового героя
+        Hero hero = new Hero(Scene.GetHeroInfo(heroID));
+        //помещаем его в коллекцию
+        squad.heroesInReserve.Add(hero);
+        //оповещаем поле о необходимости заспавнить его
+        EventManager.OnHeroReadyToSpawnEventInvoke(hero);
         //оповещаем об изменении количества героев в резерве
         EventManager.OnSomethingChangedEventInvoke(squad.heroesInReserve.Count, Changeable.Reserve);
-    }
-
-    /// <summary>
-    /// Находит свободную ячейку в резерве
-    /// </summary>
-    /// <returns></returns>
-    private Vector3 FindFreePointInReserve()
-    {
-        foreach (var item in field.GetReservePoints())
-        {
-            //если на этой точке никто не стоит
-            if (item.ChildrenCharacter == null)
-            {
-                return item.transform.position;
-            }
-        }
-
-        return new Vector3();
     }
 
     /// <summary>
@@ -130,18 +120,13 @@ public class SquadController : IController
         return null;
     }
 
-    public void OnStart()
-    {
-
-    }
-
     /// <summary>
     /// При выходе из состояния
     /// </summary>
     /// <param name="obj"></param>
     private void OnStageExit(IStage stage)
     {
-
+        //при выходе из стадии планирования
         if (stage is PlanningStage)
         {
             TransferHeroesToBattle();
@@ -160,12 +145,6 @@ public class SquadController : IController
         squad.heroesInBattle.Clear();
     }
 
-    public void OnExit()
-    {
-        EventManager.OnHeroPurchased -= DistributeHero;
-        EventManager.OnStageExit -= OnStageExit;
-    }
-
     /// <summary>
     /// Изменяет максимальное количество героев на поле
     /// </summary>
@@ -173,5 +152,10 @@ public class SquadController : IController
     private void ChangeMaxHeroesAmount(int experience, int leadership)
     {
         squad.MaxHeroesOnTheFieldAmount = leadership;
+    }
+    public void OnExit()
+    {
+        EventManager.OnHeroPurchased -= DistributeHero;
+        EventManager.OnStageExit -= OnStageExit;
     }
 }

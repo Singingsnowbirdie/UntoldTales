@@ -39,8 +39,10 @@ public class HeroesCircleStage : MatchStage
         //если круг на время
         if (IsTiming)
         {
+            //запускаем таймер
+            UtilsManager.StartRoutine(StageTimer());
             //запускаем распределение героев между AI игроками
-            UtilsManager.StartRoutine(HeroesDistribution(UtilsManager.StartRoutine(StageTimer())));
+            UtilsManager.StartRoutine(HeroesDistribution());
         }
         //вызываем событие
         base.EnterStage();
@@ -50,7 +52,7 @@ public class HeroesCircleStage : MatchStage
     /// Распределяет героев между AI
     /// </summary>
     /// <returns></returns>
-    private IEnumerator HeroesDistribution(Coroutine timer)
+    private IEnumerator HeroesDistribution()
     {
         //раздаем всем AI по герою
         foreach (var item in match.Players.GetAIPlayers())
@@ -58,16 +60,7 @@ public class HeroesCircleStage : MatchStage
             //делаем паузу
             yield return new WaitForSeconds(Random.Range(0f, 3f));
             //отдаем случайного героя AI
-            item.SelectedHeroName = heroesCircle.GetRandomHero();
-        }
-
-        //проверяем, все ли герои розданы
-        if (heroesCircle.AllHeroesIsSelected())
-        {
-            //отключаем таймер
-            UtilsManager.StopRoutine(timer);
-            //завершаем стадию
-            ExitStage();
+            item.SelectedHeroID = heroesCircle.GetRandomHero();
         }
     }
 
@@ -84,6 +77,11 @@ public class HeroesCircleStage : MatchStage
         {
             ForcedHeroesDistribution();
         }
+        else
+        {
+            ExitStage();
+        }
+
     }
 
     /// <summary>
@@ -93,9 +91,9 @@ public class HeroesCircleStage : MatchStage
     {
         foreach (var item in match.Players.GetPlayers())
         {
-            if (string.IsNullOrEmpty(item.SelectedHeroName))
+            if (item.SelectedHeroID == 0)
             {
-                item.SelectedHeroName = heroesCircle.GetRandomHero();
+                item.SelectedHeroID = heroesCircle.GetRandomHero();
             }
         }
         ExitStage();

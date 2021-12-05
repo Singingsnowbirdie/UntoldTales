@@ -1,4 +1,6 @@
-﻿using System;
+﻿//Магазин
+
+using System.Collections.Generic;
 
 public class MarketController : IController
 {
@@ -10,17 +12,42 @@ public class MarketController : IController
     /// <summary>
     /// Банк (хранит монеты)
     /// </summary>
-    Bank bank;
+    readonly Bank bank;
 
+    /// <summary>
+    /// Сцена
+    /// </summary>
+    public static MatchScene Scene { get; internal set; }
+
+    #region ПОКУПКА ГЕРОЯ
+    #endregion
+
+    #region ОБНОВЛЕНИЕ АССОРТИМЕНТА
+    /// <summary>
+    /// Стоимость обновления ассортимента в магазине
+    /// </summary>
+    readonly int AssortmentUpdatingCost = 2;
+
+    /// <summary>
+    /// Обновляет ассортимент магазина
+    /// </summary>
+    private void UpdateAssortment()
+    {
+        //создаем новый список
+        List<CharacterInfo> heroes = new List<CharacterInfo>();
+
+        //заполняем его
+
+        //сообщаем панельке магазина, что нужно отобразить новый набор героев
+        EventManager.OnMarketAssortmentChangedEventInvoke(heroes);
+    }
+    #endregion
+
+    #region ПОКУПКА ОПЫТА
     /// <summary>
     /// Стоимость единицы опыта (в монетах)
     /// </summary>
     readonly int ExperienceСost = 1;
-
-    /// <summary>
-    /// Стоимость обновления ассортимента в магазине
-    /// </summary>
-    int MarketRefreshingCost = 2;
 
     /// <summary>
     /// Количество единиц опыта, приобретаемых за 1 раз
@@ -32,16 +59,16 @@ public class MarketController : IController
     /// </summary>
     private void BuyExperience()
     {
-        int transfer = ExperienceСost * ExperiencePurchasedForOnce;
         //если монет достаточно для покупки опыта
-        if (bank.IfEnoughCoins(transfer))
+        if (bank.IfEnoughCoins(ExperienceСost))
         {
             //тратим
-            bank.SpendCoins(transfer);
+            bank.SpendCoins(ExperienceСost);
             //сообщаем о покупке
             EventManager.OnSomethingChangedEventInvoke(ExperiencePurchasedForOnce, Changeable.Experience);
         }
     }
+    #endregion
 
     /// <summary>
     /// На старте
@@ -67,16 +94,8 @@ public class MarketController : IController
         //в начале стадии планирования
         if (stage is PlanningStage)
         {
-            RefreshMarket();
+            UpdateAssortment();
         }
-    }
-
-    /// <summary>
-    /// Выбирает героев для показа в магазине
-    /// </summary>
-    private void RefreshMarket()
-    {
-
     }
 
     /// <summary>
@@ -86,15 +105,15 @@ public class MarketController : IController
     private void BttnPressed(Bttn bttn)
     {
         //нажата кнопка обновления ассортимента магазина
-        if (bttn == Bttn.RefreshMarketBttn)
+        if (bttn == Bttn.UpdateAssortmentBttn)
         {
             //если хватает денег
-            if (bank.IfEnoughCoins(MarketRefreshingCost))
+            if (bank.IfEnoughCoins(AssortmentUpdatingCost))
             {
                 //тратим монетки
-                bank.SpendCoins(MarketRefreshingCost);
+                bank.SpendCoins(AssortmentUpdatingCost);
                 //обновляем ассортимент
-                RefreshMarket();
+                UpdateAssortment();
             }
         }
     }

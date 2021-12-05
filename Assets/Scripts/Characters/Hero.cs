@@ -1,5 +1,6 @@
 ﻿//герой
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ public class Hero : Character
 {
     /// ID героя в отряде (присваивается при добавлении героя в отряд)
     /// </summary>
-    public int ID { get; set; }
+    public int squadID { get; set; }
 
     /// <summary>
     /// Инвентарь
@@ -27,6 +28,14 @@ public class Hero : Character
     /// Следующая атака - ульта?
     /// </summary>
     bool IsUltimateAttack;
+
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    public Hero(CharacterInfo characterInfo)
+    {
+        Info = characterInfo;
+    }
 
     /// <summary>
     /// Атака
@@ -58,6 +67,15 @@ public class Hero : Character
     void OrdinaryAttack()
     {
         Debug.Log("OrdinaryAttack");
+    }
+
+    /// <summary>
+    /// Повышает ранг героя и надевает на него предметы
+    /// </summary>
+    /// <param name="temporaryBackpack"></param>
+    internal void RaiseAndEquip(List<Item> temporaryBackpack)
+    {
+        throw new NotImplementedException();
     }
 
     /// <summary>

@@ -13,7 +13,7 @@ public class HeroInventory
     /// Передает их во временный рюкзак
     /// </summary>
     /// <returns></returns>
-    internal List<Item> TakeOffAllItems()
+    internal List<Item> Undress()
     {
         //дописать
         return new List<Item>();

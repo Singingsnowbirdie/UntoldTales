@@ -1,31 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class MatchScene : SceneConfig
+public class MatchScene : Scene
 {
     /// <summary>
-    /// Создаем все репозитории
+    /// Создаем контроллеры
     /// </summary>
-    /// <returns></returns>
-    public override Dictionary<Type, Repository> CreateRepositories()
+    public override void CreateControllers()
     {
-        return new Dictionary<Type, Repository>();
+        //инициализируем коллекцию контроллеров
+        controllers = new Dictionary<Type, IController>();
+
+        //контроллер всего матча
+        CreateController<MatchController>(controllers);
+        //контроллер отряда
+        CreateController<SquadController>(controllers);
+        //контроллер магазина
+        CreateController<MarketController>(controllers);
     }
 
-    /// <summary>
-    /// Создаем все контроллеры
-    /// </summary>
-    /// <returns></returns>
-    public override Dictionary<Type, IController> CreateControllers()
+    protected override void Start()
     {
-        var conrollers = new Dictionary<Type, IController>();
-
-        CreateController<MatchController>(conrollers);
-        CreateController<MarketController>(conrollers);
-        //CreateController<KeeperController>(conrollers);
-        //CreateController<SquadController>(conrollers);
-        //CreateController<InventoryController>(conrollers);
-
-        return conrollers;
+        SquadController.Scene = this;
+        MarketController.Scene = this;
+        
+        base.Start();
     }
 }

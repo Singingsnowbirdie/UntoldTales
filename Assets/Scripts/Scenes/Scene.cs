@@ -1,89 +1,97 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Scene
+//контроллер сцены
+
+public abstract class Scene : MonoBehaviour
 {
     /// <summary>
-    /// Конструктор
+    /// Все контроллеры
     /// </summary>
-    /// <param name="config"></param>
-    public Scene(SceneConfig config)
+    protected Dictionary<Type, IController> controllers;
+
+    /// <summary>
+    /// Все герои
+    /// </summary>
+    [SerializeField] CharacterInfo[] heroesDB;
+
+    private void Awake()
     {
-        SceneConfig = config;
-        controllers = new Controllers(config);
-        repositories = new Repositories(config);
+        heroesDB = Resources.LoadAll<CharacterInfo>("TestObjects/Heroes");
+        CreateControllers();
+    }
+
+    protected virtual void Start()
+    {
+        //стартуем все контроллеры
+        foreach (var item in controllers)
+        {
+            item.Value.OnStart();
+        }
     }
 
     /// <summary>
-    /// Конфиг
+    /// Создает все необходимые контроллеры
     /// </summary>
-    public SceneConfig SceneConfig { get; set; }
+    public abstract void CreateControllers();
 
     /// <summary>
-    /// Контроллеры сцены
-    /// </summary>
-    Controllers controllers;
-
-    /// <summary>
-    /// Репозитории сцены
-    /// </summary>
-    Repositories repositories;
-
-    /// <summary>
-    /// Возвращает репозиторий
-    /// </summary>
-    internal T GetRepository<T>() where T : Repository
-    {
-        return repositories.GetRepository<T>();
-    }
-    
-    /// <summary>
-    /// Возвращает контроллер
+    /// Возвращает контроллер по имени
     /// </summary>
     internal T GetController<T>() where T : IController
     {
-        return controllers.GetController<T>();
+        return GetController<T>();
     }
 
     /// <summary>
-    /// Инициализатор
+    /// Возвращает инфо всех героев заданного уровня
     /// </summary>
-    /// <returns></returns>
-    public Coroutine InitializeAsync()
+    internal List<CharacterInfo> GetHeroes(int rank)
     {
-        return UtilsManager.StartRoutine(InitializeRoutine());
+        List<CharacterInfo> selectedHeroes = new List<CharacterInfo>();
+
+        foreach (var item in heroesDB)
+        {
+            if (item.Rank == rank)
+            {
+                selectedHeroes.Add(item);
+            }
+        }
+        return selectedHeroes;
     }
 
     /// <summary>
-    /// Инициализатор
+    /// Создание одного контроллера
     /// </summary>
-    /// <returns></returns>
-    public IEnumerator InitializeRoutine()
+    public void CreateController<T>(Dictionary<Type, IController> controllers) where T : IController, new()
     {
-        //Создаем все репопзитории и контроллеры
-        repositories.CreateAllRepositories();
-        controllers.CreateAllControllers();
-        yield return null;
+        var controller = new T();
+        var type = typeof(T);
+        controllers[type] = controller;
+    }
 
-        //стартуем все репозитории и контроллеры
-        repositories.SendOnStartToAllRepositories();
-        controllers.SendOnStartToAllControllers();
+    private void OnDestroy()
+    {
+        //отписываем все контроллеры от событий
+        foreach (var item in controllers)
+        {
+            item.Value.OnExit();
+        }
     }
 
     /// <summary>
-    /// Старт
+    /// Возвращает инфо героя по ID
     /// </summary>
-    internal void StartScene()
+    internal CharacterInfo GetHeroInfo(int heroID)
     {
-        SceneConfig.OnStart();
-    }
-
-    /// <summary>
-    /// Выход
-    /// </summary>
-    internal void UnsubscribeAll()
-    {
-        //вызываем на всех контроллерах, чтобы отписаться от всех тамошних событий
-        controllers.SendOnExitToAllControllers();
+        foreach (var item in heroesDB)
+        {
+            if (item.ID == heroID)
+            {
+                return item;
+            }
+        }
+        return null;
     }
 }

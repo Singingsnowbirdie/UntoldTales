@@ -16,15 +16,15 @@ public class RealPlayer : Player
         if (stage is HeroesCircleStage)
         {
             //подписываемся на выбор героя
-            EventManager.OnHeroSelected += OnHeroSelected;
+            EventManager.OnHeroPurchased += OnHeroPurchased;
         }
         //Стадия планирования
         else if (stage is PlanningStage)
         {
             //сообщаем о приобретении героя (которого мы выбрали на круге)
-            EventManager.OnHeroPurchasedEventInvoke(SelectedHeroName);
+            EventManager.OnHeroPurchasedEventInvoke(SelectedHeroID);
             //и забываем о нем
-            SelectedHeroName = "";
+            SelectedHeroID = 0;
         }
     }
 
@@ -32,11 +32,11 @@ public class RealPlayer : Player
     /// При клике на героя (на круге)
     /// </summary>
     /// <param name="obj"></param>
-    private void OnHeroSelected(string heroName)
+    private void OnHeroPurchased(int heroID)
     {
-        //запоминаем имя героя
-        SelectedHeroName = heroName;
+        //запоминаем героя
+        SelectedHeroID = heroID;
         //отписываемся
-        EventManager.OnHeroSelected -= OnHeroSelected;
+        EventManager.OnHeroPurchased -= OnHeroPurchased;
     }
 }

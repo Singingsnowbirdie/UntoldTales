@@ -1,36 +1,49 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 //скрипт выбора героя на Круге Героев (добавляется в момент создания героев на круге)
 
 public class HeroCircleSelector : MonoBehaviour, IPointerClickHandler
 {
-    //ID селектора
-    public int SelectorID { get; internal set; }
+    //ID героя
+    public int HeroID { get; internal set; }
 
     //уже выбран кем-то
     public bool IsSelected { get; internal set; }
 
-    //круг героев
-    public HeroesCircle HeroesCircle { get; internal set; }
+    //можно выбирать героя
+    bool IsSelectable = true;
 
     void OnEnable()
     {
         EventManager.OnStageExit += StageExit;
+        EventManager.OnHeroPurchased += HeroPurchased;
+    }
+
+    /// <summary>
+    /// Игрок выбрал себе героя
+    /// </summary>
+    private void HeroPurchased(int obj)
+    {
+        IsSelectable = false;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        //Клик левой кнопкой мыши
-        if (eventData.pointerId == -1)
+        if (IsSelectable)
         {
-            //если этот герой еще никем не выбран
-            if (!IsSelected)
+            //Клик левой кнопкой мыши
+            if (eventData.pointerId == -1)
             {
-                //сообщаем о выборе
-                EventManager.OnHeroSelectedEventInvoke(gameObject.GetComponent<Hero>().Info.Name);
-                //помечаем выбранным
-                Select();
+                //если этот герой еще никем не выбран
+                if (!IsSelected)
+                {
+                    //сообщаем о выборе
+                    EventManager.OnHeroPurchasedEventInvoke(gameObject.GetComponent<Hero>().Info.ID);
+                    //помечаем выбранным
+                    Select();
+                }
             }
         }
     }
@@ -55,8 +68,6 @@ public class HeroCircleSelector : MonoBehaviour, IPointerClickHandler
     {
         //помечаем выбранным
         IsSelected = true;
-        //удаляем этого героя из коллекции героев в HeroesCircle
-        HeroesCircle.RemoveHero(SelectorID);
         //уничтожаем объект
         Destroy(gameObject);
     }
@@ -65,17 +76,16 @@ public class HeroCircleSelector : MonoBehaviour, IPointerClickHandler
     /// Пытаемся выбрать этого героя
     /// </summary>
     /// <returns></returns>
-    internal string TryToSelect()
+    internal int TryToSelect()
     {
-        string heroName = "";
         //если этот герой еще никем не выбран
         if (!IsSelected)
         {
-            //запоминаем имя
-            heroName = gameObject.GetComponent<Hero>().Info.Name;
             //помечаем героя выбранным 
             Select();
+            //возвращаем его ID
+            return HeroID;
         }
-        return heroName;
+        return 0;
     }
 }

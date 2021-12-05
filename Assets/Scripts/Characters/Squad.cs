@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Squad : MonoBehaviour
@@ -16,12 +17,12 @@ public class Squad : MonoBehaviour
     }
 
     /// <summary>
-    /// Максимальное количество героев в резерве
+    /// Максимальное количество героев в резерве и во временном хранилище
     /// </summary>
     public readonly int maxHeroesInReserveAndTemp = 8;
 
     /// <summary>
-    /// Начальное значение, максимального кол-ва героев на поле
+    /// Начальное значение максимального кол-ва героев на поле
     /// </summary>
     readonly int startHeroesOnTheFieldAmount = 1;
 
@@ -29,11 +30,6 @@ public class Squad : MonoBehaviour
     /// Максимальное кол-во героев на поле (зависит от уровня Хранителя)
     /// </summary>
     public int MaxHeroesOnTheFieldAmount { get; set; }
-
-    /// <summary>
-    /// Последний присвоенный ID
-    /// </summary>
-    public int LastID { get; set; }
 
     /// <summary>
     /// Временное хранилище
@@ -55,22 +51,17 @@ public class Squad : MonoBehaviour
     /// <summary>
     /// Здесь лежат все герои, которые находятся в бою
     /// Когда начинается фаза боя, сюда переносятся все герои, которые находятся на поле (не в резерве)
+    /// Этих героев нельзя экипировать, улучшать и продавать
     /// </summary>
     public List<Hero> heroesInBattle;
 
     /// <summary>
-    /// Проверяет, находится ли герой в соответствующем списке
+    /// Удаляет героя с поля (если он там) и из соответствующей коллекции
     /// </summary>
-    public bool IsInList(Hero hero, List<Hero> list)
+    /// <param name="heroToRemove"></param>
+    internal void RemoveHero(Hero heroToRemove)
     {
-        for (int i = 0; i < list.Count; i++)
-        {
-            if (list[i].ID == hero.ID)
-            {
-                return true;
-            }
-        }
-        return false;
+        throw new NotImplementedException();
     }
 
     /// <summary>
@@ -89,12 +80,34 @@ public class Squad : MonoBehaviour
     {
         for (int i = 0; i < list.Count; i++)
         {
-            if (list[i].ID == hero.ID)
+            if (list[i].squadID == hero.squadID)
             {
                 list.RemoveAt(i);
                 return true;
             }
         }
         return false;
+    }
+
+    /// <summary>
+    /// Ищет таких же героев
+    /// </summary>
+    /// <returns></returns>
+    internal int FindTheSameHeroes(int heroID)
+    {
+        int temp = 0;
+
+        //проверяем героев на поле
+        foreach (var item in heroesOnTheField)
+        {
+            if (item.Info.ID == heroID) temp++;
+        }
+        //проверяем резерв
+        foreach (var item in heroesInReserve)
+        {
+            if (item.Info.ID == heroID)  temp++;
+        }
+
+        return temp;
     }
 }

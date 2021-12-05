@@ -35,38 +35,22 @@ public class HeroesCircle : MonoBehaviour
         //все точки
         Point[] points = gameObject.GetComponentsInChildren<Point>();
 
-        //все герои
-        Object[] heroesDB = Resources.LoadAll("TestObjects/Heroes");
+        //все герои первого уровня
+        List<CharacterInfo> heroesDB = FindObjectOfType<Scene>().GetHeroes(1);
 
         //для каждой точки
         for (int i = 0; i < points.Length; i++)
         {
-            //индекс случайного героя 
-            int rand = Random.Range(0, heroesDB.Length);
-            //спавним рандомного героя
-            Hero hero = UtilsManager.Spawn(heroesDB[rand] as GameObject, points[i].transform.position).GetComponent<Hero>();
-            //навешиваем селектор на героя
-            HeroCircleSelector selector = hero.gameObject.AddComponent<HeroCircleSelector>();
+            //выбираем случайного героя 
+            int rand = Random.Range(0, heroesDB.Count);
+            //спавним его префаб
+            GameObject hero = UtilsManager.Spawn(heroesDB[rand].Prefab, points[i].transform.position);
+            //навешиваем селектор на префаб
+            HeroCircleSelector selector = hero.AddComponent<HeroCircleSelector>();
             //передаем данные в селектор
-            selector.SelectorID = i;
-            selector.HeroesCircle = this;
+            selector.HeroID = heroesDB[rand].ID;
             //добавляем героя в коллекцию
             heroes.Add(selector);
-        }
-    }
-
-    /// <summary>
-    /// Удаляет героя из коллекции (после того, как его выбрал себе игрок)
-    /// </summary>
-    /// <param name="selectorID"></param>
-    internal void RemoveHero(int selectorID)
-    {
-        for (int i = 0; i < heroes.Count; i++)
-        {
-            if (heroes[i].GetComponent<HeroCircleSelector>().SelectorID == selectorID)
-            {
-                heroes.RemoveAt(i);
-            }
         }
     }
 
@@ -75,30 +59,36 @@ public class HeroesCircle : MonoBehaviour
     /// </summary>
     internal bool AllHeroesIsSelected()
     {
-        if (heroes.Count <= 2)
+        int freeHeroes = 10;
+        foreach (var item in heroes)
         {
-            return true;
+            if (item.IsSelected)
+            {
+                freeHeroes--;
+                if (freeHeroes == 2)
+                {
+                    return true;
+                }
+            }
         }
         return false;
     }
 
     /// <summary>
-    /// Возвращает имя случайного героя и уничтожает его
+    /// Возвращает ID случайного героя
     /// </summary>
     /// <returns></returns>
-    internal string GetRandomHero()
+    internal int GetRandomHero()
     {
-        //имя выбранного героя
-        string heroName = "";
+        int heroID = 0;
 
-        while (string.IsNullOrEmpty(heroName))
+        while (heroID == 0)
         {
             //выбираем случайного героя
             HeroCircleSelector hero = heroes[Random.Range(0, heroes.Count)];
-            heroName = hero.TryToSelect();
+            heroID = hero.TryToSelect();
         }
-        //возвращаем имя
-        return heroName;
+        return heroID;
     }
 }
 
