@@ -30,14 +30,6 @@ public class Hero : Character
     bool IsUltimateAttack;
 
     /// <summary>
-    /// Конструктор
-    /// </summary>
-    public Hero(CharacterInfo characterInfo)
-    {
-        Info = characterInfo;
-    }
-
-    /// <summary>
     /// Атака
     /// </summary>
     public override void Attack()

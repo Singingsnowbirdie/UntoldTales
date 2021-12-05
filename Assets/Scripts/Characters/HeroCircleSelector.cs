@@ -40,7 +40,7 @@ public class HeroCircleSelector : MonoBehaviour, IPointerClickHandler
                 if (!IsSelected)
                 {
                     //сообщаем о выборе
-                    EventManager.OnHeroPurchasedEventInvoke(gameObject.GetComponent<Hero>().Info.ID);
+                    EventManager.OnHeroPurchasedEventInvoke(HeroID);
                     //помечаем выбранным
                     Select();
                 }

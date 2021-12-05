@@ -67,11 +67,8 @@ class Mobs
             //выбираем точку на поле
             Point point = freePoints[Random.Range(0, freePoints.Count - 1)];
             //спавним моба на точку
-            list.Add(UtilsManager.Spawn(item, point.transform.position).GetComponent<Character>());
-            //сообщаем точке, что на ней стоит моб (?)
-            point.ChildrenCharacter = item;
-            //сообщаем мобу, на какой точке он стоит (?)
-            item.GetComponent<Character>().Point = point;
+            GameObject mobGO = Object.Instantiate(item, point.transform);
+            list.Add(mobGO.GetComponent<Character>());
             //удаляем точку из списка (чтоб не заспавнить на нее еще кого-то)
             freePoints.Remove(point);
         }

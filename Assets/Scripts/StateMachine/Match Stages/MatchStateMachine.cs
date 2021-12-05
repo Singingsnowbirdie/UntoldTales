@@ -19,7 +19,7 @@
         //уточняем режим круга
         stage.IsTiming = isTiming;
         //Запускаем
-        SetStage(stage);
+        UtilsManager.StartRoutine(ChangeStage(stage));
     }
 
     /// <summary>
@@ -32,6 +32,6 @@
         //передаем нужные значения
         stage.CreateRound(isPvE, pveRoundsFinished);
         //Запускаем
-        SetStage(stage);
+        UtilsManager.StartRoutine(ChangeStage(stage));
     }
 }

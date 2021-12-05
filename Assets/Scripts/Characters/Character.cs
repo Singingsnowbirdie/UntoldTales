@@ -31,11 +31,6 @@ public class Character : MonoBehaviour
     public Character CurrentTarget { get; set; }
 
     /// <summary>
-    /// Точка, на которой стоит персонаж (?)
-    /// </summary>
-    public Point Point { get; set; }
-
-    /// <summary>
     /// У героя вызвается при размещении в резерве
     /// У моба вызывается при размещении на поле
     /// </summary>

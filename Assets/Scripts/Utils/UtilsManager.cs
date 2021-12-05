@@ -53,24 +53,4 @@ public sealed class UtilsManager : MonoBehaviour
             Instance.StopCoroutine(routine);
         }
     }
-
-    /// <summary>
-    /// Спавнит ГО в нулевых координатах
-    /// </summary>
-    /// <param name="obj"></param>
-    internal static GameObject Spawn(string path)
-    {
-        return Instantiate(Resources.Load(path) as GameObject, new Vector3(0, 0, 0), Quaternion.identity);
-    }
-
-    /// <summary>
-    /// Спавнит ГО в заданных координатах
-    /// </summary>
-    internal static GameObject Spawn(GameObject go, Vector3 position)
-    {
-        GameObject gameObject = Instantiate(go, position, Quaternion.identity);
-        return gameObject;
-    }
-
-
 }

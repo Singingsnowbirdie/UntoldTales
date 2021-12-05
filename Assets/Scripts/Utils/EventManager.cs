@@ -56,11 +56,4 @@ public class EventManager
     public static event Action<int> OnHeroPurchased;
     #endregion
 
-    #region НЕОБХОДИМО СОЗДАТЬ ЭКЗЕМПЛЯР ГЕРОЯ
-    internal static void OnHeroReadyToSpawnEventInvoke(Hero hero) { OnHeroReadyToSpawn?.Invoke(hero); }
-    public static event Action<Hero> OnHeroReadyToSpawn;
-    #endregion
-
-
-
 }

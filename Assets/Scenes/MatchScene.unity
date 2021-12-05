@@ -4980,7 +4980,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1481101949}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -8048,6 +8048,7 @@ GameObject:
   - component: {fileID: 1481101952}
   - component: {fileID: 1481101951}
   - component: {fileID: 1481101950}
+  - component: {fileID: 1481101953}
   m_Layer: 5
   m_Name: HUD
   m_TagString: Untagged
@@ -8069,9 +8070,9 @@ RectTransform:
   - {fileID: 667183295}
   - {fileID: 1201257309}
   - {fileID: 1789967958}
-  - {fileID: 866743452}
-  - {fileID: 1991041310}
   - {fileID: 2133284100}
+  - {fileID: 1991041310}
+  - {fileID: 866743452}
   m_Father: {fileID: 389400835}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8142,6 +8143,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1481101948}
   m_CullTransparentMesh: 0
+--- !u!114 &1481101953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481101948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc3b49eb9b7eafe43b2922a5dd78e2c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  experienceCounter: {fileID: 667183298}
+  leadershipCounter: {fileID: 1201257311}
+  keeperHealthCounter: {fileID: 1789967960}
+  heroesInReserveCounter: {fileID: 1991041312}
+  heroesInTemporaryStorageCounter: {fileID: 866743454}
+  heroesOnTheFieldCounter: {fileID: 2133284103}
 --- !u!1 &1578450572
 GameObject:
   m_ObjectHideFlags: 0
@@ -10516,7 +10535,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1481101949}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}

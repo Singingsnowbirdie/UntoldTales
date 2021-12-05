@@ -9,7 +9,8 @@ public class HeroesCircleStage : MatchStage
     public HeroesCircleStage(Match match)
     {
         this.match = match;
-        heroesCircle = UtilsManager.Spawn("TestObjects/HeroesCircle").GetComponent<HeroesCircle>();
+        GameObject heroesCircleGO = Object.Instantiate(Resources.Load("TestObjects/HeroesCircle")) as GameObject;
+        heroesCircle = heroesCircleGO.GetComponent<HeroesCircle>();
         match.HeroesCircle = heroesCircle;
         StageName = "Круг Героев";
     }
@@ -79,7 +80,7 @@ public class HeroesCircleStage : MatchStage
         }
         else
         {
-            ExitStage();
+           match.ChangeStage(this);
         }
 
     }
@@ -96,6 +97,6 @@ public class HeroesCircleStage : MatchStage
                 item.SelectedHeroID = heroesCircle.GetRandomHero();
             }
         }
-        ExitStage();
+        match.ChangeStage(this);
     }
 }

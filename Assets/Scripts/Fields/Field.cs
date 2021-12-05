@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 //игровое поле
@@ -17,7 +18,29 @@ public class Field : MonoBehaviour
     //все точки поля
     List<Point> fieldPoints;
 
-    void CreatePoints()
+    /// <summary>
+    /// Спавнит героя и помещает на свободную ячейку в резерве
+    /// </summary>
+    private void SpawnHero(Hero hero)
+    {
+        //префаб героя
+        GameObject pref = hero.Info.Prefab;
+        //свободная точка в резерве
+        Point point = FindFreePointInReserve();
+
+        if (point != null) //на всякий случай
+        {
+            //создаем героя на пустой точке резерва
+            GameObject heroGO = Instantiate(pref, point.transform);
+            //помещаем на него скрипт
+
+        }
+    }
+
+    /// <summary>
+    /// Определяет все точки
+    /// </summary>
+    void GetPoints()
     {
         reservePoints = new List<Point>();
         friendlyPoints = new List<Point>();
@@ -75,11 +98,11 @@ public class Field : MonoBehaviour
     {
         if (enemyPoints == null)
         {
-            CreatePoints();
+            GetPoints();
         }
         return enemyPoints;
     }
-    
+
     /// <summary>
     /// Возвращает точки резерва
     /// </summary>
@@ -88,7 +111,7 @@ public class Field : MonoBehaviour
     {
         if (enemyPoints == null)
         {
-            CreatePoints();
+            GetPoints();
         }
         return reservePoints;
     }
@@ -97,17 +120,17 @@ public class Field : MonoBehaviour
     /// Находит свободную ячейку в резерве
     /// </summary>
     /// <returns></returns>
-    private Vector3 FindFreePointInReserve()
+    public Point FindFreePointInReserve()
     {
         foreach (var item in GetReservePoints())
         {
             //если на этой точке никто не стоит
-            if (item.ChildrenCharacter == null)
+            if (item.GetComponentInChildren<Character>() == null)
             {
-                return item.transform.position;
+                return item;
             }
         }
 
-        return new Vector3();
+        return null;
     }
 }

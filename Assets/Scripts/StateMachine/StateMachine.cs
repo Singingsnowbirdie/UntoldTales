@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 public abstract class StateMachine
@@ -29,11 +30,18 @@ public abstract class StateMachine
     /// <summary>
     /// Включаем новое состояние
     /// </summary>
-    public void SetStage(IStage newStage)
+    protected IEnumerator ChangeStage(IStage newStage)
     {
-        //запоминаем текущую стадию
+        //выходим из текущего состояния
+        if (CurrentStage != null)
+        {
+            CurrentStage.ExitStage();
+        }
+        //пропускаем кадр
+        yield return null;
+        //запоминаем новое состояние
         CurrentStage = newStage;
-        //запускаем ее
+        //запускаем его
         CurrentStage.EnterStage();
     }
 
@@ -44,5 +52,10 @@ public abstract class StateMachine
     {
         var type = typeof(T);
         return Stages[type];
+    }
+
+    internal void SetStage(IStage stage)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -1,4 +1,7 @@
-﻿public class Match
+﻿using System;
+using System.Collections.Generic;
+
+public class Match
 {
     /// <summary>
     /// Конструктор
@@ -7,7 +10,6 @@
     {
         Players = new Players();
         stateMachine = new MatchStateMachine(this);
-        EventManager.OnStageExit += StageExit;
     }
 
     /// </summary>
@@ -44,13 +46,13 @@
     }
 
     /// <summary>
-    /// При выходе из состояния
+    /// Смена состояния
     /// </summary>
-    /// <param name="stage"></param>
-    private void StageExit(IStage stage)
+    /// <param name="currentStage"></param>
+    internal void ChangeStage(HeroesCircleStage currentStage)
     {
         //при выходе из круга героев
-        if (stage is HeroesCircleStage)
+        if (currentStage is HeroesCircleStage)
         {
             //запускаем стадию планирования
             stateMachine.StartPlanningStage(true, pveRoundsFinished);

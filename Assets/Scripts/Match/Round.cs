@@ -1,4 +1,6 @@
-﻿public class Round
+﻿using UnityEngine;
+
+public class Round
 {
     /// <summary>
     /// Поле
@@ -11,6 +13,7 @@
     public virtual void StartRound()
     {
         //создаем поле
-        field = UtilsManager.Spawn("TestObjects/PlayingField").GetComponent<Field>();
+        GameObject fieldGO = Object.Instantiate(Resources.Load("TestObjects/PlayingField")) as GameObject;
+        field = fieldGO.GetComponent<Field>();
     }
 }

@@ -44,7 +44,7 @@ public class HeroesCircle : MonoBehaviour
             //выбираем случайного героя 
             int rand = Random.Range(0, heroesDB.Count);
             //спавним его префаб
-            GameObject hero = UtilsManager.Spawn(heroesDB[rand].Prefab, points[i].transform.position);
+            GameObject hero = Instantiate(heroesDB[rand].Prefab, points[i].transform);
             //навешиваем селектор на префаб
             HeroCircleSelector selector = hero.AddComponent<HeroCircleSelector>();
             //передаем данные в селектор
